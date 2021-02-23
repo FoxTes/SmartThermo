@@ -1,0 +1,206 @@
+﻿<Window
+    x:Class="SmartThermo.Views.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:core="clr-namespace:SmartThermo.Core;assembly=SmartThermo.Core"
+    xmlns:enum="clr-namespace:SmartThermo.Enums"
+    xmlns:io="clr-namespace:System.IO.Ports;assembly=System.IO.Ports"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+    Width="720"
+    Height="480"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    ResizeMode="CanMinimize"
+    WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <ObjectDataProvider
+            x:Key="BaudRateValues"
+            MethodName="GetValues"
+            ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enum:BaudRate" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider
+            x:Key="ParityValues"
+            MethodName="GetValues"
+            ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="io:Parity" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider
+            x:Key="DataBitsValues"
+            MethodName="GetValues"
+            ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enum:DataBits" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider
+            x:Key="StopBitsValues"
+            MethodName="GetValues"
+            ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="io:StopBits" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0" Margin="32,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel
+                Grid.Row="0"
+                Margin="0,16,0,16"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <Button
+                    Width="100"
+                    Command="{Binding GetSerialPortCommand}"
+                    Content="Обновить" />
+
+                <ComboBox
+                    Width="100"
+                    Margin="16,0,0,0"
+                    ItemsSource="{Binding Ports}"
+                    SelectedItem="{Binding PortSelected}" />
+            </StackPanel>
+            <StackPanel
+                Grid.Row="1"
+                Margin="0,0,0,16"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <TextBlock
+                    Margin="0,0,16,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Text="Скорость передачи:" />
+
+                <ComboBox
+                    Width="100"
+                    ItemsSource="{Binding Source={StaticResource BaudRateValues}}"
+                    SelectedItem="{Binding BaudRateSelected}" />
+            </StackPanel>
+            <StackPanel
+                Grid.Row="2"
+                Margin="0,0,0,16"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <TextBlock
+                    Margin="0,0,16,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Text="Бит четности:" />
+
+                <ComboBox
+                    Width="100"
+                    ItemsSource="{Binding Source={StaticResource ParityValues}}"
+                    SelectedItem="{Binding ParitySelected}" />
+            </StackPanel>
+            <StackPanel
+                Grid.Row="3"
+                Margin="0,0,0,16"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <TextBlock
+                    Margin="0,0,16,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Text="Биты данных:" />
+
+                <ComboBox
+                    Width="100"
+                    ItemsSource="{Binding Source={StaticResource DataBitsValues}}"
+                    SelectedItem="{Binding DataBitsSelected}" />
+            </StackPanel>
+            <StackPanel
+                Grid.Row="4"
+                Margin="0,0,0,16"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <TextBlock
+                    Margin="0,0,16,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Text="Стоп-бит:" />
+
+                <ComboBox
+                    Width="100"
+                    ItemsSource="{Binding Source={StaticResource StopBitsValues}}"
+                    SelectedItem="{Binding StopBitsSelected}" />
+            </StackPanel>
+            <StackPanel
+                Grid.Row="5"
+                Grid.Column="0"
+                Height="32"
+                Margin="0,16,0,8"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <TextBlock
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Text="Статус подключения:" />
+                <TextBlock
+                    Margin="8,0,0,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Text="{Binding StatusConnectLabel, FallbackValue='Не подключено'}" />
+            </StackPanel>
+            <Button
+                Grid.Row="6"
+                Width="140"
+                HorizontalAlignment="Right"
+                Command="{Binding ChangedStatusConnectCommand}"
+                Content="{Binding StatusConnectButton, FallbackValue='Подключить'}" />
+        </Grid>
+
+        <StackPanel
+            Grid.Column="1"
+            Margin="16"
+            Orientation="Vertical">
+            <StackPanel Orientation="Horizontal">
+                <Button
+                    Width="150"
+                    Height="30"
+                    Command="{Binding WriteDataCommand}"
+                    Content="Записать" />
+                <Button
+                    Width="150"
+                    Height="30"
+                    Margin="16"
+                    Command="{Binding ReadDataCommand}"
+                    Content="Считать" />
+            </StackPanel>
+            <ScrollViewer Height="173" Margin="8">
+                <TextBlock
+                    Padding="8"
+                    Text="{Binding LoggerText}"
+                    TextWrapping="Wrap" />
+            </ScrollViewer>
+            <ContentControl Height="180" prism:RegionManager.RegionName="{x:Static core:RegionNames.MainContent}" />
+        </StackPanel>
+
+    </Grid>
+</Window>

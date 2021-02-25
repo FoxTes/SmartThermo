@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ModernWpfUI" Version="0.9.3" />
     <PackageReference Include="NModbus" Version="3.0.62" />
     <PackageReference Include="NModbus.Serial" Version="3.0.62" />
     <PackageReference Include="Prism.DryIoc" Version="8.0.0.1909" />

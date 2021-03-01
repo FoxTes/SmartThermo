@@ -5,10 +5,86 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
-    d:DesignHeight="480"
-    d:DesignWidth="720"
+    xmlns:ui="http://schemas.modernwpf.com/2019"
+    d:DesignHeight="720"
+    d:DesignWidth="1280"
     prism:ViewModelLocator.AutoWireViewModel="True"
+    ui:ThemeManager.RequestedTheme="Dark"
+    Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}"
     mc:Ignorable="d">
 
-    <Grid Margin="16" Background="red" />
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="1" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Margin="0,0,8,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <ContentControl Margin="8" Content="{Binding ChartTest}" />
+            <WpfPlot
+                Name="WpfPlot2"
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="8" />
+            <WpfPlot
+                Name="WpfPlot3"
+                Grid.Row="0"
+                Grid.Column="2"
+                Margin="8" />
+            <WpfPlot
+                Name="WpfPlot4"
+                Grid.Row="1"
+                Grid.Column="0"
+                Margin="8" />
+            <WpfPlot
+                Name="WpfPlot5"
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="8" />
+            <WpfPlot
+                Name="WpfPlot6"
+                Grid.Row="1"
+                Grid.Column="2"
+                Margin="8" />
+        </Grid>
+
+        <Border
+            Grid.Column="1"
+            Margin="0,8"
+            Background="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}" />
+
+        <DataGrid
+            Grid.Column="2"
+            Padding="16,16,0,0"
+            AutoGenerateColumns="False"
+            Background="Transparent"
+            CanUserResizeColumns="False"
+            CanUserResizeRows="False"
+            GridLinesVisibility="All"
+            HorizontalScrollBarVisibility="Disabled"
+            IsReadOnly="True"
+            ItemsSource="{Binding SensorsEtherItems}">
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Width="auto"
+                    Binding="{Binding Path=Id}"
+                    Header="Номер" />
+                <DataGridTextColumn
+                    Width="auto"
+                    Binding="{Binding Path=Time}"
+                    Header="Выход в эфир (сек)" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
 </UserControl>

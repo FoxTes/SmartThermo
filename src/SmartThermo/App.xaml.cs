@@ -1,11 +1,8 @@
-﻿
-using Prism.Ioc;
-using System.Windows;
+﻿using Prism.Ioc;
 using Prism.Modularity;
 using SmartThermo.Modules.DataViewer;
-using SmartThermo.Service;
 using SmartThermo.Views;
-
+using System.Windows;
 
 namespace SmartThermo
 {
@@ -21,7 +18,7 @@ namespace SmartThermo
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterSingleton<ISerialPortService, SerialPortService>();
+            //containerRegistry.RegisterSingleton<ISerialPortService, SerialPortService>();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

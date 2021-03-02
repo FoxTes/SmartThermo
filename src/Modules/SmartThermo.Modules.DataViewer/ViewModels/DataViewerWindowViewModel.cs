@@ -1,20 +1,14 @@
 ﻿using Prism.Mvvm;
 using ScottPlot;
-using System;
 using System.Collections.Generic;
+using System.Timers;
 
 namespace SmartThermo.Modules.DataViewer.ViewModels
 {
     public class DataViewerWindowViewModel : BindableBase
     {
-        private List<WpfPlot> _chartItems;
-
-        public List<WpfPlot> ChartItems
-        {
-            get { return _chartItems; }
-            set { SetProperty(ref _chartItems, value); }
-        }
-
+        private readonly List<double> _data = new List<double>(1000);
+        
         private WpfPlot _chartTests;
 
         public WpfPlot ChartTest
@@ -25,21 +19,16 @@ namespace SmartThermo.Modules.DataViewer.ViewModels
 
         public DataViewerWindowViewModel()
         {
+            var timer = new Timer {Interval = 1000, AutoReset = true, Enabled = true};
+            timer.Elapsed += OnTimerElapsed; 
+            
             ChartTest = new WpfPlot();
+        }
 
-            int pointCount = 51;
-            double[] x = DataGen.Consecutive(pointCount);
-            double[] sin = DataGen.Sin(pointCount);
-            double[] cos = DataGen.Cos(pointCount);
-
-            ChartTest.plt.PlotScatter(x, sin);
-            ChartTest.plt.PlotScatter(x, cos);
-
-            ChartTest.plt.PlotHLine(y: .85, draggable: false, dragLimitLower: -1, dragLimitUpper: +1);
-            ChartTest.plt.PlotVLine(x: 23, draggable: false, dragLimitLower: 0, dragLimitUpper: 50);
-
-            ChartTest.plt.Grid(lineStyle: LineStyle.Dot);
-
+        private void OnTimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            _data.Add(5d);
+            ChartTest.Plot.AddSignal(_data.ToArray());
         }
     }
 }

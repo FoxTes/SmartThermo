@@ -127,7 +127,12 @@ namespace SmartThermo.ViewModels
             {
                 var test = _serialPortService.ReadData(1);
 
-                LoggerText += test[0].ToString();
+                foreach (var item in test)
+                {
+                    LoggerText += item.ToString() +"\n";
+                }
+                LoggerText += "\n";
+
             }
             catch (Exception ex)
             {

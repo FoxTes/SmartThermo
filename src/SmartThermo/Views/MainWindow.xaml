@@ -193,13 +193,12 @@
                     Command="{Binding ReadDataCommand}"
                     Content="Считать" />
             </StackPanel>
-            <ScrollViewer Height="173" Margin="8">
+            <ScrollViewer Height="350" Margin="8">
                 <TextBlock
                     Padding="8"
                     Text="{Binding LoggerText}"
                     TextWrapping="Wrap" />
             </ScrollViewer>
-            <ContentControl Height="180" prism:RegionManager.RegionName="{x:Static core:RegionNames.MainContent}" />
         </StackPanel>
 
     </Grid>

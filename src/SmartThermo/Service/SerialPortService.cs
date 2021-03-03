@@ -46,8 +46,8 @@ namespace SmartThermo.Service
 
 
             var adapter = new SerialPortAdapter(_serialPort);
-            adapter.WriteTimeout = 1000;
-            adapter.ReadTimeout = 1000;
+            adapter.WriteTimeout = 2000;
+            adapter.ReadTimeout = 2000;
 
             // Create the factory
             var factory = new ModbusFactory();
@@ -60,7 +60,7 @@ namespace SmartThermo.Service
 
         public ushort[] ReadData(ushort address)
         {
-            return _modbusMaster?.ReadHoldingRegisters(3, 0x00, 1);
+            return _modbusMaster?.ReadHoldingRegisters(3, 0x0010, 36);
         }
 
         public void WriteData(ushort address)

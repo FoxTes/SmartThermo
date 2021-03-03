@@ -1,6 +1,7 @@
-﻿using System;
-using Prism.Regions;
+﻿using Prism.Regions;
 using SmartThermo.Services.DeviceConnector;
+using SmartThermo.Services.Notifications;
+using System;
 
 namespace SmartThermo.Core.Mvvm
 {
@@ -8,11 +9,13 @@ namespace SmartThermo.Core.Mvvm
     {
         protected IRegionManager RegionManager { get; }
         protected IDeviceConnector DeviceConnector { get; }
+        protected INotifications Notifications { get; }
 
-        public RegionViewModelBase(IRegionManager regionManager, IDeviceConnector deviceConnector)
+        public RegionViewModelBase(IRegionManager regionManager, IDeviceConnector deviceConnector, INotifications notifications)
         {
             RegionManager = regionManager;
             DeviceConnector = deviceConnector;
+            Notifications = notifications;
         }
         
         public virtual void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)

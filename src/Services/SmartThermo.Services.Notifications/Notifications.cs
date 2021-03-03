@@ -1,33 +1,17 @@
-﻿using System;
-using ToastNotifications;
+﻿using ToastNotifications;
 using ToastNotifications.Core;
-using ToastNotifications.Lifetime;
 using ToastNotifications.Lifetime.Clear;
 using ToastNotifications.Messages;
-using ToastNotifications.Position;
 
 namespace SmartThermo.Services.Notifications
 {
     public class Notifications : INotifications
     {
         private readonly Notifier _notifier;
-
-        public Notifications()
+        
+        public Notifications(Notifier notifier)
         {
-            _notifier = new Notifier(cfg =>
-            {
-                cfg.PositionProvider = new PrimaryScreenPositionProvider(Corner.BottomRight,
-                    25,
-                    100);
-
-                cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
-                    TimeSpan.FromSeconds(3),
-                    MaximumNotificationCount.FromCount(3));
-
-                cfg.DisplayOptions.TopMost = false;
-                cfg.DisplayOptions.Width = 250;
-            });
-
+            _notifier = notifier;
             _notifier.ClearMessages(new ClearAll());
         }
         

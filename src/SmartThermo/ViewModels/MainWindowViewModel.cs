@@ -3,6 +3,7 @@ using Prism.Regions;
 using SmartThermo.Core.Mvvm;
 using SmartThermo.Services.DeviceConnector;
 using SmartThermo.Services.DeviceConnector.Enums;
+using SmartThermo.Services.Notifications;
 
 namespace SmartThermo.ViewModels
 {
@@ -30,8 +31,8 @@ namespace SmartThermo.ViewModels
 
         #region Constructor
 
-        public MainWindowViewModel(IRegionManager regionManager, IDeviceConnector deviceConnector) 
-            : base(regionManager, deviceConnector)
+        public MainWindowViewModel(IRegionManager regionManager, IDeviceConnector deviceConnector, INotifications notifications) 
+            : base(regionManager, deviceConnector, notifications)
         {
             DeviceConnector.StatusConnectChanged += (_, connect) =>
             {
@@ -52,6 +53,8 @@ namespace SmartThermo.ViewModels
                 DeviceConnector.Close();
             else
                 DeviceConnector.Open();
+            
+            Notifications.ShowInformation("Поменял");
         }
         
         #endregion

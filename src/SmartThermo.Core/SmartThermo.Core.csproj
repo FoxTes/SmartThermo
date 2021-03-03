@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -10,6 +10,11 @@
 
   <ItemGroup>
     <PackageReference Include="Prism.Wpf" Version="8.0.0.1909" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Services\SmartThermo.Services.DeviceConnector\SmartThermo.Services.DeviceConnector.csproj" />
+    <ProjectReference Include="..\Services\SmartThermo.Services.Notifications\SmartThermo.Services.Notifications.csproj" />
   </ItemGroup>
 
 </Project>

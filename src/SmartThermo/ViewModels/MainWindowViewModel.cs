@@ -1,15 +1,15 @@
 ﻿using Prism.Commands;
-using Prism.Mvvm;
+using Prism.Regions;
+using SmartThermo.Core.Mvvm;
 using SmartThermo.Services.DeviceConnector;
 using SmartThermo.Services.DeviceConnector.Enums;
 
 namespace SmartThermo.ViewModels
 {
-    public class MainWindowViewModel : BindableBase
+    public class MainWindowViewModel : RegionViewModelBase
     {
         #region Field
-
-        private readonly IDeviceConnector _deviceConnector;
+        
         private StatusConnect _statusConnect = StatusConnect.Disconnected;
         
         private string _labelButton = "Подключить прибор";
@@ -30,10 +30,10 @@ namespace SmartThermo.ViewModels
 
         #region Constructor
 
-        public MainWindowViewModel(IDeviceConnector deviceConnector)
+        public MainWindowViewModel(IRegionManager regionManager, IDeviceConnector deviceConnector) 
+            : base(regionManager, deviceConnector)
         {
-            _deviceConnector = deviceConnector;
-            _deviceConnector.StatusConnectChanged += (_, connect) =>
+            DeviceConnector.StatusConnectChanged += (_, connect) =>
             {
                 _statusConnect = connect;
                 LabelButton = _statusConnect == StatusConnect.Connected ? "Отключить прибор" : "Подключить прибор";
@@ -49,9 +49,9 @@ namespace SmartThermo.ViewModels
         private void ChangeConnectDeviceExecute()
         {
             if (_statusConnect == StatusConnect.Connected)
-                _deviceConnector.Close();
+                DeviceConnector.Close();
             else
-                _deviceConnector.Open();
+                DeviceConnector.Open();
         }
         
         #endregion

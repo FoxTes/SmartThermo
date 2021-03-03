@@ -32,31 +32,6 @@
             </Grid.RowDefinitions>
 
             <ContentControl Margin="8" Content="{Binding ChartTest}" />
-            <WpfPlot
-                Name="WpfPlot2"
-                Grid.Row="0"
-                Grid.Column="1"
-                Margin="8" />
-            <WpfPlot
-                Name="WpfPlot3"
-                Grid.Row="0"
-                Grid.Column="2"
-                Margin="8" />
-            <WpfPlot
-                Name="WpfPlot4"
-                Grid.Row="1"
-                Grid.Column="0"
-                Margin="8" />
-            <WpfPlot
-                Name="WpfPlot5"
-                Grid.Row="1"
-                Grid.Column="1"
-                Margin="8" />
-            <WpfPlot
-                Name="WpfPlot6"
-                Grid.Row="1"
-                Grid.Column="2"
-                Margin="8" />
         </Grid>
 
         <Border

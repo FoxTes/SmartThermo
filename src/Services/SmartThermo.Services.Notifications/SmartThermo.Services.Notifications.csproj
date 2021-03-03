@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="INotification.cs" />
+    <Compile Remove="Notifications.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="INotification.cs" />
+    <None Include="Notifications.cs" />
+  </ItemGroup>
+
+</Project>

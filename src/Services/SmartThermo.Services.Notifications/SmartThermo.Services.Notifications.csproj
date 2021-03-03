@@ -5,20 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="PresentationFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
-      <HintPath>..\..\..\..\..\..\Windows\Microsoft.NET\assembly\GAC_MSIL\PresentationFramework\v4.0_4.0.0.0__31bf3856ad364e35\PresentationFramework.dll</HintPath>
+    <Reference Include="ToastNotifications, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>dll\ToastNotifications.dll</HintPath>
     </Reference>
-    <Reference Include="System.Windows.Presentation">
-      <HintPath>..\..\..\..\..\..\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\3.1.0\ref\netcoreapp3.1\System.Windows.Presentation.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="ToastNotifications">
-      <HintPath>..\..\..\..\..\..\Users\GLevchenko\Downloads\ToastNotifications-3.0.0\Src\ToastNotifications.Messages\bin\Release\netcoreapp3.1\ToastNotifications.dll</HintPath>
-      <Private>true</Private>
-    </Reference>
-    <Reference Include="ToastNotifications.Messages">
-      <HintPath>..\..\..\..\..\..\Users\GLevchenko\Downloads\ToastNotifications-3.0.0\Src\ToastNotifications.Messages\bin\Release\netcoreapp3.1\ToastNotifications.Messages.dll</HintPath>
-      <Private>true</Private>
+    <Reference Include="ToastNotifications.Messages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>dll\ToastNotifications.Messages.dll</HintPath>
     </Reference>
   </ItemGroup>
 

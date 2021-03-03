@@ -27,12 +27,10 @@
 
   <ItemGroup>
     <Reference Include="ToastNotifications, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\..\Users\GLevchenko\Downloads\ToastNotifications-3.0.0\Src\ToastNotifications.Messages\bin\Release\netcoreapp3.1\ToastNotifications.dll</HintPath>
-      <Private>true</Private>
+      <HintPath>..\Services\SmartThermo.Services.Notifications\dll\ToastNotifications.dll</HintPath>
     </Reference>
     <Reference Include="ToastNotifications.Messages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\..\..\..\..\Users\GLevchenko\Downloads\ToastNotifications-3.0.0\Src\ToastNotifications.Messages\bin\Release\netcoreapp3.1\ToastNotifications.Messages.dll</HintPath>
-      <Private>true</Private>
+      <HintPath>..\Services\SmartThermo.Services.Notifications\dll\ToastNotifications.Messages.dll</HintPath>
     </Reference>
   </ItemGroup>
 

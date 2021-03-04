@@ -1,17 +1,17 @@
-﻿using Prism.Commands;
+﻿using System;
+using Prism.Commands;
 using Prism.Regions;
 using SmartThermo.Core.Mvvm;
 using SmartThermo.Services.DeviceConnector;
 using SmartThermo.Services.DeviceConnector.Enums;
 using SmartThermo.Services.Notifications;
+using ToastNotifications.Core;
 
 namespace SmartThermo.ViewModels
 {
     public class MainWindowViewModel : RegionViewModelBase
     {
         #region Field
-        
-        private StatusConnect _statusConnect = StatusConnect.Disconnected;
         
         private string _labelButton = "Подключить прибор";
         
@@ -36,8 +36,16 @@ namespace SmartThermo.ViewModels
         {
             DeviceConnector.StatusConnectChanged += (_, connect) =>
             {
-                _statusConnect = connect;
-                LabelButton = _statusConnect == StatusConnect.Connected ? "Отключить прибор" : "Подключить прибор";
+                if (DeviceConnector.StatusConnect == StatusConnect.Connected)
+                {
+                    LabelButton = "Отключить прибор";
+                    Notifications.ShowSuccess("Осуществленно подключение к прибору.");
+                }
+                else
+                {
+                    LabelButton = "Подключить прибор";
+                    Notifications.ShowInformation("Осуществленно отключение от прибора.");
+                }
             };
             
             ChangeConnectDeviceCommand = new DelegateCommand(ChangeConnectDeviceExecute);
@@ -49,12 +57,28 @@ namespace SmartThermo.ViewModels
 
         private void ChangeConnectDeviceExecute()
         {
-            if (_statusConnect == StatusConnect.Connected)
-                DeviceConnector.Close();
+            if (DeviceConnector.StatusConnect == StatusConnect.Connected)
+            {
+                try
+                {
+                    DeviceConnector.Close();
+                }
+                catch (Exception ex)
+                {
+                    Notifications.ShowWarning("Не удалось закрыть соединение.\n" + ex.Message, new MessageOptions());
+                }
+            }
             else
-                DeviceConnector.Open();
-            
-            Notifications.ShowInformation("Поменял");
+            {
+                try
+                {
+                    DeviceConnector.Open();
+                }
+                catch (Exception ex)
+                {
+                    Notifications.ShowWarning("Не удалось открыть соединение.\n" + ex.Message, new MessageOptions());
+                }
+            }
         }
         
         #endregion

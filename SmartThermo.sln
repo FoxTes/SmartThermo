@@ -15,13 +15,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartThermo.Core", "src\Sma
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{87BD6B81-EF1B-478E-BBB4-A0A40B1B6119}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartThermo.Modules.DataViewer", "src\Modules\SmartThermo.Modules.DataViewer\SmartThermo.Modules.DataViewer.csproj", "{EF5AE7CF-E710-4BE8-AE74-D5843E34A0BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartThermo.Modules.DataViewer", "src\Modules\SmartThermo.Modules.DataViewer\SmartThermo.Modules.DataViewer.csproj", "{EF5AE7CF-E710-4BE8-AE74-D5843E34A0BF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{D1175F74-F3B3-49F2-A1DB-74D1E10EDFBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartThermo.Services.DeviceConnector", "src\Services\SmartThermo.Services.DeviceConnector\SmartThermo.Services.DeviceConnector.csproj", "{9A1AF555-9924-45E6-BF58-6BF8503526BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartThermo.Services.DeviceConnector", "src\Services\SmartThermo.Services.DeviceConnector\SmartThermo.Services.DeviceConnector.csproj", "{9A1AF555-9924-45E6-BF58-6BF8503526BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartThermo.Services.Notifications", "src\Services\SmartThermo.Services.Notifications\SmartThermo.Services.Notifications.csproj", "{D6448206-F933-49EC-B9B7-9AE16DCE6863}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartThermo.Services.Notifications", "src\Services\SmartThermo.Services.Notifications\SmartThermo.Services.Notifications.csproj", "{D6448206-F933-49EC-B9B7-9AE16DCE6863}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartThermo.Modules.Dialog.SettingsPort", "src\Modules\SmartThermo.Modules.Dialog.SettingsPort\SmartThermo.Modules.Dialog.SettingsPort.csproj", "{EF8E1B5D-D0EF-4BB5-8B73-3E868306AEA0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -105,6 +107,18 @@ Global
 		{D6448206-F933-49EC-B9B7-9AE16DCE6863}.Release|x64.Build.0 = Release|Any CPU
 		{D6448206-F933-49EC-B9B7-9AE16DCE6863}.Release|x86.ActiveCfg = Release|Any CPU
 		{D6448206-F933-49EC-B9B7-9AE16DCE6863}.Release|x86.Build.0 = Release|Any CPU
+		{EF8E1B5D-D0EF-4BB5-8B73-3E868306AEA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF8E1B5D-D0EF-4BB5-8B73-3E868306AEA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF8E1B5D-D0EF-4BB5-8B73-3E868306AEA0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EF8E1B5D-D0EF-4BB5-8B73-3E868306AEA0}.Debug|x64.Build.0 = Debug|Any CPU
+		{EF8E1B5D-D0EF-4BB5-8B73-3E868306AEA0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EF8E1B5D-D0EF-4BB5-8B73-3E868306AEA0}.Debug|x86.Build.0 = Debug|Any CPU
+		{EF8E1B5D-D0EF-4BB5-8B73-3E868306AEA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF8E1B5D-D0EF-4BB5-8B73-3E868306AEA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF8E1B5D-D0EF-4BB5-8B73-3E868306AEA0}.Release|x64.ActiveCfg = Release|Any CPU
+		{EF8E1B5D-D0EF-4BB5-8B73-3E868306AEA0}.Release|x64.Build.0 = Release|Any CPU
+		{EF8E1B5D-D0EF-4BB5-8B73-3E868306AEA0}.Release|x86.ActiveCfg = Release|Any CPU
+		{EF8E1B5D-D0EF-4BB5-8B73-3E868306AEA0}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -118,6 +132,7 @@ Global
 		{D1175F74-F3B3-49F2-A1DB-74D1E10EDFBC} = {5F42908A-3D8C-44CB-BAA2-928DE22AAB17}
 		{9A1AF555-9924-45E6-BF58-6BF8503526BA} = {D1175F74-F3B3-49F2-A1DB-74D1E10EDFBC}
 		{D6448206-F933-49EC-B9B7-9AE16DCE6863} = {D1175F74-F3B3-49F2-A1DB-74D1E10EDFBC}
+		{EF8E1B5D-D0EF-4BB5-8B73-3E868306AEA0} = {87BD6B81-EF1B-478E-BBB4-A0A40B1B6119}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B511AF63-B8BD-4505-A278-DA0B0CCAA472}

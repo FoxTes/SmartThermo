@@ -1,7 +1,9 @@
 ﻿using System;
 using Prism.Commands;
 using Prism.Regions;
+using Prism.Services.Dialogs;
 using SmartThermo.Core.Mvvm;
+using SmartThermo.DialogExtensions;
 using SmartThermo.Services.DeviceConnector;
 using SmartThermo.Services.DeviceConnector.Enums;
 using SmartThermo.Services.Notifications;
@@ -31,8 +33,8 @@ namespace SmartThermo.ViewModels
 
         #region Constructor
 
-        public MainWindowViewModel(IRegionManager regionManager, IDeviceConnector deviceConnector, INotifications notifications) 
-            : base(regionManager, deviceConnector, notifications)
+        public MainWindowViewModel(IRegionManager regionManager, IDeviceConnector deviceConnector, INotifications notifications, IDialogService dialogService) 
+            : base(regionManager, deviceConnector, notifications, dialogService)
         {
             DeviceConnector.StatusConnectChanged += (_, connect) =>
             {
@@ -70,6 +72,11 @@ namespace SmartThermo.ViewModels
             }
             else
             {
+                DialogService.ShowNotification(string.Empty, r =>
+                {
+ 
+                });
+
                 try
                 {
                     DeviceConnector.Open();

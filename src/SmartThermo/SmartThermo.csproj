@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Modules\SmartThermo.Modules.DataViewer\SmartThermo.Modules.DataViewer.csproj" />
+    <ProjectReference Include="..\Modules\SmartThermo.Modules.Dialog.SettingsPort\SmartThermo.Modules.Dialog.SettingsPort.csproj" />
     <ProjectReference Include="..\Services\SmartThermo.Services.DeviceConnector\SmartThermo.Services.DeviceConnector.csproj" />
     <ProjectReference Include="..\Services\SmartThermo.Services.Notifications\SmartThermo.Services.Notifications.csproj" />
     <ProjectReference Include="..\SmartThermo.Core\SmartThermo.Core.csproj" />

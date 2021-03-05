@@ -9,6 +9,8 @@ using System.Windows;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Position;
+using SmartThermo.Modules.Dialog.SettingsPort.Views;
+using SmartThermo.Modules.Dialog.SettingsPort.ViewModels;
 
 namespace SmartThermo
 {
@@ -40,6 +42,9 @@ namespace SmartThermo
 
             containerRegistry.RegisterInstance<INotifications>(instance);
             containerRegistry.RegisterSingleton<IDeviceConnector, DeviceConnector>();
+
+            // TODO: Rename.
+            containerRegistry.RegisterDialog<SettingsPortDialog, SettingsPortDialogViewModel>();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

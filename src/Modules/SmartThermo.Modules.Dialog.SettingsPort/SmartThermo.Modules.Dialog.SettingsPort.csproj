@@ -5,6 +5,11 @@
     <AssemblyName>SmartThermo.Modules.Dialog.SettingsPort</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="ModernWpfUI" Version="0.9.3" />
     <PackageReference Include="Prism.Wpf" Version="8.0.0.1909" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Services\SmartThermo.Services.DeviceConnector\SmartThermo.Services.DeviceConnector.csproj" />
+    <ProjectReference Include="..\..\Services\SmartThermo.Services.Notifications\SmartThermo.Services.Notifications.csproj" />
   </ItemGroup>
 </Project>

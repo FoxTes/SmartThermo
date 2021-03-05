@@ -1,5 +1,7 @@
 ﻿using Prism.Mvvm;
 using Prism.Services.Dialogs;
+using SmartThermo.Services.DeviceConnector;
+using SmartThermo.Services.DeviceConnector.Models;
 using System;
 
 namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
@@ -7,6 +9,7 @@ namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
     public class SettingsPortDialogViewModel : BindableBase, IDialogAware
     {
         private string _message;
+        private readonly IDeviceConnector _deviceConnector;
 
         public event Action<IDialogResult> RequestClose;
 
@@ -16,18 +19,32 @@ namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
             set { SetProperty(ref _message, value); }
         }
 
-        public string Title => "привет";
+        public string Title => null;
 
-        public SettingsPortDialogViewModel()
+        public SettingsPortDialogViewModel( IDeviceConnector deviceConnector)
         {
-            Message = "View A from your Prism Module";
+            _deviceConnector = deviceConnector;
+
+            UploadingDataSources();
+            SetDefaultSettings();
         }
 
-       
+        private void SetDefaultSettings()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void UploadingDataSources()
+        {
+            throw new NotImplementedException();
+        }
 
         public void OnDialogClosed()
         {
-            
+            _deviceConnector.SettingPort = new SettingDevice
+            {
+                
+            };
         }
 
         public void OnDialogOpened(IDialogParameters parameters)
@@ -35,9 +52,6 @@ namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
             
         }
 
-        public bool CanCloseDialog()
-        {
-            return true;
-        }
+        public bool CanCloseDialog() => true;
     }
 }

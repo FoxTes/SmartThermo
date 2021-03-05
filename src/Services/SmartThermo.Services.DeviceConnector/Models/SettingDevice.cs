@@ -4,33 +4,20 @@ namespace SmartThermo.Services.DeviceConnector.Models
 {
     public class SettingDevice
     {
-        public string NamePort { get; }
+        public string NamePort { get; set; }
         
-        public int BaudRate { get; }
+        public int BaudRate { get; set; }
         
-        public Parity Parity { get; }
+        public Parity Parity { get; set; }
+
+        public StopBits StopBits { get; set; }
+
+        public int DataBits { get; set; }
         
-        public StopBits StopBits { get; }
+        public Handshake Handshake { get; set; }
+
+        public int WriteTimeout { get; set; }
         
-        public int DataBits { get; }
-        
-        public Handshake Handshake { get; }
-        
-        public int WriteTimeout { get; }
-        
-        public int ReadTimeout { get; }
-        
-        public SettingDevice(Handshake handshake, int dataBits, StopBits stopBits, 
-            Parity parity, int baudRate, string namePort, int writeTimeout, int readTimeout)
-        {
-            Handshake = handshake;
-            DataBits = dataBits;
-            StopBits = stopBits;
-            Parity = parity;
-            BaudRate = baudRate;
-            NamePort = namePort;
-            WriteTimeout = writeTimeout;
-            ReadTimeout = readTimeout;
-        }
+        public int ReadTimeout { get; set; }
     }
 }

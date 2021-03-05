@@ -5,14 +5,137 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
-    d:DesignHeight="300"
-    d:DesignWidth="300"
+    xmlns:ui="http://schemas.modernwpf.com/2019"
+    Width="auto"
+    Height="auto"
     prism:ViewModelLocator.AutoWireViewModel="True"
+    ui:ThemeManager.RequestedTheme="Dark"
+    Background="{DynamicResource SystemControlPageBackgroundChromeMediumLowBrush}"
     mc:Ignorable="d">
-    <Grid>
-        <TextBlock
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Text="{Binding Message}" />
+
+    <prism:Dialog.WindowStyle>
+        <Style TargetType="Window">
+            <Setter Property="WindowStyle" Value="None" />
+            <Setter Property="prism:Dialog.WindowStartupLocation" Value="CenterScreen" />
+            <Setter Property="ResizeMode" Value="NoResize" />
+            <Setter Property="ShowInTaskbar" Value="False" />
+            <Setter Property="SizeToContent" Value="WidthAndHeight" />
+        </Style>
+    </prism:Dialog.WindowStyle>
+
+    <Grid IsEnabled="True">
+        <StackPanel Orientation="Vertical">
+            <Grid Margin="16,16,16,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <Label
+                    Width="160"
+                    VerticalAlignment="Center"
+                    Content="Имя COM порта"
+                    ContentStringFormat="{}{0}:" />
+                <ComboBox Grid.Column="1" Width="150" />
+            </Grid>
+            <Grid Margin="16,8,16,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <Label
+                    Width="160"
+                    VerticalAlignment="Center"
+                    Content="Адресс устройства"
+                    ContentStringFormat="{}{0}:" />
+                <ComboBox Grid.Column="1" Width="150" />
+            </Grid>
+            <Grid Margin="16,8,16,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <Label
+                    Width="160"
+                    VerticalAlignment="Center"
+                    Content="Скорость подключения"
+                    ContentStringFormat="{}{0}:" />
+                <ComboBox Grid.Column="1" Width="150" />
+            </Grid>
+            <Grid Margin="16,8,16,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <Label
+                    Width="160"
+                    VerticalAlignment="Center"
+                    Content="Имя порта"
+                    ContentStringFormat="{}{0}:" />
+                <ComboBox Grid.Column="1" Width="150" />
+            </Grid>
+            <Grid Margin="16,8,16,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <Label
+                    Width="160"
+                    VerticalAlignment="Center"
+                    Content="Имя порта"
+                    ContentStringFormat="{}{0}:" />
+                <ComboBox Grid.Column="1" Width="150" />
+            </Grid>
+            <Expander Margin="16,16,16,0" Header="Расширенные параметры">
+                <StackPanel Orientation="Vertical">
+                    <Grid Margin="0,16,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+                        <Label
+                            Width="160"
+                            VerticalAlignment="Center"
+                            Content="Имя порта"
+                            ContentStringFormat="{}{0}:" />
+                        <ComboBox Grid.Column="1" Width="150" />
+                    </Grid>
+
+                    <Grid Margin="0,8,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+                        <Label
+                            Width="160"
+                            VerticalAlignment="Center"
+                            Content="Имя порта"
+                            ContentStringFormat="{}{0}:" />
+                        <ComboBox Grid.Column="1" Width="150" />
+                    </Grid>
+                </StackPanel>
+            </Expander>
+            <Grid Margin="0,24,0,16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Button
+                    Margin="16,0,8,0"
+                    HorizontalAlignment="Stretch"
+                    Content="Подключиться" />
+                <Button
+                    Grid.Column="1"
+                    Margin="8,0"
+                    HorizontalAlignment="Stretch"
+                    Content="По умолчанию" />
+                <Button
+                    Grid.Column="2"
+                    Margin="8,0,16,0"
+                    HorizontalAlignment="Stretch"
+                    Content="Отмена" />
+            </Grid>
+        </StackPanel>
     </Grid>
 </UserControl>

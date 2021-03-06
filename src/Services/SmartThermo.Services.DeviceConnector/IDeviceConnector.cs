@@ -32,13 +32,13 @@ namespace SmartThermo.Services.DeviceConnector
         /// Открывает новое соединение с прибором.
         /// </summary>
         /// <returns></returns>
-        void Open();
-        
+        Task Open();
+
         /// <summary>
-        /// Закрывает соединение порта, присваивает свойству IsOpen значение false и уничтожает внутренний объект Stream.
+        /// Закрывает соединение порта и уничтожает внутренний объект Stream.
         /// </summary>
-        /// <returns></returns>
-        void Close();
+        /// <param name="notification">Разрешает уведомление о закрытии.</param>
+        void Close(bool notification = true);
         
         /// <summary>
         /// Получает настройки прибора.

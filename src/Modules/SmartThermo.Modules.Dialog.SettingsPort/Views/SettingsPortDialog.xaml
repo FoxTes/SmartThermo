@@ -3,8 +3,11 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:enum="clr-namespace:SmartThermo.Modules.Dialog.SettingsPort.Enums"
+    xmlns:io="clr-namespace:System.IO.Ports;assembly=System.IO.Ports"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
+    xmlns:sys="clr-namespace:System;assembly=System.Runtime"
     xmlns:ui="http://schemas.modernwpf.com/2019"
     Width="auto"
     Height="auto"
@@ -12,6 +15,33 @@
     ui:ThemeManager.RequestedTheme="Dark"
     Background="{DynamicResource SystemControlPageBackgroundChromeMediumLowBrush}"
     mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ObjectDataProvider
+            x:Key="BaudRateValues"
+            MethodName="GetValues"
+            ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="enum:BaudRate" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider
+            x:Key="ParityValues"
+            MethodName="GetValues"
+            ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="io:Parity" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider
+            x:Key="StopBitsValues"
+            MethodName="GetValues"
+            ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="io:StopBits" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </UserControl.Resources>
 
     <prism:Dialog.WindowStyle>
         <Style TargetType="Window">
@@ -23,19 +53,23 @@
         </Style>
     </prism:Dialog.WindowStyle>
 
-    <Grid IsEnabled="True">
+    <Grid IsEnabled="{Binding IsEnable}">
         <StackPanel Orientation="Vertical">
-            <Grid Margin="16,16,16,8">
+            <Grid Margin="16,24,16,8">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
                 <Label
-                    Width="160"
+                    Width="140"
                     VerticalAlignment="Center"
-                    Content="Имя COM порта"
+                    Content="Адрес прибора"
                     ContentStringFormat="{}{0}:" />
-                <ComboBox Grid.Column="1" Width="150" />
+                <ComboBox
+                    Grid.Column="1"
+                    Width="150"
+                    ItemsSource="{Binding AddressDevice}"
+                    SelectedItem="{Binding AddressDeviceSelected}" />
             </Grid>
             <Grid Margin="16,8,16,8">
                 <Grid.ColumnDefinitions>
@@ -43,35 +77,47 @@
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
                 <Label
-                    Width="160"
-                    VerticalAlignment="Center"
-                    Content="Адресс устройства"
-                    ContentStringFormat="{}{0}:" />
-                <ComboBox Grid.Column="1" Width="150" />
-            </Grid>
-            <Grid Margin="16,8,16,8">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="auto" />
-                </Grid.ColumnDefinitions>
-                <Label
-                    Width="160"
-                    VerticalAlignment="Center"
-                    Content="Скорость подключения"
-                    ContentStringFormat="{}{0}:" />
-                <ComboBox Grid.Column="1" Width="150" />
-            </Grid>
-            <Grid Margin="16,8,16,8">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="auto" />
-                </Grid.ColumnDefinitions>
-                <Label
-                    Width="160"
+                    Width="140"
                     VerticalAlignment="Center"
                     Content="Имя порта"
                     ContentStringFormat="{}{0}:" />
-                <ComboBox Grid.Column="1" Width="150" />
+                <ComboBox
+                    Grid.Column="1"
+                    Width="150"
+                    ItemsSource="{Binding PortName}"
+                    SelectedItem="{Binding PortNameSelected}" />
+            </Grid>
+            <Grid Margin="16,8,16,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <Label
+                    Width="140"
+                    VerticalAlignment="Center"
+                    Content="Скорость обмена"
+                    ContentStringFormat="{}{0}:" />
+                <ComboBox
+                    Grid.Column="1"
+                    Width="150"
+                    ItemsSource="{Binding Source={StaticResource BaudRateValues}}"
+                    SelectedItem="{Binding BaudRateSelected}" />
+            </Grid>
+            <Grid Margin="16,8,16,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <Label
+                    Width="140"
+                    VerticalAlignment="Center"
+                    Content="Стоп бит"
+                    ContentStringFormat="{}{0}:" />
+                <ComboBox
+                    Grid.Column="1"
+                    Width="150"
+                    ItemsSource="{Binding Source={StaticResource StopBitsValues}}"
+                    SelectedItem="{Binding StopBitsSelected}" />
             </Grid>
             <Grid Margin="16,8,16,0">
                 <Grid.ColumnDefinitions>
@@ -79,13 +125,20 @@
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
                 <Label
-                    Width="160"
+                    Width="140"
                     VerticalAlignment="Center"
-                    Content="Имя порта"
+                    Content="Бит четности"
                     ContentStringFormat="{}{0}:" />
-                <ComboBox Grid.Column="1" Width="150" />
+                <ComboBox
+                    Grid.Column="1"
+                    Width="150"
+                    ItemsSource="{Binding Source={StaticResource ParityValues}}"
+                    SelectedItem="{Binding ParitySelected}" />
             </Grid>
-            <Expander Margin="16,16,16,0" Header="Расширенные параметры">
+            <Expander
+                Margin="16,16,16,0"
+                Header="Расширенные параметры"
+                IsEnabled="False">
                 <StackPanel Orientation="Vertical">
                     <Grid Margin="0,16,0,8">
                         <Grid.ColumnDefinitions>
@@ -93,9 +146,9 @@
                             <ColumnDefinition Width="auto" />
                         </Grid.ColumnDefinitions>
                         <Label
-                            Width="160"
+                            Width="140"
                             VerticalAlignment="Center"
-                            Content="Имя порта"
+                            Content="Время приема"
                             ContentStringFormat="{}{0}:" />
                         <ComboBox Grid.Column="1" Width="150" />
                     </Grid>
@@ -106,9 +159,9 @@
                             <ColumnDefinition Width="auto" />
                         </Grid.ColumnDefinitions>
                         <Label
-                            Width="160"
+                            Width="140"
                             VerticalAlignment="Center"
-                            Content="Имя порта"
+                            Content="Время ответа"
                             ContentStringFormat="{}{0}:" />
                         <ComboBox Grid.Column="1" Width="150" />
                     </Grid>
@@ -118,22 +171,18 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition />
-                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
                 <Button
                     Margin="16,0,8,0"
                     HorizontalAlignment="Stretch"
+                    Command="{Binding ConnectCommand}"
                     Content="Подключиться" />
                 <Button
                     Grid.Column="1"
-                    Margin="8,0"
-                    HorizontalAlignment="Stretch"
-                    Content="По умолчанию" />
-                <Button
-                    Grid.Column="2"
                     Margin="8,0,16,0"
                     HorizontalAlignment="Stretch"
+                    Command="{Binding CancelCommand}"
                     Content="Отмена" />
             </Grid>
         </StackPanel>

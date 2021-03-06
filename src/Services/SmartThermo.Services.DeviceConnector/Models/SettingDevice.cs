@@ -4,6 +4,8 @@ namespace SmartThermo.Services.DeviceConnector.Models
 {
     public class SettingDevice
     {
+        public byte AddressDevice { get; set; }
+
         public string NamePort { get; set; }
         
         public int BaudRate { get; set; }

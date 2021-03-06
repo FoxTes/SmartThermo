@@ -12,4 +12,12 @@
     <ProjectReference Include="..\..\Services\SmartThermo.Services.DeviceConnector\SmartThermo.Services.DeviceConnector.csproj" />
     <ProjectReference Include="..\..\Services\SmartThermo.Services.Notifications\SmartThermo.Services.Notifications.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="ToastNotifications">
+      <HintPath>..\..\Services\SmartThermo.Services.Notifications\dll\ToastNotifications.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Enums\" />
+  </ItemGroup>
 </Project>

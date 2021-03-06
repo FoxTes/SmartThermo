@@ -8,7 +8,7 @@ using SmartThermo.Services.DeviceConnector.Models;
 
 namespace SmartThermo.Services.DeviceConnector
 {
-    public class DeviceConnectorTest : IDeviceConnector
+    public class DeviceConnectorTest
     {
         #region Event
         

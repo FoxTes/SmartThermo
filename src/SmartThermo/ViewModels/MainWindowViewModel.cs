@@ -41,12 +41,12 @@ namespace SmartThermo.ViewModels
                 if (DeviceConnector.StatusConnect == StatusConnect.Connected)
                 {
                     LabelButton = "Отключить прибор";
-                    Notifications.ShowSuccess("Осуществленно подключение к прибору.");
+                    Notifications.ShowSuccess("Осуществлено подключение к прибору.");
                 }
                 else
                 {
                     LabelButton = "Подключить прибор";
-                    Notifications.ShowInformation("Осуществленно отключение от прибора.");
+                    Notifications.ShowInformation("Осуществлено отключение от прибора.");
                 }
             };
             
@@ -60,7 +60,6 @@ namespace SmartThermo.ViewModels
         private void ChangeConnectDeviceExecute()
         {
             if (DeviceConnector.StatusConnect == StatusConnect.Connected)
-            {
                 try
                 {
                     DeviceConnector.Close();
@@ -69,23 +68,12 @@ namespace SmartThermo.ViewModels
                 {
                     Notifications.ShowWarning("Не удалось закрыть соединение.\n" + ex.Message, new MessageOptions());
                 }
-            }
             else
-            {
                 DialogService.ShowNotification(string.Empty, r =>
                 {
- 
+                    if (r.Result == ButtonResult.Cancel)
+                        Notifications.ShowInformation("Операция прервана пользователем.");
                 });
-
-                try
-                {
-                    DeviceConnector.Open();
-                }
-                catch (Exception ex)
-                {
-                    Notifications.ShowWarning("Не удалось открыть соединение.\n" + ex.Message, new MessageOptions());
-                }
-            }
         }
         
         #endregion

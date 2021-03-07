@@ -1,0 +1,140 @@
+﻿<UserControl
+    x:Class="SmartThermo.Modules.Dialog.SettingsDevice.Views.SettingsDeviceDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:ui="http://schemas.modernwpf.com/2019"
+    Width="auto"
+    Height="auto"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    ui:ThemeManager.RequestedTheme="Dark"
+    Background="{DynamicResource SystemControlPageBackgroundChromeMediumLowBrush}"
+    mc:Ignorable="d">
+
+    <prism:Dialog.WindowStyle>
+        <Style TargetType="Window">
+            <Setter Property="WindowStyle" Value="None" />
+            <Setter Property="prism:Dialog.WindowStartupLocation" Value="CenterScreen" />
+            <Setter Property="ResizeMode" Value="NoResize" />
+            <Setter Property="ShowInTaskbar" Value="False" />
+            <Setter Property="SizeToContent" Value="WidthAndHeight" />
+        </Style>
+    </prism:Dialog.WindowStyle>
+
+    <Grid Margin="16" IsEnabled="{Binding IsEnable}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <StackPanel MinWidth="250" HorizontalAlignment="Left">
+            <GroupBox MinHeight="100" Header="Температурный порог">
+                <StackPanel>
+                    <ui:NumberBox
+                        Header="Порог №1"
+                        Maximum="155"
+                        Minimum="0"
+                        PlaceholderText="0 грС, [0-155]"
+                        Value="{Binding TemperatureThreshold[0]}" />
+                    <ui:NumberBox
+                        Margin="0,8,0,0"
+                        Header="Порог №2"
+                        Maximum="155"
+                        Minimum="0"
+                        PlaceholderText="0 грС, [0-155]"
+                        Value="{Binding TemperatureThreshold[1]}" />
+                </StackPanel>
+            </GroupBox>
+            <GroupBox MinHeight="100" Header="Температурный гистерезис">
+                <StackPanel>
+                    <ui:NumberBox
+                        Header="Зона №1"
+                        Maximum="100"
+                        Minimum="0"
+                        PlaceholderText="0 грС, [0-100]" />
+                    <ui:NumberBox
+                        Margin="0,8,0,0"
+                        Header="Зона №1"
+                        Maximum="100"
+                        Minimum="0"
+                        PlaceholderText="0 грС, [0-100]" />
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="0"
+            Grid.Column="1"
+            MinWidth="250"
+            Margin="24,0,0,0"
+            HorizontalAlignment="Left">
+            <GroupBox MinHeight="100" Header="Задержка сигнальных реле">
+                <StackPanel>
+                    <ui:NumberBox
+                        Header="Включение"
+                        Maximum="255"
+                        Minimum="0"
+                        PlaceholderText="0 сек, [0-255]" />
+                    <ui:NumberBox
+                        Margin="0,8,0,0"
+                        Header="Выключение"
+                        Maximum="255"
+                        Minimum="0"
+                        PlaceholderText="0 сек, [0-255]" />
+                </StackPanel>
+            </GroupBox>
+            <GroupBox MinHeight="100" Header="Статус сигнальных реле">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <ui:ToggleSwitch
+                            MaxWidth="100"
+                            Header="Реле №1"
+                            OffContent="Выкл"
+                            OnContent="Вкл" />
+                        <ui:ToggleSwitch
+                            MaxWidth="100"
+                            Margin="16,0,0,0"
+                            Header="Реле №2"
+                            OffContent="Выкл"
+                            OnContent="Вкл" />
+                    </StackPanel>
+                    <ui:ToggleSwitch
+                        Margin="0,16,0,0"
+                        Header="Реле №3"
+                        OffContent="Выкл"
+                        OnContent="Вкл" />
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+
+        <Grid
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="8,16,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Button
+                Margin="16,0,8,0"
+                HorizontalAlignment="Stretch"
+                Command="{Binding WriteCommand}"
+                Content="Записать" />
+            <Button
+                Grid.Column="1"
+                Margin="8,0,16,0"
+                HorizontalAlignment="Stretch"
+                Command="{Binding CancelCommand}"
+                Content="Отмена"
+                Style="{DynamicResource AccentButtonStyle}" />
+        </Grid>
+    </Grid>
+</UserControl>

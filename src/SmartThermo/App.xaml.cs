@@ -6,11 +6,13 @@ using SmartThermo.Services.DeviceConnector;
 using SmartThermo.Services.Notifications;
 using SmartThermo.Views;
 using System.Windows;
+using SmartThermo.Modules.Dialog.SettingsDevice.ViewModels;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Position;
 using SmartThermo.Modules.Dialog.SettingsPort.Views;
 using SmartThermo.Modules.Dialog.SettingsPort.ViewModels;
+using SmartThermo.Modules.Dialog.SettingsDevice.Views;
 
 namespace SmartThermo
 {
@@ -44,6 +46,7 @@ namespace SmartThermo
             containerRegistry.RegisterSingleton<IDeviceConnector, DeviceConnector>();
 
             containerRegistry.RegisterDialog<SettingsPortDialog, SettingsPortDialogViewModel>();
+            containerRegistry.RegisterDialog<SettingsDeviceDialog, SettingsDeviceDialogViewModel>();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

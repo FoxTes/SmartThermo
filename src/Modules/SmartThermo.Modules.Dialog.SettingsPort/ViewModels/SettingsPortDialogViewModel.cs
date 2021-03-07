@@ -119,7 +119,7 @@ namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
         {
             IsEnable = false;
 
-            _deviceConnector.SettingPort = new SettingDevice()
+            _deviceConnector.SettingPortPort = new SettingPortDevice()
             {
                 AddressDevice = AddressDeviceSelected,
                 NamePort = PortNameSelected,
@@ -138,7 +138,7 @@ namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
             catch (TimeoutException)
             {
                 _deviceConnector.Close(false);
-                _notifications.ShowWarning("Устройство не отвечает", new MessageOptions());
+                _notifications.ShowWarning("Устройство не отвечает.", new MessageOptions());
             }
 
             catch (Exception ex)

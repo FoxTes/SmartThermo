@@ -14,19 +14,19 @@ namespace SmartThermo.Services.DeviceConnector
         event EventHandler<List<double>> RegistersRequested;
         
         /// <summary>
-        /// Событие, возникающие при изменение состоения подключения к прибору.
+        /// Событие, возникающие при изменение состояние подключения к прибору.
         /// </summary>
         event EventHandler<StatusConnect> StatusConnectChanged;
         
         /// <summary>
-        /// Получает значение, указывающее состоение соединения с прибором.
+        /// Получает значение, указывающее состояние соединения с прибором.
         /// </summary>
         StatusConnect StatusConnect { get; }
         
         /// <summary>
-        /// Вовзращает или задает настройки порта.
+        /// Возвращает или задает настройки порта.
         /// </summary>
-        SettingDevice SettingPort { get; set; }
+        SettingPortDevice SettingPortPort { get; set; }
         
         /// <summary>
         /// Открывает новое соединение с прибором.
@@ -39,15 +39,27 @@ namespace SmartThermo.Services.DeviceConnector
         /// </summary>
         /// <param name="notification">Разрешает уведомление о закрытии.</param>
         void Close(bool notification = true);
-        
+
         /// <summary>
-        /// Получает настройки прибора.
+        /// Получает общие настройки прибора.
+        /// </summary>
+        /// <returns></returns>
+        Task<SettingDevice> GetSettingDevice();
+
+        /// <summary>
+        /// Получает общие настройки прибора.
+        /// </summary>
+        /// <returns></returns>
+        Task SetSettingDevice(SettingDevice settingDevice);
+
+        /// <summary>
+        /// Устанавливает общие настройки прибора.
         /// </summary>
         /// <returns></returns>
         Task<List<LimitTrigger>> GetLimitTriggerDevice();
         
         /// <summary>
-        /// Устанавливает настройки прибора.
+        /// Устанавливает настройки прибора для графиков.
         /// </summary>
         /// <returns></returns>
         Task SetLimitTriggerDevice(List<LimitTrigger> limitTriggers);

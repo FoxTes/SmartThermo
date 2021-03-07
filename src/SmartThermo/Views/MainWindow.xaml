@@ -22,9 +22,9 @@
         <ui:CommandBar Background="{DynamicResource SystemControlPageBackgroundChromeMediumLowBrush}">
             <ui:AppBarButton IsEnabled="False" Label="Добавить прибор" />
             <ui:AppBarSeparator />
-            <ui:AppBarButton Label="{Binding LabelButton}" Command="{Binding ChangeConnectDeviceCommand}" />
+            <ui:AppBarButton Command="{Binding ChangeConnectDeviceCommand}" Label="{Binding LabelButton}" />
             <ui:AppBarSeparator />
-            <ui:AppBarButton Label="Настроить прибор" />
+            <ui:AppBarButton Command="{Binding SettingDeviceCommand}" Label="Настроить прибор" />
             <ui:AppBarSeparator />
             <ui:CommandBar.SecondaryCommands>
                 <ui:AppBarButton Label="О программе" />

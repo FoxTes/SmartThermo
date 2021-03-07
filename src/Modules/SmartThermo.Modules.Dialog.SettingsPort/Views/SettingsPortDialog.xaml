@@ -179,6 +179,7 @@
                     Command="{Binding ConnectCommand}"
                     Content="Подключиться" />
                 <Button
+                    Style="{DynamicResource AccentButtonStyle}"
                     Grid.Column="1"
                     Margin="8,0,16,0"
                     HorizontalAlignment="Stretch"

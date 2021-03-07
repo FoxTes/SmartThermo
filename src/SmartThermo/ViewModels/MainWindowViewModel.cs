@@ -28,7 +28,9 @@ namespace SmartThermo.ViewModels
         }
         
         public DelegateCommand ChangeConnectDeviceCommand { get; }
-        
+
+        public DelegateCommand SettingDeviceCommand { get; }
+
         #endregion
 
         #region Constructor
@@ -51,8 +53,9 @@ namespace SmartThermo.ViewModels
             };
             
             ChangeConnectDeviceCommand = new DelegateCommand(ChangeConnectDeviceExecute);
+            SettingDeviceCommand = new DelegateCommand(SettingDeviceExecute);
         }
-        
+
         #endregion
 
         #region Method
@@ -69,13 +72,22 @@ namespace SmartThermo.ViewModels
                     Notifications.ShowWarning("Не удалось закрыть соединение.\n" + ex.Message, new MessageOptions());
                 }
             else
-                DialogService.ShowNotification(string.Empty, r =>
+                DialogService.ShowNotification("SettingsPortDialog", r =>
                 {
                     if (r.Result == ButtonResult.Cancel)
                         Notifications.ShowInformation("Операция прервана пользователем.");
                 });
         }
-        
+
+        private void SettingDeviceExecute()
+        {
+            DialogService.ShowNotification("SettingsDeviceDialog", r =>
+            {
+                if (r.Result == ButtonResult.Cancel)
+                    Notifications.ShowInformation("Операция прервана пользователем.");
+            });
+        }
+
         #endregion
     }
 }

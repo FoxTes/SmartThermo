@@ -31,7 +31,7 @@ namespace SmartThermo.Services.DeviceConnector
         #region Property
 
         public StatusConnect StatusConnect { get; private set; }
-        public SettingDevice SettingPort { get; set; }
+        public SettingPortDevice SettingPortPort { get; set; }
 
         #endregion
 
@@ -45,20 +45,20 @@ namespace SmartThermo.Services.DeviceConnector
 
         public async Task Open()
         {
-            _serialPort.PortName = SettingPort.NamePort;
-            _serialPort.BaudRate = SettingPort.BaudRate;
-            _serialPort.DataBits = SettingPort.DataBits;
-            _serialPort.StopBits = SettingPort.StopBits;
-            _serialPort.Parity = SettingPort.Parity;
+            _serialPort.PortName = SettingPortPort.NamePort;
+            _serialPort.BaudRate = SettingPortPort.BaudRate;
+            _serialPort.DataBits = SettingPortPort.DataBits;
+            _serialPort.StopBits = SettingPortPort.StopBits;
+            _serialPort.Parity = SettingPortPort.Parity;
             _serialPort.Open();
 
             _serialPortAdapter = new SerialPortAdapter(_serialPort)
             {
-                WriteTimeout = SettingPort.WriteTimeout,
-                ReadTimeout = SettingPort.ReadTimeout
+                WriteTimeout = SettingPortPort.WriteTimeout,
+                ReadTimeout = SettingPortPort.ReadTimeout
             };
             _modbusSerialMaster = _modbusFactory.CreateRtuMaster(_serialPortAdapter);
-            await _modbusSerialMaster.ReadHoldingRegistersAsync(SettingPort.AddressDevice, (ushort)RegisterAddress.FirmwareVersion, 1);
+            await _modbusSerialMaster.ReadHoldingRegistersAsync(SettingPortPort.AddressDevice, (ushort)RegisterAddress.FirmwareVersion, 1);
 
             StatusConnect = StatusConnect.Connected;
             StatusConnectChanged?.Invoke(this, StatusConnect);
@@ -75,6 +75,20 @@ namespace SmartThermo.Services.DeviceConnector
                 return;
             StatusConnect = StatusConnect.Disconnected;
             StatusConnectChanged?.Invoke(this, StatusConnect);
+        }
+
+        public async Task<SettingDevice> GetSettingDevice()
+        {
+            await Task.Delay(1000);
+            return new SettingDevice()
+            {
+                TemperatureThreshold = new List<ushort> { 50, 2 }
+            };
+        }
+
+        public Task SetSettingDevice(SettingDevice settingDevice)
+        {
+            throw new NotImplementedException();
         }
 
         public Task<List<LimitTrigger>> GetLimitTriggerDevice()

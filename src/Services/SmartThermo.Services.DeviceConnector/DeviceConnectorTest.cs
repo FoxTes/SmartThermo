@@ -27,7 +27,7 @@ namespace SmartThermo.Services.DeviceConnector
         #region Property
 
         public StatusConnect StatusConnect { get; private set; }
-        public SettingDevice SettingPort { get; set; }
+        public SettingPortDevice SettingPortPort { get; set; }
 
         #endregion
         

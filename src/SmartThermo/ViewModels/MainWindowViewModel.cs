@@ -16,10 +16,17 @@ namespace SmartThermo.ViewModels
         #region Field
         
         private string _labelButton = "Подключить прибор";
-        
+        private bool _isEnableSettings;
+
         #endregion
 
         #region Property
+        
+        public bool IsEnableSettings
+        {
+            get => _isEnableSettings;
+            set => SetProperty(ref _isEnableSettings, value);
+        }
         
         public string LabelButton
         {
@@ -42,11 +49,13 @@ namespace SmartThermo.ViewModels
             {
                 if (DeviceConnector.StatusConnect == StatusConnect.Connected)
                 {
+                    IsEnableSettings = true;
                     LabelButton = "Отключить прибор";
                     Notifications.ShowSuccess("Осуществлено подключение к прибору.");
                 }
                 else
                 {
+                    IsEnableSettings = false;
                     LabelButton = "Подключить прибор";
                     Notifications.ShowInformation("Осуществлено отключение от прибора.");
                 }

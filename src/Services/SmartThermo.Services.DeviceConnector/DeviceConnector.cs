@@ -35,6 +35,8 @@ namespace SmartThermo.Services.DeviceConnector
 
         #endregion
 
+        #region Constructor
+
         public DeviceConnector()
         {
             _serialPort = new SerialPort();
@@ -42,6 +44,10 @@ namespace SmartThermo.Services.DeviceConnector
 
             StatusConnect = StatusConnect.Disconnected;
         }
+
+        #endregion
+
+        #region Method
 
         public async Task Open()
         {
@@ -58,7 +64,8 @@ namespace SmartThermo.Services.DeviceConnector
                 ReadTimeout = SettingPortPort.ReadTimeout
             };
             _modbusSerialMaster = _modbusFactory.CreateRtuMaster(_serialPortAdapter);
-            await _modbusSerialMaster.ReadHoldingRegistersAsync(SettingPortPort.AddressDevice, (ushort)RegisterAddress.FirmwareVersion, 1);
+            await _modbusSerialMaster.ReadHoldingRegistersAsync(SettingPortPort.AddressDevice,
+                (ushort) RegisterAddress.FirmwareVersion, 1);
 
             StatusConnect = StatusConnect.Connected;
             StatusConnectChanged?.Invoke(this, StatusConnect);
@@ -79,16 +86,37 @@ namespace SmartThermo.Services.DeviceConnector
 
         public async Task<SettingDevice> GetSettingDevice()
         {
-            await Task.Delay(1000);
+            const ushort startRegister = (ushort)RegisterAddress.TemperatureThreshold1;
+            var countRegister =
+                (ushort) (Math.Abs(RegisterAddress.TemperatureThreshold1 - RegisterAddress.StatusAlarmRelay) + 1);
+            
+            var data = await _modbusSerialMaster.ReadHoldingRegistersAsync(SettingPortPort.AddressDevice, 
+                startRegister, countRegister);
+            
             return new SettingDevice()
             {
-                TemperatureThreshold = new List<ushort> { 50, 2 }
+                TemperatureThreshold = new List<ushort> { data[0], data[1] },
+                TemperatureHysteresis = data[3],
+                DelaySignalRelays = data[4],
+                StatusAlarmRelay = data[7]
             };
         }
 
-        public Task SetSettingDevice(SettingDevice settingDevice)
+        public async Task SetSettingDevice(SettingDevice settingDevice)
         {
-            throw new NotImplementedException();
+            const ushort startRegister = (ushort)RegisterAddress.TemperatureThreshold1;
+            var data = new[]
+            {
+                settingDevice.TemperatureThreshold[0],
+                settingDevice.TemperatureThreshold[1],
+                settingDevice.TemperatureHysteresis,
+                settingDevice.DelaySignalRelays
+            };
+
+            await _modbusSerialMaster.WriteMultipleRegistersAsync(SettingPortPort.AddressDevice, 
+                startRegister, data);
+            await _modbusSerialMaster.WriteSingleRegisterAsync(SettingPortPort.AddressDevice, 
+                (ushort)RegisterAddress.StatusAlarmRelay, settingDevice.StatusAlarmRelay);
         }
 
         public Task<List<LimitTrigger>> GetLimitTriggerDevice()
@@ -100,5 +128,7 @@ namespace SmartThermo.Services.DeviceConnector
         {
             throw new NotImplementedException();
         }
+
+        #endregion
     }
 }

@@ -24,7 +24,7 @@
             <ui:AppBarSeparator />
             <ui:AppBarButton Command="{Binding ChangeConnectDeviceCommand}" Label="{Binding LabelButton}" />
             <ui:AppBarSeparator />
-            <ui:AppBarButton Command="{Binding SettingDeviceCommand}" Label="Настроить прибор" />
+            <ui:AppBarButton Command="{Binding SettingDeviceCommand}" Label="Настроить прибор"  IsEnabled="{Binding IsEnableSettings}"/>
             <ui:AppBarSeparator />
             <ui:CommandBar.SecondaryCommands>
                 <ui:AppBarButton Label="О программе" />

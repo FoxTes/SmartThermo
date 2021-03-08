@@ -58,12 +58,14 @@
                         Header="Зона №1"
                         Maximum="100"
                         Minimum="0"
+                        Value="{Binding TemperatureHysteresis[0]}"
                         PlaceholderText="0 грС, [0-100]" />
                     <ui:NumberBox
                         Margin="0,8,0,0"
-                        Header="Зона №1"
+                        Header="Зона №2"
                         Maximum="100"
                         Minimum="0"
+                        Value="{Binding TemperatureHysteresis[1]}"
                         PlaceholderText="0 грС, [0-100]" />
                 </StackPanel>
             </GroupBox>
@@ -81,12 +83,14 @@
                         Header="Включение"
                         Maximum="255"
                         Minimum="0"
+                        Value="{Binding DelaySignalRelays[0]}"
                         PlaceholderText="0 сек, [0-255]" />
                     <ui:NumberBox
                         Margin="0,8,0,0"
                         Header="Выключение"
                         Maximum="255"
                         Minimum="0"
+                        Value="{Binding DelaySignalRelays[1]}"
                         PlaceholderText="0 сек, [0-255]" />
                 </StackPanel>
             </GroupBox>
@@ -97,18 +101,21 @@
                             MaxWidth="100"
                             Header="Реле №1"
                             OffContent="Выкл"
+                            IsOn="{Binding StatusAlarmRelay[0]}"
                             OnContent="Вкл" />
                         <ui:ToggleSwitch
                             MaxWidth="100"
                             Margin="16,0,0,0"
                             Header="Реле №2"
                             OffContent="Выкл"
+                            IsOn="{Binding StatusAlarmRelay[1]}"
                             OnContent="Вкл" />
                     </StackPanel>
                     <ui:ToggleSwitch
                         Margin="0,16,0,0"
                         Header="Реле №3"
                         OffContent="Выкл"
+                        IsOn="{Binding StatusAlarmRelay[2]}"
                         OnContent="Вкл" />
                 </StackPanel>
             </GroupBox>

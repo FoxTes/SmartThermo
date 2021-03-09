@@ -1,20 +1,20 @@
-﻿using System;
+﻿using SmartThermo.Services.DeviceConnector.Enums;
+using SmartThermo.Services.DeviceConnector.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Timers;
-using SmartThermo.Services.DeviceConnector.Enums;
-using SmartThermo.Services.DeviceConnector.Models;
 
 namespace SmartThermo.Services.DeviceConnector
 {
-    public class DeviceConnectorTest
+    public class DeviceConnectorTest : IDeviceConnector
     {
         #region Event
-        
-        public event EventHandler<List<double>> RegistersRequested;
+
         public event EventHandler<StatusConnect> StatusConnectChanged;
-        
+        public event EventHandler<List<SensorInfo>> RegistersRequested;
+
         #endregion
 
         #region Field
@@ -30,15 +30,15 @@ namespace SmartThermo.Services.DeviceConnector
         public SettingPortDevice SettingPortPort { get; set; }
 
         #endregion
-        
+
         #region Constructor
 
         public DeviceConnectorTest()
         {
             _random = new Random();
-            _timer = new Timer {Interval = 3000, AutoReset = true};
-            _timer.Elapsed += OnTimerElapsed; 
-            
+            _timer = new Timer { Interval = 3000, AutoReset = true };
+            _timer.Elapsed += OnTimerElapsed;
+
             StatusConnect = StatusConnect.Disconnected;
         }
 
@@ -48,22 +48,29 @@ namespace SmartThermo.Services.DeviceConnector
 
         private void OnTimerElapsed(object o, ElapsedEventArgs elapsedEventArgs)
         {
-            var data = Enumerable.Range(0, 6)
-                .Select(_ => _random.NextDouble() * 20d)
+            var data = Enumerable.Range(0, 36)
+                .Select(_ => new SensorInfo()
+                {
+                    Temperature = (byte)_random.Next(0, 155),
+                    TimeLastBroadcast = (byte)_random.Next(0, 63),
+                    IsEmergencyDescent = _random.Next(10) > 5,
+                    IsAir = _random.Next(10) > 5,
+                })
                 .ToList();
-
             RegistersRequested?.Invoke(this, data);
         }
 
-        public void Open()
+        public Task Open()
         {
             StartTimer();
 
             StatusConnect = StatusConnect.Connected;
             StatusConnectChanged?.Invoke(this, StatusConnect);
+
+            return Task.CompletedTask;
         }
 
-        public void Close()
+        public void Close(bool notification = true)
         {
             StopTimer();
 
@@ -96,6 +103,17 @@ namespace SmartThermo.Services.DeviceConnector
         private void StopTimer()
         {
             _timer.Enabled = false;
+        }
+
+
+        public Task<SettingDevice> GetSettingDevice()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SetSettingDevice(SettingDevice settingDevice)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

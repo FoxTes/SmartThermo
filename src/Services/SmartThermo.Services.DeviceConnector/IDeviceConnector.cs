@@ -11,7 +11,7 @@ namespace SmartThermo.Services.DeviceConnector
         /// <summary>
         /// Событие, возникающие при опросе регистров.
         /// </summary>
-        event EventHandler<List<double>> RegistersRequested;
+        event EventHandler<List<SensorInfo>> RegistersRequested;
         
         /// <summary>
         /// Событие, возникающие при изменение состояние подключения к прибору.

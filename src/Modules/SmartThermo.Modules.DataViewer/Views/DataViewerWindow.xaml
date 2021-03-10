@@ -31,7 +31,7 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <ContentControl Margin="8" Content="{Binding ChartTest}" />
+            <!--<ContentControl Margin="8" Content="{Binding ChartTest}" />-->
         </Grid>
 
         <Border
@@ -62,4 +62,5 @@
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
+    
 </UserControl>

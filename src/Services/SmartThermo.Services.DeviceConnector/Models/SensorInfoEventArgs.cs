@@ -1,8 +1,14 @@
-﻿namespace SmartThermo.Services.DeviceConnector.Models
+﻿using System;
+
+namespace SmartThermo.Services.DeviceConnector.Models
 {
-    // TODO EventAgr
-    public class SensorInfo
+    public class SensorInfoEventArgs : EventArgs
     {
+        /// <summary>
+        /// Порядковый номер.
+        /// </summary>
+        public int Id { get; set; }
+
         /// <summary>
         /// Температура [0..155] в градусах Цельсия.
         /// </summary>

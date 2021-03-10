@@ -38,6 +38,11 @@
         /// <summary>
         /// Версия прошивки ПО.
         /// </summary>
-        FirmwareVersion = 12
+        FirmwareVersion = 12,
+
+        /// <summary>
+        /// Бинарный код значения температуры, измеряемой датчиком №11.
+        /// </summary>
+        Sensor11 = 16,
     }
 }

@@ -24,7 +24,10 @@
             <ui:AppBarSeparator />
             <ui:AppBarButton Command="{Binding ChangeConnectDeviceCommand}" Label="{Binding LabelButton}" />
             <ui:AppBarSeparator />
-            <ui:AppBarButton Command="{Binding SettingDeviceCommand}" Label="Настроить прибор"  IsEnabled="{Binding IsEnableSettings}"/>
+            <ui:AppBarButton
+                Command="{Binding SettingDeviceCommand}"
+                IsEnabled="{Binding IsEnableSettings}"
+                Label="Настроить прибор" />
             <ui:AppBarSeparator />
             <ui:CommandBar.SecondaryCommands>
                 <ui:AppBarButton Label="О программе" />
@@ -49,7 +52,7 @@
                     <TextBlock
                         Margin="16,0,0,4"
                         Style="{DynamicResource TitleTextBlockStyle}"
-                        Text="Измерительная точка 1" />
+                        Text="Измерительная участок №1" />
                     <Separator Background="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}" />
                 </StackPanel>
 

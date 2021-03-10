@@ -11,7 +11,7 @@ namespace SmartThermo.Services.DeviceConnector
         /// <summary>
         /// Событие, возникающие при опросе регистров.
         /// </summary>
-        event EventHandler<List<SensorInfo>> RegistersRequested;
+        event EventHandler<List<SensorInfoEventArgs>> RegistersRequested;
         
         /// <summary>
         /// Событие, возникающие при изменение состояние подключения к прибору.
@@ -56,12 +56,12 @@ namespace SmartThermo.Services.DeviceConnector
         /// Устанавливает общие настройки прибора.
         /// </summary>
         /// <returns></returns>
-        Task<List<LimitTrigger>> GetLimitTriggerDevice();
+        Task<List<LimitTriggerEventArgs>> GetLimitTriggerDevice();
         
         /// <summary>
         /// Устанавливает настройки прибора для графиков.
         /// </summary>
         /// <returns></returns>
-        Task SetLimitTriggerDevice(List<LimitTrigger> limitTriggers);
+        Task SetLimitTriggerDevice(List<LimitTriggerEventArgs> limitTriggers);
     }
 }

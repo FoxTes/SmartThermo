@@ -1,17 +1,20 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using Prism.Common;
-using Prism.Regions;
-using Prism.Services.Dialogs;
+using System.Windows.Data;
 using SmartThermo.Core.Mvvm;
 using SmartThermo.Modules.DataViewer.Models;
 using SmartThermo.Services.DeviceConnector;
-using SmartThermo.Services.Notifications;
+using SmartThermo.Services.DeviceConnector.Enums;
+using SmartThermo.Services.DeviceConnector.Models;
 
 namespace SmartThermo.Modules.DataViewer.ViewModels
 {
-    public class DataViewerWindowViewModel : RegionViewModelBase
+    public class DataViewerWindowViewModel : ViewModelBase
     {
+        private readonly IDeviceConnector _deviceConnector;
+        private static readonly object _lock = new object();
+
         private ObservableCollection<SensorsEther> _sensorsEtherItems = new ObservableCollection<SensorsEther>();
 
         public ObservableCollection<SensorsEther> SensorsEtherItems
@@ -20,20 +23,33 @@ namespace SmartThermo.Modules.DataViewer.ViewModels
             set => SetProperty(ref _sensorsEtherItems, value);
         }
 
-        public DataViewerWindowViewModel(IRegionManager regionManager, IDeviceConnector deviceConnector, 
-            INotifications notifications, IDialogService dialogService) 
-            : base(regionManager, deviceConnector, notifications, dialogService)
+        public DataViewerWindowViewModel(IDeviceConnector deviceConnector)
         {
-            deviceConnector.RegistersRequested += (o, list) =>
-            {
-                var data = list.Select(x => new SensorsEther
-                {
-                    Time = x.TimeLastBroadcast
-                }).ToList();
+            _deviceConnector = deviceConnector;
+            _deviceConnector.RegistersRequested += DeviceConnector_RegistersRequested;
+            _deviceConnector.StatusConnectChanged += DeviceConnector_StatusConnectChanged;
 
+            BindingOperations.EnableCollectionSynchronization(SensorsEtherItems, _lock);
+        }
+
+        private void DeviceConnector_StatusConnectChanged(object sender, StatusConnect e)
+        {
+            if (e == StatusConnect.Disconnected)
                 SensorsEtherItems.Clear();
-                SensorsEtherItems.AddRange(data);
-            };
+        }
+
+        private void DeviceConnector_RegistersRequested(object sender, List<SensorInfoEventArgs> e)
+        {
+            var data = e.Where(x => x.IsAir)
+                        .Select(x => new SensorsEther
+                        {
+                            Id = x.Id,
+                            Time = x.TimeLastBroadcast
+                        })
+                        .ToList();
+
+            SensorsEtherItems.Clear();
+            SensorsEtherItems.AddRange(data);
         }
     }
 }

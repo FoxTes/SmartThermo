@@ -43,7 +43,7 @@ namespace SmartThermo
             }));
 
             containerRegistry.RegisterInstance<INotifications>(instance);
-            containerRegistry.RegisterSingleton<IDeviceConnector, DeviceConnectorTest>();
+            containerRegistry.RegisterSingleton<IDeviceConnector, DeviceConnector>();
 
             containerRegistry.RegisterDialog<SettingsPortDialog, SettingsPortDialogViewModel>();
             containerRegistry.RegisterDialog<SettingsDeviceDialog, SettingsDeviceDialogViewModel>();

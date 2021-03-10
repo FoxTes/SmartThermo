@@ -47,7 +47,7 @@ namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
             set => SetProperty(ref _isEnable, value);
         }
 
-        public string Title => null;
+        public string Title => string.Empty;
 
         public byte AddressDeviceSelected
         {
@@ -137,14 +137,14 @@ namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
 
             catch (TimeoutException)
             {
-                _deviceConnector.Close(false);
                 _notifications.ShowWarning("Устройство не отвечает.", new MessageOptions());
+                _deviceConnector.Close(false);
             }
 
             catch (Exception ex)
             {
-                _deviceConnector.Close(false);
                 _notifications.ShowWarning("Не удалось открыть соединение.\n" + ex.Message, new MessageOptions());
+                _deviceConnector.Close(false);
             }
             finally
             {

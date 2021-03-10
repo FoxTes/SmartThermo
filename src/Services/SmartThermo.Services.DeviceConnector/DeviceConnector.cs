@@ -1,11 +1,16 @@
 ﻿using NModbus;
 using NModbus.Serial;
+using SmartThermo.Services.DeviceConnector.BitExtensions;
 using SmartThermo.Services.DeviceConnector.Enums;
 using SmartThermo.Services.DeviceConnector.Models;
+using SmartThermo.Services.Notifications;
 using System;
 using System.Collections.Generic;
 using System.IO.Ports;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using ToastNotifications.Core;
 
 namespace SmartThermo.Services.DeviceConnector
 {
@@ -14,7 +19,7 @@ namespace SmartThermo.Services.DeviceConnector
         #region Event
 
         public event EventHandler<StatusConnect> StatusConnectChanged;
-        public event EventHandler<List<SensorInfo>> RegistersRequested;
+        public event EventHandler<List<SensorInfoEventArgs>> RegistersRequested;
 
         #endregion
 
@@ -22,6 +27,8 @@ namespace SmartThermo.Services.DeviceConnector
 
         private readonly SerialPort _serialPort;
         private readonly ModbusFactory _modbusFactory;
+        private readonly Timer _timer;
+        private readonly INotifications _notifications;
 
         private SerialPortAdapter _serialPortAdapter;
         private IModbusSerialMaster _modbusSerialMaster;
@@ -37,11 +44,13 @@ namespace SmartThermo.Services.DeviceConnector
 
         #region Constructor
 
-        public DeviceConnector()
+        public DeviceConnector(INotifications notifications)
         {
             _serialPort = new SerialPort();
             _modbusFactory = new ModbusFactory();
+            _timer = new Timer(new TimerCallback(OnTimer), 0, Timeout.Infinite, Timeout.Infinite);
 
+            _notifications = notifications;
             StatusConnect = StatusConnect.Disconnected;
         }
 
@@ -65,7 +74,9 @@ namespace SmartThermo.Services.DeviceConnector
             };
             _modbusSerialMaster = _modbusFactory.CreateRtuMaster(_serialPortAdapter);
             await _modbusSerialMaster.ReadHoldingRegistersAsync(SettingPortPort.AddressDevice,
-                (ushort) RegisterAddress.FirmwareVersion, 1);
+                (ushort)RegisterAddress.FirmwareVersion, 1);
+
+            StartTimer();
 
             StatusConnect = StatusConnect.Connected;
             StatusConnectChanged?.Invoke(this, StatusConnect);
@@ -77,6 +88,7 @@ namespace SmartThermo.Services.DeviceConnector
             _serialPortAdapter?.Dispose();
 
             _serialPort.Close();
+            StopTimer();
 
             if (!notification)
                 return;
@@ -88,11 +100,11 @@ namespace SmartThermo.Services.DeviceConnector
         {
             const ushort startRegister = (ushort)RegisterAddress.TemperatureThreshold1;
             var countRegister =
-                (ushort) (Math.Abs(RegisterAddress.TemperatureThreshold1 - RegisterAddress.StatusAlarmRelay) + 1);
-            
-            var data = await _modbusSerialMaster.ReadHoldingRegistersAsync(SettingPortPort.AddressDevice, 
+                (ushort)(Math.Abs(RegisterAddress.TemperatureThreshold1 - RegisterAddress.StatusAlarmRelay) + 1);
+
+            var data = await _modbusSerialMaster.ReadHoldingRegistersAsync(SettingPortPort.AddressDevice,
                 startRegister, countRegister);
-            
+
             return new SettingDevice()
             {
                 TemperatureThreshold = new List<ushort> { data[0], data[1] },
@@ -113,20 +125,64 @@ namespace SmartThermo.Services.DeviceConnector
                 settingDevice.DelaySignalRelays
             };
 
-            await _modbusSerialMaster.WriteMultipleRegistersAsync(SettingPortPort.AddressDevice, 
+            await _modbusSerialMaster.WriteMultipleRegistersAsync(SettingPortPort.AddressDevice,
                 startRegister, data);
-            await _modbusSerialMaster.WriteSingleRegisterAsync(SettingPortPort.AddressDevice, 
+            await _modbusSerialMaster.WriteSingleRegisterAsync(SettingPortPort.AddressDevice,
                 (ushort)RegisterAddress.StatusAlarmRelay, settingDevice.StatusAlarmRelay);
         }
 
-        public Task<List<LimitTrigger>> GetLimitTriggerDevice()
+        public Task<List<LimitTriggerEventArgs>> GetLimitTriggerDevice()
         {
             throw new NotImplementedException();
         }
 
-        public Task SetLimitTriggerDevice(List<LimitTrigger> limitTriggers)
+        public Task SetLimitTriggerDevice(List<LimitTriggerEventArgs> limitTriggers)
         {
             throw new NotImplementedException();
+        }
+
+        private async void OnTimer(object state)
+        {
+            const ushort startRegister = (ushort)RegisterAddress.Sensor11;
+            const ushort countRegister = 36;
+
+            ushort[] data = new ushort[countRegister];
+            try
+            {
+                data = await _modbusSerialMaster.ReadHoldingRegistersAsync(SettingPortPort.AddressDevice,
+                    startRegister, countRegister);
+            }
+            catch (TimeoutException)
+            {
+                Close();
+                _notifications.ShowWarning("Устройство не отвечает на чтение регистров.", new MessageOptions());
+            }
+            catch (Exception ex)
+            {
+                Close();
+                _notifications.ShowWarning("Не удалось прочитать регистры.\n" + ex.Message, new MessageOptions());
+            }
+
+            var result = data.Select(x => new SensorInfoEventArgs
+            {
+                Id = x,
+                Temperature = (byte)data[x],
+                TimeLastBroadcast = (byte)((data[x] & 0b0011_1111_0000_0000) >> 8),
+                IsEmergencyDescent = data[x].IsBitSet(14),
+                IsAir = data[x].IsBitSet(15)
+            }).ToList();
+            RegistersRequested?.Invoke(this, result);
+        }
+
+        private void StartTimer()
+        {
+            // TODO : константы.
+            _timer.Change(TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(3));
+        }
+
+        private void StopTimer()
+        {
+            _timer.Change(Timeout.Infinite, Timeout.Infinite);
         }
 
         #endregion

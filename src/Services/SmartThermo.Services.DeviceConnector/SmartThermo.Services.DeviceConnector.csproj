@@ -10,4 +10,14 @@
     <PackageReference Include="System.IO.Ports" Version="5.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SmartThermo.Services.Notifications\SmartThermo.Services.Notifications.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ToastNotifications">
+      <HintPath>..\SmartThermo.Services.Notifications\dll\ToastNotifications.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

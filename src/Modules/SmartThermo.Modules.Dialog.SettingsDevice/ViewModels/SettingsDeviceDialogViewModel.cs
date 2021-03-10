@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using SmartThermo.Services.DeviceConnector.BitExtensions;
 using SmartThermo.Services.DeviceConnector.Models;
 using ToastNotifications.Core;
+using System.Threading.Tasks;
 
 namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
 {
@@ -83,8 +84,6 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
 
             WriteCommand = new DelegateCommand(WriteExecute);
             CancelCommand = new DelegateCommand(CancelExecute);
-
-            TemperatureThreshold = new List<ushort>() {1, 2};
         }
 
         #endregion
@@ -114,9 +113,15 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
             }
             catch (TimeoutException)
             {
-                _deviceConnector.Close(false);
                 _notifications.ShowWarning("Не удалось записать настройки устройства. Устройство не отвечает.",
                     new MessageOptions());
+                _deviceConnector.Close();
+            }
+            catch (NotImplementedException)
+            {
+                _notifications.ShowWarning("Не удалось записать настройки устройства. Данный функционал еще не реализован.",
+                    new MessageOptions());
+                _deviceConnector.Close();
             }
             catch (NullReferenceException)
             {
@@ -125,9 +130,9 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
             }
             catch (Exception ex)
             {
-                _deviceConnector.Close(false);
                 _notifications.ShowWarning("Не удалось записать настройки устройства.\n" + ex.Message, 
                     new MessageOptions());
+                _deviceConnector.Close();
             }
             finally
             {
@@ -184,15 +189,23 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
             }
             catch (TimeoutException)
             {
-                _deviceConnector.Close(false);
                 _notifications.ShowWarning("Не удалось считать настройки устройства. Устройство не отвечает.", 
                     new MessageOptions());
+                _deviceConnector.Close();
+            }
+            catch (NotImplementedException)
+            {
+                await Task.Delay(500);
+
+                _notifications.ShowWarning("Не удалось считать настройки устройства. Данный функционал еще не реализован.",
+                    new MessageOptions());
+                _deviceConnector.Close();
             }
             catch (Exception ex)
             {
-                _deviceConnector.Close(false);
                 _notifications.ShowWarning("Не удалось считать настройки устройства.\n" + ex.Message, 
                     new MessageOptions());
+                _deviceConnector.Close();
             }
             finally
             {

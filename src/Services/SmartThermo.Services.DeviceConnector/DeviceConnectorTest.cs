@@ -3,8 +3,8 @@ using SmartThermo.Services.DeviceConnector.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
-using System.Timers;
 
 namespace SmartThermo.Services.DeviceConnector
 {
@@ -13,7 +13,7 @@ namespace SmartThermo.Services.DeviceConnector
         #region Event
 
         public event EventHandler<StatusConnect> StatusConnectChanged;
-        public event EventHandler<List<SensorInfo>> RegistersRequested;
+        public event EventHandler<List<SensorInfoEventArgs>> RegistersRequested;
 
         #endregion
 
@@ -36,8 +36,7 @@ namespace SmartThermo.Services.DeviceConnector
         public DeviceConnectorTest()
         {
             _random = new Random();
-            _timer = new Timer { Interval = 3000, AutoReset = true };
-            _timer.Elapsed += OnTimerElapsed;
+            _timer = new Timer(new TimerCallback(OnTimer), 0, Timeout.Infinite, Timeout.Infinite);
 
             StatusConnect = StatusConnect.Disconnected;
         }
@@ -46,11 +45,12 @@ namespace SmartThermo.Services.DeviceConnector
 
         #region Method
 
-        private void OnTimerElapsed(object o, ElapsedEventArgs elapsedEventArgs)
+        private void OnTimer(object o)
         {
             var data = Enumerable.Range(0, 36)
-                .Select(_ => new SensorInfo()
+                .Select(_ => new SensorInfoEventArgs()
                 {
+                    Id = _,
                     Temperature = (byte)_random.Next(0, 155),
                     TimeLastBroadcast = (byte)_random.Next(0, 63),
                     IsEmergencyDescent = _random.Next(10) > 5,
@@ -74,37 +74,38 @@ namespace SmartThermo.Services.DeviceConnector
         {
             StopTimer();
 
+            if (!notification)
+                return;
             StatusConnect = StatusConnect.Disconnected;
             StatusConnectChanged?.Invoke(this, StatusConnect);
         }
 
-        public async Task<List<LimitTrigger>> GetLimitTriggerDevice()
+        public async Task<List<LimitTriggerEventArgs>> GetLimitTriggerDevice()
         {
             await Task.Delay(250);
 
             return Enumerable.Range(0, 6)
-                .Select(_ => new LimitTrigger
+                .Select(_ => new LimitTriggerEventArgs
                 {
                     UpperValue = _random.Next(40, 60),
                     LowerValue = _random.Next(10, 30)
                 }).ToList();
         }
 
-        public Task SetLimitTriggerDevice(List<LimitTrigger> limitTriggers)
+        public Task SetLimitTriggerDevice(List<LimitTriggerEventArgs> limitTriggers)
         {
             throw new NotImplementedException();
         }
 
         private void StartTimer()
         {
-            _timer.Enabled = true;
+            _timer.Change(TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(3));
         }
 
         private void StopTimer()
         {
-            _timer.Enabled = false;
+            _timer.Change(Timeout.Infinite, Timeout.Infinite);
         }
-
 
         public Task<SettingDevice> GetSettingDevice()
         {

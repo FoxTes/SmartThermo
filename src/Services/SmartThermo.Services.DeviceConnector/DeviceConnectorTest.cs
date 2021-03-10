@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using SmartThermo.Services.DeviceConnector.BitExtensions;
 
 namespace SmartThermo.Services.DeviceConnector
 {
@@ -36,7 +37,7 @@ namespace SmartThermo.Services.DeviceConnector
         public DeviceConnectorTest()
         {
             _random = new Random();
-            _timer = new Timer(new TimerCallback(OnTimer), 0, Timeout.Infinite, Timeout.Infinite);
+            _timer = new Timer(OnTimer, 0, Timeout.Infinite, Timeout.Infinite);
 
             StatusConnect = StatusConnect.Disconnected;
         }
@@ -47,17 +48,19 @@ namespace SmartThermo.Services.DeviceConnector
 
         private void OnTimer(object o)
         {
-            var data = Enumerable.Range(0, 36)
-                .Select(_ => new SensorInfoEventArgs()
-                {
-                    Id = _,
-                    Temperature = (byte)_random.Next(0, 155),
-                    TimeLastBroadcast = (byte)_random.Next(0, 63),
-                    IsEmergencyDescent = _random.Next(10) > 5,
-                    IsAir = _random.Next(10) > 5,
-                })
-                .ToList();
-            RegistersRequested?.Invoke(this, data);
+            var data = new ushort[36];
+            for (var i = 0; i < 36; i++) 
+                data[i] = (ushort) (i + 30);
+
+            var result = data.Select((x , index)=> new SensorInfoEventArgs
+            {
+                Id = index + 1,
+                Temperature = (byte)data[index],
+                TimeLastBroadcast = (byte)((data[index] & 0b0011_1111_0000_0000) >> 8),
+                IsEmergencyDescent = data[index].IsBitSet(14),
+                IsAir = data[index].IsBitSet(15)
+            }).ToList();
+            RegistersRequested?.Invoke(this, result);
         }
 
         public Task Open()

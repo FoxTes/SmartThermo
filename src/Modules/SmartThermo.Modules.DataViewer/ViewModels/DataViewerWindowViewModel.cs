@@ -12,9 +12,7 @@ namespace SmartThermo.Modules.DataViewer.ViewModels
 {
     public class DataViewerWindowViewModel : ViewModelBase
     {
-        private readonly IDeviceConnector _deviceConnector;
-        private static readonly object _lock = new object();
-
+        private static readonly object Lock = new object();
         private ObservableCollection<SensorsEther> _sensorsEtherItems = new ObservableCollection<SensorsEther>();
 
         public ObservableCollection<SensorsEther> SensorsEtherItems
@@ -25,11 +23,10 @@ namespace SmartThermo.Modules.DataViewer.ViewModels
 
         public DataViewerWindowViewModel(IDeviceConnector deviceConnector)
         {
-            _deviceConnector = deviceConnector;
-            _deviceConnector.RegistersRequested += DeviceConnector_RegistersRequested;
-            _deviceConnector.StatusConnectChanged += DeviceConnector_StatusConnectChanged;
+            deviceConnector.RegistersRequested += DeviceConnector_RegistersRequested;
+            deviceConnector.StatusConnectChanged += DeviceConnector_StatusConnectChanged;
 
-            BindingOperations.EnableCollectionSynchronization(SensorsEtherItems, _lock);
+            BindingOperations.EnableCollectionSynchronization(SensorsEtherItems, Lock);
         }
 
         private void DeviceConnector_StatusConnectChanged(object sender, StatusConnect e)

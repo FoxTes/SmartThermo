@@ -23,6 +23,13 @@ namespace SmartThermo.Services.DeviceConnector
 
         #endregion
 
+        #region Const
+
+        private const int TimeStart = 1;
+        private const int TimePeriod = 3;
+
+        #endregion
+
         #region Field
 
         private readonly SerialPort _serialPort;
@@ -48,7 +55,7 @@ namespace SmartThermo.Services.DeviceConnector
         {
             _serialPort = new SerialPort();
             _modbusFactory = new ModbusFactory();
-            _timer = new Timer(new TimerCallback(OnTimer), 0, Timeout.Infinite, Timeout.Infinite);
+            _timer = new Timer(OnTimer, 0, Timeout.Infinite, Timeout.Infinite);
 
             _notifications = notifications;
             StatusConnect = StatusConnect.Disconnected;
@@ -146,7 +153,7 @@ namespace SmartThermo.Services.DeviceConnector
             const ushort startRegister = (ushort)RegisterAddress.Sensor11;
             const ushort countRegister = 36;
 
-            ushort[] data = new ushort[countRegister];
+            var data = new ushort[countRegister];
             try
             {
                 data = await _modbusSerialMaster.ReadHoldingRegistersAsync(SettingPortPort.AddressDevice,
@@ -163,21 +170,20 @@ namespace SmartThermo.Services.DeviceConnector
                 _notifications.ShowWarning("Не удалось прочитать регистры.\n" + ex.Message, new MessageOptions());
             }
 
-            var result = data.Select(x => new SensorInfoEventArgs
+            var result = data.Select((x , index)=> new SensorInfoEventArgs
             {
-                Id = x,
-                Temperature = (byte)data[x],
-                TimeLastBroadcast = (byte)((data[x] & 0b0011_1111_0000_0000) >> 8),
-                IsEmergencyDescent = data[x].IsBitSet(14),
-                IsAir = data[x].IsBitSet(15)
+                Id = index + 1,
+                Temperature = (byte)data[index],
+                TimeLastBroadcast = (byte)((data[index] & 0b0011_1111_0000_0000) >> 8),
+                IsEmergencyDescent = data[index].IsBitSet(14),
+                IsAir = data[index].IsBitSet(15)
             }).ToList();
             RegistersRequested?.Invoke(this, result);
         }
 
         private void StartTimer()
         {
-            // TODO : константы.
-            _timer.Change(TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(3));
+            _timer.Change(TimeSpan.FromSeconds(TimeStart), TimeSpan.FromSeconds(TimePeriod));
         }
 
         private void StopTimer()

@@ -50,12 +50,12 @@ namespace SmartThermo.Services.DeviceConnector
         {
             var data = new ushort[36];
             for (var i = 0; i < 36; i++) 
-                data[i] = (ushort) (i + 30);
+                data[i] = 0xAC00;
 
             var result = data.Select((x , index)=> new SensorInfoEventArgs
             {
                 Id = index + 1,
-                Temperature = (byte)data[index],
+                Temperature = (byte)_random.Next(40,60),
                 TimeLastBroadcast = (byte)((data[index] & 0b0011_1111_0000_0000) >> 8),
                 IsEmergencyDescent = data[index].IsBitSet(14),
                 IsAir = data[index].IsBitSet(15)

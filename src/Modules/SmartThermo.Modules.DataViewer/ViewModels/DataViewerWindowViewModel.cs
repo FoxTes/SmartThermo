@@ -38,12 +38,12 @@ namespace SmartThermo.Modules.DataViewer.ViewModels
         private void DeviceConnector_RegistersRequested(object sender, List<SensorInfoEventArgs> e)
         {
             var data = e.Where(x => x.IsAir)
-                        .Select(x => new SensorsEther
-                        {
-                            Id = x.Id,
-                            Time = x.TimeLastBroadcast
-                        })
-                        .ToList();
+                                      .Select(x => new SensorsEther
+                                      {
+                                          Id = x.Id,
+                                          Time = x.TimeLastBroadcast
+                                      })
+                                      .ToList();
 
             SensorsEtherItems.Clear();
             SensorsEtherItems.AddRange(data);

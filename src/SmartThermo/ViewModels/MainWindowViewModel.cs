@@ -2,6 +2,7 @@
 using Prism.Commands;
 using Prism.Regions;
 using Prism.Services.Dialogs;
+using SmartThermo.Core;
 using SmartThermo.Core.Mvvm;
 using SmartThermo.DialogExtensions;
 using SmartThermo.Services.DeviceConnector;
@@ -14,7 +15,9 @@ namespace SmartThermo.ViewModels
     public class MainWindowViewModel : RegionViewModelBase
     {
         #region Field
-        
+
+        private IRegionManager _regionManager;
+
         private string _labelButton = "Подключить прибор";
         private bool _isEnableSettings;
 
@@ -45,16 +48,22 @@ namespace SmartThermo.ViewModels
         public MainWindowViewModel(IRegionManager regionManager, IDeviceConnector deviceConnector, INotifications notifications, IDialogService dialogService) 
             : base(regionManager, deviceConnector, notifications, dialogService)
         {
+            _regionManager = regionManager;
+
             DeviceConnector.StatusConnectChanged += (_, connect) =>
             {
                 if (DeviceConnector.StatusConnect == StatusConnect.Connected)
                 {
+                    _regionManager.RequestNavigate(RegionNames.MainContent, "DataViewerWindow");
+
                     IsEnableSettings = true;
                     LabelButton = "Отключить прибор";
                     Notifications.ShowSuccess("Осуществлено подключение к прибору.");
                 }
                 else
                 {
+                    _regionManager.RequestNavigate(RegionNames.MainContent, "NoLoadDataViewerWindow");
+
                     IsEnableSettings = false;
                     LabelButton = "Подключить прибор";
                     Notifications.ShowInformation("Осуществлено отключение от прибора.");

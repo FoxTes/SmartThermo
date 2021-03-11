@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartThermo.Services.Notifi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartThermo.Modules.Dialog.SettingsPort", "src\Modules\SmartThermo.Modules.Dialog.SettingsPort\SmartThermo.Modules.Dialog.SettingsPort.csproj", "{EF8E1B5D-D0EF-4BB5-8B73-3E868306AEA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartThermo.Modules.Dialog.SettingsDevice", "src\Modules\SmartThermo.Modules.Dialog.SettingsDevice\SmartThermo.Modules.Dialog.SettingsDevice.csproj", "{93DB0F40-84BF-4CE0-824A-77FAADD41B7F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartThermo.Modules.Dialog.SettingsDevice", "src\Modules\SmartThermo.Modules.Dialog.SettingsDevice\SmartThermo.Modules.Dialog.SettingsDevice.csproj", "{93DB0F40-84BF-4CE0-824A-77FAADD41B7F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

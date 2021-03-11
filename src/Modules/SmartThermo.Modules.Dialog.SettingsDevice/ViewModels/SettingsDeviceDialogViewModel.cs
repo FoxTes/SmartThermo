@@ -85,7 +85,6 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
             WriteCommand = new DelegateCommand(WriteExecute);
             CancelCommand = new DelegateCommand(CancelExecute);
         }
-
         #endregion
 
         #region Method

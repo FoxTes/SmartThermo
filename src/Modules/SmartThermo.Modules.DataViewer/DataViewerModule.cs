@@ -17,11 +17,12 @@ namespace SmartThermo.Modules.DataViewer
 
         public void OnInitialized(IContainerProvider containerProvider)
         {
-            _regionManager.RequestNavigate(RegionNames.MainContent, "DataViewerWindow");
+            _regionManager.RequestNavigate(RegionNames.MainContent, "NoLoadDataViewerWindow");
         }
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterForNavigation<NoLoadDataViewerWindow>();
             containerRegistry.RegisterForNavigation<DataViewerWindow>();
         }
     }

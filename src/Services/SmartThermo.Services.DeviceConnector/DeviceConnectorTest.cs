@@ -1,11 +1,11 @@
-﻿using SmartThermo.Services.DeviceConnector.Enums;
+﻿using SmartThermo.Services.DeviceConnector.BitExtensions;
+using SmartThermo.Services.DeviceConnector.Enums;
 using SmartThermo.Services.DeviceConnector.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using SmartThermo.Services.DeviceConnector.BitExtensions;
 
 namespace SmartThermo.Services.DeviceConnector
 {
@@ -15,6 +15,7 @@ namespace SmartThermo.Services.DeviceConnector
 
         public event EventHandler<StatusConnect> StatusConnectChanged;
         public event EventHandler<List<SensorInfoEventArgs>> RegistersRequested;
+        public event EventHandler<SettingDeviceEventArgs> SettingDeviceChanged;
 
         #endregion
 
@@ -28,7 +29,10 @@ namespace SmartThermo.Services.DeviceConnector
         #region Property
 
         public StatusConnect StatusConnect { get; private set; }
+
         public SettingPortDevice SettingPortPort { get; set; }
+
+        public SettingDeviceEventArgs SettingDevice { get; private set; }
 
         #endregion
 
@@ -63,14 +67,14 @@ namespace SmartThermo.Services.DeviceConnector
             RegistersRequested?.Invoke(this, result);
         }
 
-        public Task Open()
+        public async Task Open()
         {
+            await GetSettingDevice();
+
             StartTimer();
 
             StatusConnect = StatusConnect.Connected;
             StatusConnectChanged?.Invoke(this, StatusConnect);
-
-            return Task.CompletedTask;
         }
 
         public void Close(bool notification = true)
@@ -83,23 +87,6 @@ namespace SmartThermo.Services.DeviceConnector
             StatusConnectChanged?.Invoke(this, StatusConnect);
         }
 
-        public async Task<List<LimitTriggerEventArgs>> GetLimitTriggerDevice()
-        {
-            await Task.Delay(250);
-
-            return Enumerable.Range(0, 6)
-                .Select(_ => new LimitTriggerEventArgs
-                {
-                    UpperValue = _random.Next(40, 60),
-                    LowerValue = _random.Next(10, 30)
-                }).ToList();
-        }
-
-        public Task SetLimitTriggerDevice(List<LimitTriggerEventArgs> limitTriggers)
-        {
-            throw new NotImplementedException();
-        }
-
         private void StartTimer()
         {
             _timer.Change(TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(3));
@@ -110,13 +97,15 @@ namespace SmartThermo.Services.DeviceConnector
             _timer.Change(Timeout.Infinite, Timeout.Infinite);
         }
 
-        public Task<SettingDevice> GetSettingDevice()
+        public Task<SettingDeviceEventArgs> GetSettingDevice()
         {
+            //TODO: Написать заглушку.
             throw new NotImplementedException();
         }
 
-        public Task SetSettingDevice(SettingDevice settingDevice)
+        public Task SetSettingDevice(SettingDeviceEventArgs settingDevice)
         {
+            //TODO: Написать заглушку.
             throw new NotImplementedException();
         }
 

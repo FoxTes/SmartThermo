@@ -97,7 +97,7 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
             var isSuccessful = false;
             try
             {
-                var setting = new SettingDevice
+                var setting = new SettingDeviceEventArgs
                 {
                     TemperatureThreshold = TemperatureThreshold,
                     TemperatureHysteresis = (ushort) ((TemperatureHysteresis[1] << 8) | TemperatureHysteresis[0]),

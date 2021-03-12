@@ -17,7 +17,12 @@ namespace SmartThermo.Services.DeviceConnector
         /// Событие, возникающие при изменение состояние подключения к прибору.
         /// </summary>
         event EventHandler<StatusConnect> StatusConnectChanged;
-        
+
+        /// <summary>
+        /// Событие, возникающие при настроек прибора.
+        /// </summary>
+        event EventHandler<SettingDeviceEventArgs> SettingDeviceChanged;
+
         /// <summary>
         /// Получает значение, указывающее состояние соединения с прибором.
         /// </summary>
@@ -27,7 +32,12 @@ namespace SmartThermo.Services.DeviceConnector
         /// Возвращает или задает настройки порта.
         /// </summary>
         SettingPortDevice SettingPortPort { get; set; }
-        
+
+        /// <summary>
+        /// Возвращает или задает настройки порта.
+        /// </summary>
+        SettingDeviceEventArgs SettingDevice { get; }
+
         /// <summary>
         /// Открывает новое соединение с прибором.
         /// </summary>
@@ -44,24 +54,12 @@ namespace SmartThermo.Services.DeviceConnector
         /// Получает общие настройки прибора.
         /// </summary>
         /// <returns></returns>
-        Task<SettingDevice> GetSettingDevice();
+        Task<SettingDeviceEventArgs> GetSettingDevice();
 
         /// <summary>
         /// Получает общие настройки прибора.
         /// </summary>
         /// <returns></returns>
-        Task SetSettingDevice(SettingDevice settingDevice);
-
-        /// <summary>
-        /// Устанавливает общие настройки прибора.
-        /// </summary>
-        /// <returns></returns>
-        Task<List<LimitTriggerEventArgs>> GetLimitTriggerDevice();
-        
-        /// <summary>
-        /// Устанавливает настройки прибора для графиков.
-        /// </summary>
-        /// <returns></returns>
-        Task SetLimitTriggerDevice(List<LimitTriggerEventArgs> limitTriggers);
+        Task SetSettingDevice(SettingDeviceEventArgs settingDevice);
     }
 }

@@ -90,10 +90,7 @@
                             Values="{Binding ChartValues[5]}" />
                     </lvc:CartesianChart.Series>
                     <lvc:CartesianChart.AxisY>
-                        <lvc:Axis
-                            FontSize="{DynamicResource CaptionTextBlockStyle}"
-                            MaxValue="100"
-                            MinValue="0">
+                        <lvc:Axis MaxValue="100" MinValue="0">
                             <lvc:Axis.Separator>
                                 <lvc:Separator Stroke="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}" StrokeThickness="1" />
                             </lvc:Axis.Separator>
@@ -101,7 +98,6 @@
                     </lvc:CartesianChart.AxisY>
                     <lvc:CartesianChart.AxisX>
                         <lvc:Axis
-                            FontSize="{DynamicResource CaptionTextBlockStyle}"
                             LabelFormatter="{Binding DateTimeFormatter}"
                             MaxValue="{Binding AxisMax}"
                             MinValue="{Binding AxisMin}"
@@ -122,9 +118,7 @@
                 Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
                 <lvc:CartesianChart
                     Margin="8"
-                    DataTooltip="{x:Null}"
                     DisableAnimations="True"
-                    Hoverable="False"
                     LegendLocation="Top">
                     <lvc:CartesianChart.Series>
                         <lvc:LineSeries
@@ -178,9 +172,19 @@
                     </lvc:CartesianChart.Series>
                     <lvc:CartesianChart.AxisY>
                         <lvc:Axis
-                            FontSize="{DynamicResource CaptionTextBlockStyle}"
+                            FontSize="12"
                             MaxValue="100"
                             MinValue="0">
+                            <lvc:Axis.Sections>
+                                <lvc:AxisSection
+                                    Stroke="red"
+                                    StrokeThickness="3"
+                                    Value="{Binding LimitTriggers[1].UpperValue}" />
+                                <lvc:AxisSection
+                                    Stroke="Green"
+                                    StrokeThickness="3"
+                                    Value="{Binding LimitTriggers[1].LowerValue}" />
+                            </lvc:Axis.Sections>
                             <lvc:Axis.Separator>
                                 <lvc:Separator Stroke="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}" StrokeThickness="1" />
                             </lvc:Axis.Separator>
@@ -188,7 +192,7 @@
                     </lvc:CartesianChart.AxisY>
                     <lvc:CartesianChart.AxisX>
                         <lvc:Axis
-                            FontSize="{DynamicResource CaptionTextBlockStyle}"
+                            FontSize="12"
                             LabelFormatter="{Binding DateTimeFormatter}"
                             MaxValue="{Binding AxisMax}"
                             MinValue="{Binding AxisMin}"
@@ -264,10 +268,7 @@
                             Values="{Binding ChartValues[5]}" />
                     </lvc:CartesianChart.Series>
                     <lvc:CartesianChart.AxisY>
-                        <lvc:Axis
-                            FontSize="{DynamicResource CaptionTextBlockStyle}"
-                            MaxValue="100"
-                            MinValue="0">
+                        <lvc:Axis MaxValue="100" MinValue="0">
                             <lvc:Axis.Separator>
                                 <lvc:Separator Stroke="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}" StrokeThickness="1" />
                             </lvc:Axis.Separator>
@@ -275,7 +276,6 @@
                     </lvc:CartesianChart.AxisY>
                     <lvc:CartesianChart.AxisX>
                         <lvc:Axis
-                            FontSize="{DynamicResource CaptionTextBlockStyle}"
                             LabelFormatter="{Binding DateTimeFormatter}"
                             MaxValue="{Binding AxisMax}"
                             MinValue="{Binding AxisMin}"

@@ -85,10 +85,7 @@ namespace SmartThermo.Services.DeviceConnector
             };
             _modbusSerialMaster = _modbusFactory.CreateRtuMaster(_serialPortAdapter);
 
-            // TODO : Тут получаем настройки.
-            await _modbusSerialMaster.ReadHoldingRegistersAsync(SettingPortPort.AddressDevice,
-                (ushort)RegisterAddress.FirmwareVersion, 1);
-
+            await GetSettingDevice();
             StartTimer();
 
             StatusConnect = StatusConnect.Connected;
@@ -109,7 +106,7 @@ namespace SmartThermo.Services.DeviceConnector
             StatusConnectChanged?.Invoke(this, StatusConnect);
         }
 
-        public async Task<SettingDeviceEventArgs> GetSettingDevice()
+        public async Task GetSettingDevice()
         {
             // TODO : Расширить на все настройки.
             const ushort startRegister = (ushort)RegisterAddress.TemperatureThreshold1;
@@ -119,7 +116,7 @@ namespace SmartThermo.Services.DeviceConnector
             var data = await _modbusSerialMaster.ReadHoldingRegistersAsync(SettingPortPort.AddressDevice,
                 startRegister, countRegister);
 
-            return new SettingDeviceEventArgs()
+            SettingDevice = new SettingDeviceEventArgs()
             {
                 TemperatureThreshold = new List<ushort> { data[0], data[1] },
                 TemperatureHysteresis = data[3],
@@ -131,6 +128,8 @@ namespace SmartThermo.Services.DeviceConnector
         public async Task SetSettingDevice(SettingDeviceEventArgs settingDevice)
         {
             // TODO : Расширить на все настройки.
+            SettingDevice = settingDevice;
+            
             const ushort startRegister = (ushort)RegisterAddress.TemperatureThreshold1;
             var data = new[]
             {

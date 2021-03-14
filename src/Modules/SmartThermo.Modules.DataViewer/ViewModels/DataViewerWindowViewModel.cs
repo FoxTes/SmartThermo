@@ -90,7 +90,7 @@ namespace SmartThermo.Modules.DataViewer.ViewModels
             SensorsEtherItems.AddRange(data);
 
             var now = DateTime.Now;
-            for (int i = 0; i < 6; i++)
+            for (var i = 0; i < 6; i++)
                 ChartValues[i].Add(new MeasureData
                 {
                     DateTime = now,
@@ -98,9 +98,8 @@ namespace SmartThermo.Modules.DataViewer.ViewModels
                 });
 
             SetAxisLimits(now);
-            foreach (var item in ChartValues)
-                if (item.Count > 20)
-                    ChartValues.RemoveAt(0);
+            foreach (var item in ChartValues.Where(item => item.Count > 30))
+                item.RemoveAt(0);
         }
 
         private void InitCharts()
@@ -111,7 +110,7 @@ namespace SmartThermo.Modules.DataViewer.ViewModels
             Charting.For<MeasureData>(mapper);
 
             ChartValues = new List<ChartValues<MeasureData>>();
-            for (int i = 0; i < 6; i++)
+            for (var i = 0; i < 6; i++)
                 ChartValues.Add(new ChartValues<MeasureData>());
 
             DateTimeFormatter = value => new DateTime((long)value).ToString("mm:ss");

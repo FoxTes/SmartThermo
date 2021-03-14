@@ -70,7 +70,6 @@ namespace SmartThermo.Services.DeviceConnector
         public async Task Open()
         {
             await GetSettingDevice();
-
             StartTimer();
 
             StatusConnect = StatusConnect.Connected;
@@ -97,16 +96,29 @@ namespace SmartThermo.Services.DeviceConnector
             _timer.Change(Timeout.Infinite, Timeout.Infinite);
         }
 
-        public Task<SettingDeviceEventArgs> GetSettingDevice()
+        public async Task GetSettingDevice()
         {
-            //TODO: Написать заглушку.
-            throw new NotImplementedException();
+            await Task.Delay(500);
+            SettingDevice = new SettingDeviceEventArgs()
+            {
+                AddressDevice = 3,
+                Speed = 0,
+                Parity = 1,
+                NumberChanelId = 1029,
+                TemperatureThreshold = new List<ushort> { 50, 30 },
+                TemperatureHysteresis = 1285,
+                DelaySignalRelays = 257,
+                BindingSensorRelay1 = 1,
+                BindingSensorRelay2 = 2,
+                BindingSensorRelay3 = 4,
+                StatusAlarmRelay = 7
+            };
         }
 
-        public Task SetSettingDevice(SettingDeviceEventArgs settingDevice)
+        public async Task SetSettingDevice(SettingDeviceEventArgs settingDevice)
         {
-            //TODO: Написать заглушку.
-            throw new NotImplementedException();
+            SettingDevice = settingDevice;
+            await Task.Delay(500);
         }
 
         #endregion

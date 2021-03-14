@@ -3,7 +3,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:enum="clr-namespace:SmartThermo.Modules.Dialog.SettingsPort.Enums"
+    xmlns:enum="clr-namespace:SmartThermo.Modules.Dialog.SettingsPort.Enums;assembly=SmartThermo.Modules.Dialog.SettingsPort"
+    xmlns:io="clr-namespace:System.IO.Ports;assembly=System.IO.Ports"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:sys="clr-namespace:System;assembly=System.Runtime"
@@ -25,7 +26,7 @@
         </Style>
     </prism:Dialog.WindowStyle>
 
-    <!--<UserControl.Resources>
+    <UserControl.Resources>
         <ObjectDataProvider
             x:Key="BaudRateValues"
             MethodName="GetValues"
@@ -34,7 +35,15 @@
                 <x:Type TypeName="enum:BaudRate" />
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
-    </UserControl.Resources>-->
+        <ObjectDataProvider
+            x:Key="ParityValues"
+            MethodName="GetValues"
+            ObjectType="{x:Type sys:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="io:Parity" />
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </UserControl.Resources>
 
     <Grid Margin="16,8,16,16" IsEnabled="{Binding IsEnable}">
 
@@ -45,7 +54,7 @@
 
         <TabControl Style="{StaticResource TabControlPivotStyle}">
             <TabItem Header="Прибор">
-                <Grid Margin="0,8,0,0">
+                <Grid Height="370" Margin="0,8,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="275" />
                         <ColumnDefinition Width="275" />
@@ -55,25 +64,23 @@
                         <GroupBox MinHeight="100" Header="Порт">
                             <StackPanel x:Name="Panel">
                                 <ui:NumberBox
-                                    Header="Адрес прибора"
+                                    Header="Адрес прибора в сети"
                                     Maximum="247"
                                     Minimum="0"
                                     PlaceholderText="[0-247]"
-                                    Value="{Binding TemperatureThreshold[0]}" />
+                                    Value="{Binding AddressDeviceInModbus}" />
 
                                 <TextBlock Margin="0,8,0,4" Text="Скорость обмена" />
                                 <ComboBox
-                                    Grid.Column="1"
                                     Width="{Binding Path=ActualWidth, ElementName=Panel}"
                                     ItemsSource="{Binding Source={StaticResource BaudRateValues}}"
                                     SelectedItem="{Binding BaudRateSelected}" />
 
-                                <TextBlock Margin="0,8,0,4" Text="Скорость обмена" />
+                                <TextBlock Margin="0,8,0,4" Text="Паритет" />
                                 <ComboBox
-                                    Grid.Column="1"
                                     Width="{Binding Path=ActualWidth, ElementName=Panel}"
-                                    ItemsSource="{Binding Source={StaticResource BaudRateValues}}"
-                                    SelectedItem="{Binding BaudRateSelected}" />
+                                    ItemsSource="{Binding Source={StaticResource ParityValues}}"
+                                    SelectedItem="{Binding ParitySelected}" />
                             </StackPanel>
                         </GroupBox>
                     </StackPanel>
@@ -91,21 +98,21 @@
                                     Maximum="126"
                                     Minimum="1"
                                     PlaceholderText="[1-126]"
-                                    Value="{Binding DelaySignalRelays[0]}" />
+                                    Value="{Binding CommunicationChanelNumber}" />
                                 <ui:NumberBox
                                     Margin="0,8,0,0"
-                                    Header="Частотногканала модема"
+                                    Header="Частотный канала модема"
                                     Maximum="255"
                                     Minimum="0"
                                     PlaceholderText="[0-255]"
-                                    Value="{Binding DelaySignalRelays[1]}" />
+                                    Value="{Binding ModemFrequencyChannelNumber}" />
                             </StackPanel>
                         </GroupBox>
                     </StackPanel>
                 </Grid>
             </TabItem>
             <TabItem Header="Температура">
-                <Grid Height="365" Margin="0,8,0,0">
+                <Grid Height="370" Margin="0,8,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="275" />
                         <ColumnDefinition Width="275" />
@@ -199,19 +206,76 @@
                 </Grid>
             </TabItem>
             <TabItem Header="Датчик">
-                <Grid Height="150" Margin="0,8,0,0">
+                <Grid Height="370" Margin="0,8,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="275" />
                         <ColumnDefinition Width="275" />
                     </Grid.ColumnDefinitions>
+
+                    <StackPanel MinWidth="250" HorizontalAlignment="Left">
+                        <GroupBox MinHeight="100" Header="Реле">
+                            <StackPanel>
+                                <TextBlock Margin="0,0,0,4" Text="Номер реле" />
+                                <ComboBox
+                                    Width="{Binding Path=ActualWidth, ElementName=Panel}"
+                                    DisplayMemberPath="Name"
+                                    ItemsSource="{Binding RelayNumber}"
+                                    SelectedValue="{Binding RelayNumberSelected}"
+                                    SelectedValuePath="Value" />
+
+                                <TextBlock Margin="0,8,0,4" Text="Группа" />
+                                <ListView
+                                    BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
+                                    BorderThickness="1"
+                                    ItemsSource="{Binding GroupCheckItems}">
+                                    <!--  Because CheckBox indicates selection, hide standard ListBox  -->
+                                    <!--  selection behavior  -->
+                                    <ListBox.ItemContainerStyle>
+                                        <Style TargetType="{x:Type ListBoxItem}">
+                                            <Setter Property="Focusable" Value="False" />
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
+                                    <!--  Each item in list is a CheckBox  -->
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <CheckBox
+                                                Margin="8,0,0,0"
+                                                Content="{Binding Name}"
+                                                IsChecked="{Binding Enable}" />
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListView>
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+                    <StackPanel
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        MinWidth="250"
+                        Margin="24,0,0,0"
+                        HorizontalAlignment="Left">
+
+                        <GroupBox MinHeight="100" Header="Настройки">
+                            <StackPanel>
+                                <TextBlock Margin="0,0,0,4" Text="Логика работы" />
+                                <ui:ToggleSwitch
+                                    IsOn="{Binding StatusAlarmRelay[0]}"
+                                    OffContent="Негативная"
+                                    OnContent="Позитивная" />
+                                <ui:RadioButtons Margin="0,10,0,0" Header="Привязка">
+                                    <RadioButton Content="Реле не используется" />
+                                    <RadioButton Content="Сигнализация исправности канала связи" />
+                                    <RadioButton Content="Температурный порог 1" />
+                                    <RadioButton Content="Температурный порог 2" />
+                                </ui:RadioButtons>
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
                 </Grid>
             </TabItem>
         </TabControl>
 
-        <Grid
-            Grid.Row="1"
-            Grid.Column="1"
-            Margin="8,16,0,0">
+        <Grid Grid.Row="1" Margin="8,16,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -236,6 +300,5 @@
                     Style="{DynamicResource AccentButtonStyle}" />
             </Grid>
         </Grid>
-
     </Grid>
 </UserControl>

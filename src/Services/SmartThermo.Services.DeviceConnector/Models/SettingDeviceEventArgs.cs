@@ -18,12 +18,12 @@ namespace SmartThermo.Services.DeviceConnector.Models
         /// <summary>
         /// Паритет [0 - без проверки(два стоп - бита), 1 - четность(even)(один стоп-бит), 2 - нечетность(odd)(один стоп-бит)].
         /// </summary>
-        public ushort Parite { get; set; }
+        public ushort Parity { get; set; }
 
         /// <summary>
-        /// Номер канала связи и ID. 00..07 номер частотного канала модема [1-126] 08..15 ID[0..255].
+        /// Номер канала связи и ID. 00..07 [1-126] номер частотного канала модема 08..15 ID[0-255].
         /// </summary>
-        public ushort NumberChanelld { get; set; }
+        public ushort NumberChanelId { get; set; }
 
         /// <summary>
         /// Температурный порог в градусах Цельсия (00..07) [0 - 155].

@@ -134,13 +134,12 @@ namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
             {
                 await _deviceConnector.Open();
             }
-
             catch (TimeoutException)
             {
-                _notifications.ShowWarning("Устройство не отвечает.", new MessageOptions());
-                _deviceConnector.Close(false);
+                _notifications.ShowWarning("Не удалось считать настройки устройства. Устройство не отвечает.",
+                    new MessageOptions());
+                _deviceConnector.Close();
             }
-
             catch (Exception ex)
             {
                 _notifications.ShowWarning("Не удалось открыть соединение.\n" + ex.Message, new MessageOptions());

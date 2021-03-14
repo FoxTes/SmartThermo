@@ -54,12 +54,6 @@ namespace SmartThermo.Services.DeviceConnector
         /// Получает общие настройки прибора.
         /// </summary>
         /// <returns></returns>
-        Task<SettingDeviceEventArgs> GetSettingDevice();
-
-        /// <summary>
-        /// Получает общие настройки прибора.
-        /// </summary>
-        /// <returns></returns>
         Task SetSettingDevice(SettingDeviceEventArgs settingDevice);
     }
 }

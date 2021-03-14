@@ -113,6 +113,7 @@
                 </lvc:CartesianChart>
             </Grid>
             <Grid
+                Grid.Row="0"
                 Grid.Column="1"
                 Margin="8"
                 Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
@@ -176,14 +177,16 @@
                             MaxValue="100"
                             MinValue="0">
                             <lvc:Axis.Sections>
-                                <lvc:AxisSection
-                                    Stroke="red"
-                                    StrokeThickness="3"
-                                    Value="{Binding LimitTriggers[1].UpperValue}" />
-                                <lvc:AxisSection
-                                    Stroke="Green"
-                                    StrokeThickness="3"
-                                    Value="{Binding LimitTriggers[1].LowerValue}" />
+                                <lvc:AxisSection SectionWidth="10" Value="60">
+                                    <lvc:AxisSection.Fill>
+                                        <SolidColorBrush Opacity=".4" Color="red" />
+                                    </lvc:AxisSection.Fill>
+                                </lvc:AxisSection>
+                                <lvc:AxisSection SectionWidth="10" Value="20">
+                                    <lvc:AxisSection.Fill>
+                                        <SolidColorBrush Opacity=".4" Color="Green" />
+                                    </lvc:AxisSection.Fill>
+                                </lvc:AxisSection>
                             </lvc:Axis.Sections>
                             <lvc:Axis.Separator>
                                 <lvc:Separator Stroke="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}" StrokeThickness="1" />
@@ -209,6 +212,7 @@
             </Grid>
             <Grid
                 Grid.Row="1"
+                Grid.Column="0"
                 Margin="8"
                 Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
                 <lvc:CartesianChart

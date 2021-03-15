@@ -108,9 +108,9 @@ namespace SmartThermo.Services.DeviceConnector
                 TemperatureThreshold = new List<ushort> { 50, 30 },
                 TemperatureHysteresis = 1285,
                 DelaySignalRelays = 257,
-                BindingSensorRelay1 = 1,
-                BindingSensorRelay2 = 2,
-                BindingSensorRelay3 = 4,
+                BindingSensorRelay1 = 513,
+                BindingSensorRelay2 = 769,
+                BindingSensorRelay3 = 0,
                 StatusAlarmRelay = 7
             };
         }
@@ -119,6 +119,7 @@ namespace SmartThermo.Services.DeviceConnector
         {
             SettingDevice = settingDevice;
             await Task.Delay(500);
+            SettingDeviceChanged?.Invoke(this, settingDevice);
         }
 
         #endregion

@@ -4,7 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:enum="clr-namespace:SmartThermo.Modules.Dialog.SettingsPort.Enums;assembly=SmartThermo.Modules.Dialog.SettingsPort"
+    xmlns:enums="clr-namespace:SmartThermo.Modules.Dialog.SettingsDevice.Enums"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:io="clr-namespace:System.IO.Ports;assembly=System.IO.Ports"
+    xmlns:local="clr-namespace:SmartThermo.Modules.Dialog.SettingsDevice.Converter"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:sys="clr-namespace:System;assembly=System.Runtime"
@@ -43,6 +46,8 @@
                 <x:Type TypeName="io:Parity" />
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
+
+        <local:ComparisonConverter x:Key="ComparisonConverter" />
     </UserControl.Resources>
 
     <Grid Margin="16,8,16,16" IsEnabled="{Binding IsEnable}">
@@ -53,8 +58,15 @@
         </Grid.RowDefinitions>
 
         <TabControl Style="{StaticResource TabControlPivotStyle}">
-            <TabItem Header="Прибор">
-                <Grid Height="370" Margin="0,8,0,0">
+            <TabItem
+                Header="Прибор"
+                KeyboardNavigation.IsTabStop="False"
+                KeyboardNavigation.TabNavigation="None">
+                <Grid
+                    Height="370"
+                    Margin="0,8,0,0"
+                    KeyboardNavigation.IsTabStop="False"
+                    KeyboardNavigation.TabNavigation="None">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="275" />
                         <ColumnDefinition Width="275" />
@@ -111,8 +123,15 @@
                     </StackPanel>
                 </Grid>
             </TabItem>
-            <TabItem Header="Температура">
-                <Grid Height="370" Margin="0,8,0,0">
+            <TabItem
+                Header="Температура"
+                KeyboardNavigation.IsTabStop="False"
+                KeyboardNavigation.TabNavigation="None">
+                <Grid
+                    Height="370"
+                    Margin="0,8,0,0"
+                    KeyboardNavigation.IsTabStop="False"
+                    KeyboardNavigation.TabNavigation="None">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="275" />
                         <ColumnDefinition Width="275" />
@@ -205,8 +224,15 @@
                     </StackPanel>
                 </Grid>
             </TabItem>
-            <TabItem Header="Датчик">
-                <Grid Height="370" Margin="0,8,0,0">
+            <TabItem
+                Header="Датчик"
+                KeyboardNavigation.IsTabStop="False"
+                KeyboardNavigation.TabNavigation="None">
+                <Grid
+                    Height="370"
+                    Margin="0,8,0,0"
+                    KeyboardNavigation.IsTabStop="False"
+                    KeyboardNavigation.TabNavigation="None">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="275" />
                         <ColumnDefinition Width="275" />
@@ -227,15 +253,12 @@
                                 <ListView
                                     BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
                                     BorderThickness="1"
-                                    ItemsSource="{Binding GroupCheckItems}">
-                                    <!--  Because CheckBox indicates selection, hide standard ListBox  -->
-                                    <!--  selection behavior  -->
+                                    ItemsSource="{Binding GroupCheckItems, Mode=TwoWay}">
                                     <ListBox.ItemContainerStyle>
                                         <Style TargetType="{x:Type ListBoxItem}">
                                             <Setter Property="Focusable" Value="False" />
                                         </Style>
                                     </ListBox.ItemContainerStyle>
-                                    <!--  Each item in list is a CheckBox  -->
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <CheckBox
@@ -244,6 +267,7 @@
                                                 IsChecked="{Binding Enable}" />
                                         </DataTemplate>
                                     </ListBox.ItemTemplate>
+
                                 </ListView>
                             </StackPanel>
                         </GroupBox>
@@ -259,14 +283,14 @@
                             <StackPanel>
                                 <TextBlock Margin="0,0,0,4" Text="Логика работы" />
                                 <ui:ToggleSwitch
-                                    IsOn="{Binding StatusAlarmRelay[0]}"
+                                    IsOn="{Binding WorkLogic, Mode=TwoWay}"
                                     OffContent="Негативная"
                                     OnContent="Позитивная" />
                                 <ui:RadioButtons Margin="0,10,0,0" Header="Привязка">
-                                    <RadioButton Content="Реле не используется" />
-                                    <RadioButton Content="Сигнализация исправности канала связи" />
-                                    <RadioButton Content="Температурный порог 1" />
-                                    <RadioButton Content="Температурный порог 2" />
+                                    <RadioButton Content="Реле не используется" IsChecked="{Binding Path=BindingRelayMode, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static enums:BindingRelay.NotUsed}}" />
+                                    <RadioButton Content="Сигнализация исправности канала связи" IsChecked="{Binding Path=BindingRelayMode, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static enums:BindingRelay.СommunicationChanelFailure}}" />
+                                    <RadioButton Content="Температурный порог 1" IsChecked="{Binding Path=BindingRelayMode, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static enums:BindingRelay.TemperatureThreshold1}}" />
+                                    <RadioButton Content="Температурный порог 2" IsChecked="{Binding Path=BindingRelayMode, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static enums:BindingRelay.TemperatureThreshold2}}" />
                                 </ui:RadioButtons>
                             </StackPanel>
                         </GroupBox>

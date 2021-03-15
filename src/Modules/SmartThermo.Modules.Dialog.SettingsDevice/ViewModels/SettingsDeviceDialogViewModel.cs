@@ -1,6 +1,8 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
+using SmartThermo.Modules.Dialog.SettingsDevice.Enums;
+using SmartThermo.Modules.Dialog.SettingsDevice.Extensions;
 using SmartThermo.Modules.Dialog.SettingsDevice.Models;
 using SmartThermo.Modules.Dialog.SettingsPort.Enums;
 using SmartThermo.Services.DeviceConnector;
@@ -9,9 +11,7 @@ using SmartThermo.Services.DeviceConnector.Models;
 using SmartThermo.Services.Notifications;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO.Ports;
-using System.Threading.Tasks;
 using ToastNotifications.Core;
 
 namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
@@ -43,10 +43,12 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
         private List<byte> _delaySignalRelays;
         private List<bool> _statusAlarmRelay;
 
-        private ObservableCollection<GroupInfo> _groupCheckItems = new ObservableCollection<GroupInfo>();
+        private readonly List<ushort> _dataGroupCheckItems = new List<ushort>();
+        private ObservableCollectionExtension<GroupInfo> _groupCheckItems  = new ObservableCollectionExtension<GroupInfo>();
         private List<RelayNumber> _relayNumber;
         private int _relayNumberSelected;
         private bool _workLogic;
+        private BindingRelay _bindingRelayMode;
 
         #endregion
 
@@ -106,7 +108,7 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
             set => SetProperty(ref _statusAlarmRelay, value);
         }
 
-        public ObservableCollection<GroupInfo> GroupCheckItems
+        public ObservableCollectionExtension<GroupInfo> GroupCheckItems
         {
             get => _groupCheckItems;
             set => SetProperty(ref _groupCheckItems, value);
@@ -131,7 +133,21 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
         public bool WorkLogic
         {
             get => _workLogic;
-            set => SetProperty(ref _workLogic, value);
+            set
+            {
+                SetProperty(ref _workLogic, value);
+                SetGroupCheckItems();
+            }
+        }
+
+        public BindingRelay BindingRelayMode
+        {
+            get => _bindingRelayMode;
+            set
+            {
+                SetProperty(ref _bindingRelayMode, value);
+                SetGroupCheckItems();
+            }
         }
 
         public bool IsEnable
@@ -155,6 +171,16 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
             _deviceConnector = deviceConnector;
             _notifications = notifications;
 
+            _dataGroupCheckItems.Add(_deviceConnector.SettingDevice.BindingSensorRelay1);
+            _dataGroupCheckItems.Add(_deviceConnector.SettingDevice.BindingSensorRelay2);
+            _dataGroupCheckItems.Add(_deviceConnector.SettingDevice.BindingSensorRelay3);
+
+            for (var i = 0; i < 6; i++)
+                GroupCheckItems.Add(new GroupInfo
+                {
+                    Name = $"Группа {i + 1} (датчики {(i + 1) * 10 + 1}-{(i + 1) * 10 + 7})"
+                });
+
             RelayNumber = new List<RelayNumber>
             {
                 new RelayNumber {Name = "Реле №1", Value = 1},
@@ -165,7 +191,9 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
 
             WriteCommand = new DelegateCommand(WriteExecute);
             CancelCommand = new DelegateCommand(CancelExecute);
+            GroupCheckItems.CollectionChanged += (sender, args) => SetGroupCheckItems();
         }
+        
         #endregion
 
         #region Method
@@ -183,12 +211,16 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
                     TemperatureThreshold = TemperatureThreshold,
                     TemperatureHysteresis = (ushort)((TemperatureHysteresis[1] << 8) | TemperatureHysteresis[0]),
                     DelaySignalRelays = (ushort)((DelaySignalRelays[1] << 8) | DelaySignalRelays[0]),
+                    BindingSensorRelay1 = _dataGroupCheckItems[0],
+                    BindingSensorRelay2 = _dataGroupCheckItems[1],
+                    BindingSensorRelay3 = _dataGroupCheckItems[2],
                     StatusAlarmRelay = (ushort)((StatusAlarmRelay[2] ? 0x04 : 0x00) |
                                                  (StatusAlarmRelay[1] ? 0x02 : 0x00) |
                                                  (StatusAlarmRelay[0] ? 0x01 : 0x00))
                 };
                 await _deviceConnector.SetSettingDevice(setting);
 
+                _notifications.ShowInformation("Насйтроки успешно записаны.");
                 isSuccessful = true;
             }
             catch (TimeoutException)
@@ -230,23 +262,24 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
 
         private void UpdateGroupCheckItems(int value)
         {
-            ushort data = value switch
-            {
-                1 => _deviceConnector.SettingDevice.BindingSensorRelay1,
-                2 => _deviceConnector.SettingDevice.BindingSensorRelay2,
-                3 => _deviceConnector.SettingDevice.BindingSensorRelay3,
-                _ => 0
-            };
+            var data = _dataGroupCheckItems[value - 1];
 
-            GroupCheckItems.Clear();
             for (var i = 0; i < 6; i++)
-                GroupCheckItems.Add(new GroupInfo
-                {
-                    Name = $"Группа {i + 1} (датчики {(i + 1) * 10 + 1}-{(i + 1) * 10 + 7})",
-                    Enable = data.IsBitSet(i)
-                });
-
+                GroupCheckItems[i].Enable = data.IsBitSet(i);
             WorkLogic = data.IsBitSet(7);
+            BindingRelayMode = (BindingRelay)((data & 0b0000_0011_0000_0000) >> 8);
+        }
+
+        private void SetGroupCheckItems()
+        {
+            ushort data = 0;
+
+            for (var i = 0; i < _groupCheckItems.Count; i++)
+                data |= _groupCheckItems[i].Enable ? (ushort)(1 << i) : (ushort)0x00;
+            data |= _workLogic ? (ushort)0x80 : (ushort)0x00;
+            data |= (ushort)((int)_bindingRelayMode << 8);
+
+            _dataGroupCheckItems[_relayNumberSelected - 1] = data;
         }
 
         public void OnDialogClosed()

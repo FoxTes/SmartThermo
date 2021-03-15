@@ -128,8 +128,6 @@ namespace SmartThermo.Services.DeviceConnector
         public async Task SetSettingDevice(SettingDeviceEventArgs settingDevice)
         {
             // TODO : Расширить на все настройки.
-            SettingDevice = settingDevice;
-            
             const ushort startRegister = (ushort)RegisterAddress.TemperatureThreshold1;
             var data = new[]
             {
@@ -143,6 +141,8 @@ namespace SmartThermo.Services.DeviceConnector
                 startRegister, data);
             await _modbusSerialMaster.WriteSingleRegisterAsync(SettingPortPort.AddressDevice,
                 (ushort)RegisterAddress.StatusAlarmRelay, settingDevice.StatusAlarmRelay);
+
+            SettingDevice = settingDevice;
         }
 
         private async void OnTimer(object state)

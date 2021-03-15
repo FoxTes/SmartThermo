@@ -43,7 +43,11 @@ namespace SmartThermo
             }));
 
             containerRegistry.RegisterInstance<INotifications>(instance);
-            containerRegistry.RegisterSingleton<IDeviceConnector, DeviceConnectorTest>();
+            #if DEBUG
+                containerRegistry.RegisterSingleton<IDeviceConnector, DeviceConnectorTest>();
+            #else
+                containerRegistry.RegisterSingleton<IDeviceConnector, DeviceConnector>();
+            #endif
 
             containerRegistry.RegisterDialog<SettingsPortDialog, SettingsPortDialogViewModel>();
             containerRegistry.RegisterDialog<SettingsDeviceDialog, SettingsDeviceDialogViewModel>();
@@ -53,5 +57,7 @@ namespace SmartThermo
         {
             moduleCatalog.AddModule<DataViewerModule>();
         }
+
+        // TODO: 1) Разобраться с гистерезисом на графиках. 2) Добавить проверку на наложение гистерезиса. 3) Добавить проверку на режим. 4) Зум графиков. 5) Далее с аналитикой.
     }
 }

@@ -11,5 +11,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\SmartThermo.Core\SmartThermo.Core.csproj" />
+    <ProjectReference Include="..\SmartThermo.Modules.Dialog.SettingsDevice\SmartThermo.Modules.Dialog.SettingsDevice.csproj" />
   </ItemGroup>
 </Project>

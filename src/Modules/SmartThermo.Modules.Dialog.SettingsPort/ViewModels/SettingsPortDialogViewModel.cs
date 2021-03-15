@@ -138,7 +138,7 @@ namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
             {
                 _notifications.ShowWarning("Не удалось считать настройки устройства. Устройство не отвечает.",
                     new MessageOptions());
-                _deviceConnector.Close();
+                _deviceConnector.Close(false);
             }
             catch (Exception ex)
             {

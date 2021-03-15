@@ -161,9 +161,13 @@ namespace SmartThermo.Modules.DataViewer.ViewModels
                 {
                     for (var i = 0; i < LimitRelayItems.Count; i++)
                     {
-                        LimitRelayItems[i].TemperatureThreshold1 = (byte) (data.IsBitSet(i) ? _deviceConnector.SettingDevice.TemperatureThreshold[0] : 0);
-                        LimitRelayItems[i].HysteresisThreshold1 = (byte) (_deviceConnector.SettingDevice.TemperatureHysteresis &
-                                                                          0b0000_0000_1111_1111);
+                        LimitRelayItems[i].HysteresisThreshold1 = data.IsBitSet(i)
+                            ? (_deviceConnector.SettingDevice.TemperatureHysteresis & 0b0000_0000_1111_1111) * 2d
+                            : 0;
+
+                        LimitRelayItems[i].TemperatureThreshold1 = data.IsBitSet(i)
+                            ? _deviceConnector.SettingDevice.TemperatureThreshold[0] - LimitRelayItems[i].HysteresisThreshold1 / 2d
+                            : 0;
                     }
                     break;
                 }
@@ -171,8 +175,13 @@ namespace SmartThermo.Modules.DataViewer.ViewModels
                 {
                     for (var i = 0; i < LimitRelayItems.Count; i++)
                     {
-                        LimitRelayItems[i].TemperatureThreshold2 = (byte) (data.IsBitSet(i) ? _deviceConnector.SettingDevice.TemperatureThreshold[1] : 0);
-                        LimitRelayItems[i].HysteresisThreshold2 = (byte) (_deviceConnector.SettingDevice.TemperatureHysteresis >> 8);
+                        LimitRelayItems[i].HysteresisThreshold2 = data.IsBitSet(i)
+                            ? ((_deviceConnector.SettingDevice.TemperatureHysteresis & 0b1111_1111_0000_0000) >> 8) * 2d
+                            : 0;
+
+                        LimitRelayItems[i].TemperatureThreshold2 = data.IsBitSet(i)
+                            ? _deviceConnector.SettingDevice.TemperatureThreshold[1] - LimitRelayItems[i].HysteresisThreshold2 / 2d
+                            : 0;
                     }
                     break;
                 }

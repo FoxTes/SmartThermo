@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO.Ports;
+using System.Linq;
 using ToastNotifications.Core;
 
 namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
@@ -231,7 +232,7 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
                 };
                 await _deviceConnector.SetSettingDevice(setting);
 
-                _notifications.ShowInformation("Насйтроки успешно записаны.");
+                _notifications.ShowInformation("Настройки успешно записаны.");
                 isSuccessful = true;
             }
             catch (TimeoutException)
@@ -273,6 +274,14 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
 
         private void UpdateGroupCheckItems(int value)
         {
+            var modesSelected = _dataGroupCheckItems
+                    .Select(x => (BindingRelay)((x & 0b0000_0011_0000_0000) >> 8))
+                    .ToList();
+
+            EnableRelayMode[0] = modesSelected.All(x => x != BindingRelay.СommunicationChanelFailure);
+            EnableRelayMode[1] = modesSelected.All(x => x != BindingRelay.TemperatureThreshold1);
+            EnableRelayMode[2] = modesSelected.All(x => x != BindingRelay.TemperatureThreshold2);
+
             var data = _dataGroupCheckItems[value - 1];
 
             for (var i = 0; i < 6; i++)
@@ -280,19 +289,19 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
             WorkLogic = data.IsBitSet(7);
             BindingRelayMode = (BindingRelay)((data & 0b0000_0011_0000_0000) >> 8);
 
-            var modeItem1 = (BindingRelay) ((_dataGroupCheckItems[0] & 0b0000_0011_0000_0000) >> 8);
-            var modeItem2 = (BindingRelay) ((_dataGroupCheckItems[1] & 0b0000_0011_0000_0000) >> 8);
-            var modeItem3 = (BindingRelay) ((_dataGroupCheckItems[2] & 0b0000_0011_0000_0000) >> 8);
-
-            EnableRelayMode[0] = modeItem1 != BindingRelay.СommunicationChanelFailure 
-                                 && modeItem2 != BindingRelay.СommunicationChanelFailure 
-                                 && modeItem3 != BindingRelay.СommunicationChanelFailure;
-            EnableRelayMode[1] = modeItem1 != BindingRelay.TemperatureThreshold1
-                                 && modeItem2 != BindingRelay.TemperatureThreshold1
-                                 && modeItem3 != BindingRelay.TemperatureThreshold1;
-            EnableRelayMode[2] = modeItem1 != BindingRelay.TemperatureThreshold2
-                                 && modeItem2 != BindingRelay.TemperatureThreshold2
-                                 && modeItem3 != BindingRelay.TemperatureThreshold2;
+            switch (_bindingRelayMode)
+            {
+                case BindingRelay.СommunicationChanelFailure:
+                    EnableRelayMode[0] = true;
+                    break;
+                case BindingRelay.TemperatureThreshold1:
+                    EnableRelayMode[1] = true;
+                    break;
+                case BindingRelay.TemperatureThreshold2:
+                    EnableRelayMode[2] = true;
+                    break;
+            }
+            RaisePropertyChanged(nameof(EnableRelayMode));
         }
 
         private void SetGroupCheckItems()

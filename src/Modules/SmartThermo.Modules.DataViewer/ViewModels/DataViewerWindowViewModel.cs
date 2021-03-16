@@ -99,7 +99,7 @@ namespace SmartThermo.Modules.DataViewer.ViewModels
             var data = e.Where(x => x.IsAir)
                         .Select(x => new SensorsEther
                         {
-                            Id = x.Id,
+                            Id = x.Number,
                             Time = x.TimeLastBroadcast
                         })
                         .ToList();

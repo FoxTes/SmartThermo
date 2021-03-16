@@ -5,7 +5,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:enum="clr-namespace:SmartThermo.Modules.Dialog.SettingsPort.Enums;assembly=SmartThermo.Modules.Dialog.SettingsPort"
     xmlns:enums="clr-namespace:SmartThermo.Modules.Dialog.SettingsDevice.Enums"
-    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:io="clr-namespace:System.IO.Ports;assembly=System.IO.Ports"
     xmlns:local="clr-namespace:SmartThermo.Modules.Dialog.SettingsDevice.Converter"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -288,9 +287,9 @@
                                     OnContent="Позитивная" />
                                 <ui:RadioButtons Margin="0,10,0,0" Header="Привязка">
                                     <RadioButton Content="Реле не используется" IsChecked="{Binding Path=BindingRelayMode, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static enums:BindingRelay.NotUsed}}" />
-                                    <RadioButton Content="Сигнализация исправности канала связи" IsChecked="{Binding Path=BindingRelayMode, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static enums:BindingRelay.СommunicationChanelFailure}}" />
-                                    <RadioButton Content="Температурный порог 1" IsChecked="{Binding Path=BindingRelayMode, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static enums:BindingRelay.TemperatureThreshold1}}" />
-                                    <RadioButton Content="Температурный порог 2" IsChecked="{Binding Path=BindingRelayMode, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static enums:BindingRelay.TemperatureThreshold2}}" />
+                                    <RadioButton Content="Сигнализация исправности канала связи" IsChecked="{Binding Path=BindingRelayMode, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static enums:BindingRelay.СommunicationChanelFailure}}" IsEnabled="{Binding EnableRelayMode[0]}" />
+                                    <RadioButton Content="Температурный порог 1" IsChecked="{Binding Path=BindingRelayMode, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static enums:BindingRelay.TemperatureThreshold1}}"  IsEnabled="{Binding EnableRelayMode[1]}" />
+                                    <RadioButton Content="Температурный порог 2" IsChecked="{Binding Path=BindingRelayMode, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static enums:BindingRelay.TemperatureThreshold2}}"  IsEnabled="{Binding EnableRelayMode[2]}" />
                                 </ui:RadioButtons>
                             </StackPanel>
                         </GroupBox>

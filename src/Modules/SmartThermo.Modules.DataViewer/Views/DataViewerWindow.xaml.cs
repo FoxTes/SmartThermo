@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using LiveCharts.Events;
+using System.Windows.Controls;
 
 namespace SmartThermo.Modules.DataViewer.Views
 {

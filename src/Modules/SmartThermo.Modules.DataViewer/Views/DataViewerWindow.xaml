@@ -6,9 +6,10 @@
     xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="http://prismlibrary.com/"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:ui="http://schemas.modernwpf.com/2019"
-    d:DesignHeight="720"
-    d:DesignWidth="1280"
+    d:DesignHeight="768"
+    d:DesignWidth="1366"
     prism:ViewModelLocator.AutoWireViewModel="True"
     ui:ThemeManager.RequestedTheme="Dark"
     Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}"
@@ -32,79 +33,84 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <Grid 
-                Margin="8" 
-                Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
+            <Grid Margin="0,8,8,8" Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
                 <lvc:CartesianChart
                     Margin="8"
+                    DataTooltip="{x:Null}"
                     DisableAnimations="True"
-                    LegendLocation="Top">
+                    FontSize="12"
+                    Hoverable="False"
+                    LegendLocation="Top"
+                    Zoom="Y">
                     <lvc:CartesianChart.Series>
                         <lvc:LineSeries
-                            Title="Датчик1"
+                            Title="Д 11"
                             Fill="Transparent"
                             LineSmoothness="1"
                             PointGeometry="{x:Null}"
                             Stroke="#003f5c"
                             StrokeThickness="2"
-                            Values="{Binding ChartValues[0]}" />
+                            Values="{Binding ChartValues1[0]}" />
                         <lvc:LineSeries
-                            Title="Датчик2"
+                            Title="Д 12"
                             Fill="Transparent"
                             LineSmoothness="1"
                             PointGeometry="{x:Null}"
                             Stroke="#444e86"
                             StrokeThickness="2"
-                            Values="{Binding ChartValues[1]}" />
+                            Values="{Binding ChartValues1[1]}" />
                         <lvc:LineSeries
-                            Title="Датчик3"
+                            Title="Д 13"
                             Fill="Transparent"
                             LineSmoothness="1"
                             PointGeometry="{x:Null}"
                             Stroke="#955196"
                             StrokeThickness="2"
-                            Values="{Binding ChartValues[2]}" />
+                            Values="{Binding ChartValues1[2]}" />
                         <lvc:LineSeries
-                            Title="Датчик4"
+                            Title="Д 14"
                             Fill="Transparent"
                             LineSmoothness="1"
                             PointGeometry="{x:Null}"
                             Stroke="#dd5182"
                             StrokeThickness="2"
-                            Values="{Binding ChartValues[3]}" />
+                            Values="{Binding ChartValues1[3]}" />
                         <lvc:LineSeries
-                            Title="Датчик5"
+                            Title="Д 15"
                             Fill="Transparent"
                             LineSmoothness="1"
                             PointGeometry="{x:Null}"
                             Stroke="#ff6e54"
                             StrokeThickness="2"
-                            Values="{Binding ChartValues[4]}" />
+                            Values="{Binding ChartValues1[4]}" />
                         <lvc:LineSeries
-                            Title="Датчик6"
+                            Title="Д 16"
                             Fill="Transparent"
                             LineSmoothness="1"
                             PointGeometry="{x:Null}"
                             Stroke="#ffa600"
                             StrokeThickness="2"
-                            Values="{Binding ChartValues[5]}" />
+                            Values="{Binding ChartValues1[5]}" />
                     </lvc:CartesianChart.Series>
                     <lvc:CartesianChart.AxisY>
                         <lvc:Axis
+                            DisableAnimations="True"
                             FontSize="12"
+                            LabelFormatter="{Binding YFormatter}"
+                            MaxRange="100"
                             MaxValue="100"
-                            MinValue="0">
+                            MinRange="0"
+                            MinValue="0"
+                            Unit="1">
                             <lvc:Axis.Sections>
-                                <lvc:AxisSection SectionWidth="{Binding LimitRelayItems[0].HysteresisThreshold1}" 
-                                                 Value="{Binding LimitRelayItems[0].TemperatureThreshold1}">
+                                <lvc:AxisSection SectionWidth="{Binding LimitRelayItems[0].HysteresisThreshold1}" Value="{Binding LimitRelayItems[0].TemperatureThreshold1}">
                                     <lvc:AxisSection.Fill>
                                         <SolidColorBrush Opacity=".25" Color="red" />
                                     </lvc:AxisSection.Fill>
                                 </lvc:AxisSection>
-                                <lvc:AxisSection SectionWidth="{Binding LimitRelayItems[0].HysteresisThreshold2}" 
-                                                 Value="{Binding LimitRelayItems[0].TemperatureThreshold2}">
+                                <lvc:AxisSection SectionWidth="{Binding LimitRelayItems[0].HysteresisThreshold2}" Value="{Binding LimitRelayItems[0].TemperatureThreshold2}">
                                     <lvc:AxisSection.Fill>
-                                        <SolidColorBrush Opacity=".25"  Color="Green" />
+                                        <SolidColorBrush Opacity=".25" Color="Green" />
                                     </lvc:AxisSection.Fill>
                                 </lvc:AxisSection>
                             </lvc:Axis.Sections>
@@ -115,10 +121,12 @@
                     </lvc:CartesianChart.AxisY>
                     <lvc:CartesianChart.AxisX>
                         <lvc:Axis
+                            DisableAnimations="True"
                             FontSize="12"
                             LabelFormatter="{Binding DateTimeFormatter}"
                             MaxValue="{Binding AxisMax}"
                             MinValue="{Binding AxisMin}"
+                            RangeChangedCommand="{Binding RangeChangedCommand}"
                             Unit="{Binding AxisUnit}">
                             <lvc:Axis.Separator>
                                 <lvc:Separator
@@ -128,6 +136,21 @@
                             </lvc:Axis.Separator>
                         </lvc:Axis>
                     </lvc:CartesianChart.AxisX>
+                    <lvc:CartesianChart.Style>
+                        <Style TargetType="lvc:CartesianChart">
+                            <Setter Property="ContextMenu">
+                                <Setter.Value>
+                                    <ContextMenu>
+                                        <MenuItem Command="{Binding ResetScalingChartCommand}" Header="Сбросить маштаб">
+                                            <MenuItem.CommandParameter>
+                                                <sys:Int32>1</sys:Int32>
+                                            </MenuItem.CommandParameter>
+                                        </MenuItem>
+                                    </ContextMenu>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </lvc:CartesianChart.Style>
                 </lvc:CartesianChart>
             </Grid>
             <Grid
@@ -137,74 +160,81 @@
                 Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
                 <lvc:CartesianChart
                     Margin="8"
+                    DataTooltip="{x:Null}"
                     DisableAnimations="True"
-                    LegendLocation="Top">
+                    FontSize="12"
+                    Hoverable="False"
+                    LegendLocation="Top"
+                    Zoom="Y">
                     <lvc:CartesianChart.Series>
                         <lvc:LineSeries
-                            Title="Датчик1"
+                            Title="Д 21"
                             Fill="Transparent"
                             LineSmoothness="1"
                             PointGeometry="{x:Null}"
                             Stroke="#003f5c"
                             StrokeThickness="2"
-                            Values="{Binding ChartValues[0]}" />
+                            Values="{Binding ChartValues2[0]}" />
                         <lvc:LineSeries
-                            Title="Датчик2"
+                            Title="Д 22"
                             Fill="Transparent"
                             LineSmoothness="1"
                             PointGeometry="{x:Null}"
                             Stroke="#444e86"
                             StrokeThickness="2"
-                            Values="{Binding ChartValues[1]}" />
+                            Values="{Binding ChartValues2[1]}" />
                         <lvc:LineSeries
-                            Title="Датчик3"
+                            Title="Д 23"
                             Fill="Transparent"
                             LineSmoothness="1"
                             PointGeometry="{x:Null}"
                             Stroke="#955196"
                             StrokeThickness="2"
-                            Values="{Binding ChartValues[2]}" />
+                            Values="{Binding ChartValues2[2]}" />
                         <lvc:LineSeries
-                            Title="Датчик4"
+                            Title="Д 24"
                             Fill="Transparent"
                             LineSmoothness="1"
                             PointGeometry="{x:Null}"
                             Stroke="#dd5182"
                             StrokeThickness="2"
-                            Values="{Binding ChartValues[3]}" />
+                            Values="{Binding ChartValues2[3]}" />
                         <lvc:LineSeries
-                            Title="Датчик5"
+                            Title="Д 25"
                             Fill="Transparent"
                             LineSmoothness="1"
                             PointGeometry="{x:Null}"
                             Stroke="#ff6e54"
                             StrokeThickness="2"
-                            Values="{Binding ChartValues[4]}" />
+                            Values="{Binding ChartValues2[4]}" />
                         <lvc:LineSeries
-                            Title="Датчик6"
+                            Title="Д 26"
                             Fill="Transparent"
                             LineSmoothness="1"
                             PointGeometry="{x:Null}"
                             Stroke="#ffa600"
                             StrokeThickness="2"
-                            Values="{Binding ChartValues[5]}" />
+                            Values="{Binding ChartValues2[5]}" />
                     </lvc:CartesianChart.Series>
                     <lvc:CartesianChart.AxisY>
                         <lvc:Axis
+                            DisableAnimations="True"
                             FontSize="12"
+                            LabelFormatter="{Binding YFormatter}"
+                            MaxRange="100"
                             MaxValue="100"
-                            MinValue="0">
+                            MinRange="0"
+                            MinValue="0"
+                            Unit="1">
                             <lvc:Axis.Sections>
-                                <lvc:AxisSection SectionWidth="{Binding LimitRelayItems[1].HysteresisThreshold1}" 
-                                                 Value="{Binding LimitRelayItems[1].TemperatureThreshold1}">
+                                <lvc:AxisSection SectionWidth="{Binding LimitRelayItems[1].HysteresisThreshold1}" Value="{Binding LimitRelayItems[1].TemperatureThreshold1}">
                                     <lvc:AxisSection.Fill>
                                         <SolidColorBrush Opacity=".25" Color="red" />
                                     </lvc:AxisSection.Fill>
                                 </lvc:AxisSection>
-                                <lvc:AxisSection SectionWidth="{Binding LimitRelayItems[1].HysteresisThreshold2}" 
-                                                 Value="{Binding LimitRelayItems[1].TemperatureThreshold2}">
+                                <lvc:AxisSection SectionWidth="{Binding LimitRelayItems[1].HysteresisThreshold2}" Value="{Binding LimitRelayItems[1].TemperatureThreshold2}">
                                     <lvc:AxisSection.Fill>
-                                        <SolidColorBrush Opacity=".25"  Color="Green" />
+                                        <SolidColorBrush Opacity=".25" Color="Green" />
                                     </lvc:AxisSection.Fill>
                                 </lvc:AxisSection>
                             </lvc:Axis.Sections>
@@ -215,6 +245,7 @@
                     </lvc:CartesianChart.AxisY>
                     <lvc:CartesianChart.AxisX>
                         <lvc:Axis
+                            DisableAnimations="True"
                             FontSize="12"
                             LabelFormatter="{Binding DateTimeFormatter}"
                             MaxValue="{Binding AxisMax}"
@@ -228,102 +259,29 @@
                             </lvc:Axis.Separator>
                         </lvc:Axis>
                     </lvc:CartesianChart.AxisX>
-                </lvc:CartesianChart>
-            </Grid>
-            <Grid
-                Grid.Row="1"
-                Grid.Column="0"
-                Margin="8"
-                Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
-                <lvc:CartesianChart
-                    Margin="8"
-                    DataTooltip="{x:Null}"
-                    DisableAnimations="True"
-                    Hoverable="False"
-                    LegendLocation="Top">
-                    <lvc:CartesianChart.Series>
-                        <lvc:LineSeries
-                            Title="Датчик1"
-                            Fill="Transparent"
-                            LineSmoothness="1"
-                            PointGeometry="{x:Null}"
-                            Stroke="#003f5c"
-                            StrokeThickness="2"
-                            Values="{Binding ChartValues[0]}" />
-                        <lvc:LineSeries
-                            Title="Датчик2"
-                            Fill="Transparent"
-                            LineSmoothness="1"
-                            PointGeometry="{x:Null}"
-                            Stroke="#444e86"
-                            StrokeThickness="2"
-                            Values="{Binding ChartValues[1]}" />
-                        <lvc:LineSeries
-                            Title="Датчик3"
-                            Fill="Transparent"
-                            LineSmoothness="1"
-                            PointGeometry="{x:Null}"
-                            Stroke="#955196"
-                            StrokeThickness="2"
-                            Values="{Binding ChartValues[2]}" />
-                        <lvc:LineSeries
-                            Title="Датчик4"
-                            Fill="Transparent"
-                            LineSmoothness="1"
-                            PointGeometry="{x:Null}"
-                            Stroke="#dd5182"
-                            StrokeThickness="2"
-                            Values="{Binding ChartValues[3]}" />
-                        <lvc:LineSeries
-                            Title="Датчик5"
-                            Fill="Transparent"
-                            LineSmoothness="1"
-                            PointGeometry="{x:Null}"
-                            Stroke="#ff6e54"
-                            StrokeThickness="2"
-                            Values="{Binding ChartValues[4]}" />
-                        <lvc:LineSeries
-                            Title="Датчик6"
-                            Fill="Transparent"
-                            LineSmoothness="1"
-                            PointGeometry="{x:Null}"
-                            Stroke="#ffa600"
-                            StrokeThickness="2"
-                            Values="{Binding ChartValues[5]}" />
-                    </lvc:CartesianChart.Series>
-                    <lvc:CartesianChart.AxisY>
-                        <lvc:Axis MaxValue="100" MinValue="0">
-                            <lvc:Axis.Separator>
-                                <lvc:Separator Stroke="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}" StrokeThickness="1" />
-                            </lvc:Axis.Separator>
-                        </lvc:Axis>
-                    </lvc:CartesianChart.AxisY>
-                    <lvc:CartesianChart.AxisX>
-                        <lvc:Axis
-                            LabelFormatter="{Binding DateTimeFormatter}"
-                            MaxValue="{Binding AxisMax}"
-                            MinValue="{Binding AxisMin}"
-                            Unit="{Binding AxisUnit}">
-                            <lvc:Axis.Separator>
-                                <lvc:Separator
-                                    Step="{Binding AxisStep}"
-                                    Stroke="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
-                                    StrokeThickness="1" />
-                            </lvc:Axis.Separator>
-                        </lvc:Axis>
-                    </lvc:CartesianChart.AxisX>
+                    <lvc:CartesianChart.Style>
+                        <Style TargetType="lvc:CartesianChart">
+                            <Setter Property="ContextMenu">
+                                <Setter.Value>
+                                    <ContextMenu>
+                                        <MenuItem Header="Сбросить маштаб" />
+                                    </ContextMenu>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </lvc:CartesianChart.Style>
                 </lvc:CartesianChart>
             </Grid>
         </Grid>
 
         <Border
             Grid.Column="1"
-            Margin="0,8"
+            Margin="0,8,0,0"
             Background="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}" />
 
         <DataGrid
             Grid.Column="2"
-            Padding="16,16,0,0"
+            Padding="8,8,0,0"
             AutoGenerateColumns="False"
             Background="Transparent"
             CanUserResizeColumns="False"

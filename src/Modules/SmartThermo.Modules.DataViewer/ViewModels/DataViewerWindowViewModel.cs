@@ -1,5 +1,6 @@
 ﻿using LiveCharts;
 using LiveCharts.Configurations;
+using Prism.Commands;
 using SmartThermo.Core.Mvvm;
 using SmartThermo.Modules.DataViewer.Models;
 using SmartThermo.Modules.Dialog.SettingsDevice.Enums;
@@ -7,6 +8,7 @@ using SmartThermo.Services.DeviceConnector;
 using SmartThermo.Services.DeviceConnector.BitExtensions;
 using SmartThermo.Services.DeviceConnector.Enums;
 using SmartThermo.Services.DeviceConnector.Models;
+using SmartThermo.Services.Notifications;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -22,6 +24,7 @@ namespace SmartThermo.Modules.DataViewer.ViewModels
         private static readonly object Lock = new object();
 
         private readonly IDeviceConnector _deviceConnector;
+        private readonly INotifications _notifications;
         private ObservableCollection<LimitRelay> _limitRelayItems = new ObservableCollection<LimitRelay>();
         private ObservableCollection<SensorsEther> _sensorsEtherItems = new ObservableCollection<SensorsEther>();
 
@@ -44,9 +47,13 @@ namespace SmartThermo.Modules.DataViewer.ViewModels
             set => SetProperty(ref _sensorsEtherItems, value);
         }
 
-        public List<ChartValues<MeasureData>> ChartValues { get; set; }
+        public List<ChartValues<MeasureData>> ChartValues1 { get; set; }
+
+        public List<ChartValues<MeasureData>> ChartValues2 { get; set; }
 
         public Func<double, string> DateTimeFormatter { get; set; }
+
+        public Func<double, string> YFormatter { get; set; }
 
         public double AxisStep { get; set; }
 
@@ -64,24 +71,34 @@ namespace SmartThermo.Modules.DataViewer.ViewModels
             set => SetProperty(ref _axisMin, value);
         }
 
+        public DelegateCommand<int?> ResetScalingChartCommand { get; }
+
         #endregion
 
         #region Constructor
 
-        public DataViewerWindowViewModel(IDeviceConnector deviceConnector)
+        public DataViewerWindowViewModel(IDeviceConnector deviceConnector, INotifications notifications)
         {
+            _notifications = notifications;
             _deviceConnector = deviceConnector;
             _deviceConnector.RegistersRequested += DeviceConnector_RegistersRequested;
             _deviceConnector.SettingDeviceChanged += DeviceConnector_SettingDeviceChanged;
             _deviceConnector.StatusConnectChanged += DeviceConnector_StatusConnectChanged;
 
             InitCharts();
-            BindingOperations.EnableCollectionSynchronization(SensorsEtherItems, Lock);     
+            BindingOperations.EnableCollectionSynchronization(SensorsEtherItems, Lock);
+
+            ResetScalingChartCommand = new DelegateCommand<int?>(ResetScalingChartExecute);
         }
 
         #endregion
 
         #region Method
+
+        private void ResetScalingChartExecute(int? index)
+        {
+            _notifications.ShowInformation($"Сброшен маштаб графика номер {index}.");
+        }
 
         private void DeviceConnector_StatusConnectChanged(object sender, StatusConnect e)
         {
@@ -109,14 +126,23 @@ namespace SmartThermo.Modules.DataViewer.ViewModels
 
             var now = DateTime.Now;
             for (var i = 0; i < 6; i++)
-                ChartValues[i].Add(new MeasureData
+                ChartValues1[i].Add(new MeasureData
+                {
+                    DateTime = now,
+                    Value = e[i].Temperature
+                });
+
+            for (var i = 6; i < 12; i++)
+                ChartValues2[i - 6].Add(new MeasureData
                 {
                     DateTime = now,
                     Value = e[i].Temperature
                 });
 
             SetAxisLimits(now);
-            foreach (var item in ChartValues.Where(item => item.Count > 30))
+            foreach (var item in ChartValues1.Where(item => item.Count > 30))
+                item.RemoveAt(0);
+            foreach (var item in ChartValues2.Where(item => item.Count > 30))
                 item.RemoveAt(0);
         }
 
@@ -127,14 +153,17 @@ namespace SmartThermo.Modules.DataViewer.ViewModels
                 .Y(model => model.Value);
             Charting.For<MeasureData>(mapper);
 
-            ChartValues = new List<ChartValues<MeasureData>>();
+            ChartValues1 = new List<ChartValues<MeasureData>>();
+            ChartValues2 = new List<ChartValues<MeasureData>>();
             for (var i = 0; i < 6; i++)
             {
-                ChartValues.Add(new ChartValues<MeasureData>());
+                ChartValues1.Add(new ChartValues<MeasureData>());
+                ChartValues2.Add(new ChartValues<MeasureData>());
                 LimitRelayItems.Add(new LimitRelay());
             }
 
             DateTimeFormatter = value => new DateTime((long)value).ToString("mm:ss");
+            YFormatter = value => Math.Round(value, 1).ToString();
             AxisStep = TimeSpan.FromSeconds(10).Ticks;
             AxisUnit = TimeSpan.TicksPerSecond;
             SetAxisLimits(DateTime.Now);
@@ -197,7 +226,7 @@ namespace SmartThermo.Modules.DataViewer.ViewModels
         private void SetAxisLimits(DateTime now)
         {
             AxisMax = now.Ticks + TimeSpan.FromSeconds(1).Ticks;
-            AxisMin = now.Ticks - TimeSpan.FromSeconds(59).Ticks;
+            AxisMin = now.Ticks - TimeSpan.FromSeconds(60).Ticks;
         }
 
         #endregion

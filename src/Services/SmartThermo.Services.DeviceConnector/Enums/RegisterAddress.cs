@@ -6,6 +6,21 @@
     public enum RegisterAddress
     {
         /// <summary>
+        /// Адерсс устройства в сети Modbus.
+        /// </summary>
+        AddressDevice = 0,
+
+        /// <summary>
+        /// Скорость устройства для порта.
+        /// </summary>
+        Speed = 1,
+
+        /// <summary>
+        /// Настройки честности устройства.
+        /// </summary>
+        Parity = 2,
+
+        /// <summary>
         /// Номер канала связи и ID.
         /// </summary>
         NumberCommunicationChannel = 3,

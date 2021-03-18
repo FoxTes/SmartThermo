@@ -1,5 +1,6 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Regions;
 using Prism.Services.Dialogs;
 using SmartThermo.Modules.Dialog.SettingsDevice.Enums;
 using SmartThermo.Modules.Dialog.SettingsDevice.Extensions;
@@ -205,7 +206,7 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
             CancelCommand = new DelegateCommand(CancelExecute);
             GroupCheckItems.CollectionChanged += (sender, args) => SetGroupCheckItems();
         }
-        
+
         #endregion
 
         #region Method

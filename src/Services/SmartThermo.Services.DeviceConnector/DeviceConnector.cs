@@ -108,41 +108,53 @@ namespace SmartThermo.Services.DeviceConnector
 
         public async Task GetSettingDevice()
         {
-            // TODO : Расширить на все настройки.
-            const ushort startRegister = (ushort)RegisterAddress.TemperatureThreshold1;
+            const ushort startRegister = (ushort)RegisterAddress.AddressDevice;
             var countRegister =
-                (ushort)(Math.Abs(RegisterAddress.TemperatureThreshold1 - RegisterAddress.StatusAlarmRelay) + 1);
+                (ushort)(Math.Abs(startRegister - RegisterAddress.StatusAlarmRelay) + 1);
 
-            var data = await _modbusSerialMaster.ReadHoldingRegistersAsync(SettingPortPort.AddressDevice,
+            var dataRead = await _modbusSerialMaster.ReadHoldingRegistersAsync(SettingPortPort.AddressDevice,
                 startRegister, countRegister);
 
             SettingDevice = new SettingDeviceEventArgs()
             {
-                TemperatureThreshold = new List<ushort> { data[0], data[1] },
-                TemperatureHysteresis = data[3],
-                DelaySignalRelays = data[4],
-                StatusAlarmRelay = data[7]
+                AddressDevice = dataRead[0],
+                Speed = dataRead[1],
+                Parity = dataRead[2],
+                NumberChanelId = dataRead[3],
+                TemperatureThreshold = new List<ushort> { dataRead[4], dataRead[5] },
+                TemperatureHysteresis = dataRead[6],
+                DelaySignalRelays = dataRead[7],
+                BindingSensorRelay1 = dataRead[8],
+                BindingSensorRelay2 = dataRead[9],
+                BindingSensorRelay3 = dataRead[10],
+                StatusAlarmRelay = dataRead[11]
             };
         }
 
         public async Task SetSettingDevice(SettingDeviceEventArgs settingDevice)
         {
-            // TODO : Расширить на все настройки.
-            const ushort startRegister = (ushort)RegisterAddress.TemperatureThreshold1;
             var data = new[]
             {
-                settingDevice.TemperatureThreshold[0],
-                settingDevice.TemperatureThreshold[1],
+                settingDevice.AddressDevice,
+                settingDevice.Speed,
+                settingDevice.Parity,
+                settingDevice.NumberChanelId,
+                settingDevice.TemperatureThreshold[4],
+                settingDevice.TemperatureThreshold[5],
                 settingDevice.TemperatureHysteresis,
-                settingDevice.DelaySignalRelays
+                settingDevice.DelaySignalRelays,
+                settingDevice.BindingSensorRelay1,
+                settingDevice.BindingSensorRelay2,
+                settingDevice.BindingSensorRelay3,
+                settingDevice.StatusAlarmRelay
             };
 
+            const ushort startRegister = (ushort)RegisterAddress.AddressDevice;
             await _modbusSerialMaster.WriteMultipleRegistersAsync(SettingPortPort.AddressDevice,
                 startRegister, data);
-            await _modbusSerialMaster.WriteSingleRegisterAsync(SettingPortPort.AddressDevice,
-                (ushort)RegisterAddress.StatusAlarmRelay, settingDevice.StatusAlarmRelay);
 
             SettingDevice = settingDevice;
+            SettingDeviceChanged?.Invoke(this, settingDevice);
         }
 
         private async void OnTimer(object state)
@@ -150,10 +162,10 @@ namespace SmartThermo.Services.DeviceConnector
             const ushort startRegister = (ushort)RegisterAddress.Sensor11;
             const ushort countRegister = 36;
 
-            var data = new ushort[countRegister];
+            var dataRead = new ushort[countRegister];
             try
             {
-                data = await _modbusSerialMaster.ReadHoldingRegistersAsync(SettingPortPort.AddressDevice,
+                dataRead = await _modbusSerialMaster.ReadHoldingRegistersAsync(SettingPortPort.AddressDevice,
                     startRegister, countRegister);
             }
             catch (TimeoutException)
@@ -167,13 +179,14 @@ namespace SmartThermo.Services.DeviceConnector
                 _notifications.ShowWarning("Не удалось прочитать регистры.\n" + ex.Message, new MessageOptions());
             }
 
-            var result = data.Select((x, index) => new SensorInfoEventArgs
+            var result = dataRead.Select((x, index) => new SensorInfoEventArgs
             {
-                Id = index + 1,
-                Temperature = (byte)data[index],
-                TimeLastBroadcast = (byte)((data[index] & 0b0011_1111_0000_0000) >> 8),
-                IsEmergencyDescent = data[index].IsBitSet(14),
-                IsAir = data[index].IsBitSet(15)
+                Id = index,
+                Number = (index / 6 + 1) * 10 + (index + 1) - 6 * (index / 6),
+                Temperature = (byte)dataRead[index],
+                TimeLastBroadcast = (byte)((dataRead[index] & 0b0011_1111_0000_0000) >> 8),
+                IsEmergencyDescent = dataRead[index].IsBitSet(14),
+                IsAir = dataRead[index].IsBitSet(15)
             }).ToList();
             RegistersRequested?.Invoke(this, result);
         }

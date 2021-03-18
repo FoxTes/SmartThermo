@@ -10,6 +10,7 @@
     <PackageReference Include="Prism.Wpf" Version="8.0.0.1909" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\DataAccess\SmartThermo.DataAccess.Sqlite\SmartThermo.DataAccess.Sqlite.csproj" />
     <ProjectReference Include="..\..\SmartThermo.Core\SmartThermo.Core.csproj" />
     <ProjectReference Include="..\SmartThermo.Modules.Dialog.SettingsDevice\SmartThermo.Modules.Dialog.SettingsDevice.csproj" />
   </ItemGroup>

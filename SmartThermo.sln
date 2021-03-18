@@ -27,6 +27,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartThermo.Modules.Dialog.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartThermo.Modules.Dialog.SettingsDevice", "src\Modules\SmartThermo.Modules.Dialog.SettingsDevice\SmartThermo.Modules.Dialog.SettingsDevice.csproj", "{93DB0F40-84BF-4CE0-824A-77FAADD41B7F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataAccess", "DataAccess", "{981AC072-074C-400A-983B-2EE6A0CDE983}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartThermo.DataAccess.Sqlite", "src\DataAccess\SmartThermo.DataAccess.Sqlite\SmartThermo.DataAccess.Sqlite.csproj", "{D3E8A304-418C-4640-8B75-98C4BFE584D5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -133,6 +137,18 @@ Global
 		{93DB0F40-84BF-4CE0-824A-77FAADD41B7F}.Release|x64.Build.0 = Release|Any CPU
 		{93DB0F40-84BF-4CE0-824A-77FAADD41B7F}.Release|x86.ActiveCfg = Release|Any CPU
 		{93DB0F40-84BF-4CE0-824A-77FAADD41B7F}.Release|x86.Build.0 = Release|Any CPU
+		{D3E8A304-418C-4640-8B75-98C4BFE584D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3E8A304-418C-4640-8B75-98C4BFE584D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3E8A304-418C-4640-8B75-98C4BFE584D5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D3E8A304-418C-4640-8B75-98C4BFE584D5}.Debug|x64.Build.0 = Debug|Any CPU
+		{D3E8A304-418C-4640-8B75-98C4BFE584D5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D3E8A304-418C-4640-8B75-98C4BFE584D5}.Debug|x86.Build.0 = Debug|Any CPU
+		{D3E8A304-418C-4640-8B75-98C4BFE584D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3E8A304-418C-4640-8B75-98C4BFE584D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3E8A304-418C-4640-8B75-98C4BFE584D5}.Release|x64.ActiveCfg = Release|Any CPU
+		{D3E8A304-418C-4640-8B75-98C4BFE584D5}.Release|x64.Build.0 = Release|Any CPU
+		{D3E8A304-418C-4640-8B75-98C4BFE584D5}.Release|x86.ActiveCfg = Release|Any CPU
+		{D3E8A304-418C-4640-8B75-98C4BFE584D5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -148,6 +164,8 @@ Global
 		{D6448206-F933-49EC-B9B7-9AE16DCE6863} = {D1175F74-F3B3-49F2-A1DB-74D1E10EDFBC}
 		{EF8E1B5D-D0EF-4BB5-8B73-3E868306AEA0} = {87BD6B81-EF1B-478E-BBB4-A0A40B1B6119}
 		{93DB0F40-84BF-4CE0-824A-77FAADD41B7F} = {87BD6B81-EF1B-478E-BBB4-A0A40B1B6119}
+		{981AC072-074C-400A-983B-2EE6A0CDE983} = {5F42908A-3D8C-44CB-BAA2-928DE22AAB17}
+		{D3E8A304-418C-4640-8B75-98C4BFE584D5} = {981AC072-074C-400A-983B-2EE6A0CDE983}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B511AF63-B8BD-4505-A278-DA0B0CCAA472}

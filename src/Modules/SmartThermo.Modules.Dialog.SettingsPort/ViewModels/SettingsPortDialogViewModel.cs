@@ -7,6 +7,7 @@ using SmartThermo.Services.DeviceConnector.Models;
 using SmartThermo.Services.Notifications;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO.Ports;
 using ToastNotifications.Core;
 
@@ -29,7 +30,7 @@ namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
         private List<byte> _addressDevice;
 
         private string _portNameSelected;
-        private string[] _portName;
+        private ReadOnlyCollection<string> _portName;
 
         private BaudRate _baudRateSelected;
         private StopBits _stopBitsSelected;
@@ -67,7 +68,7 @@ namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
             set => SetProperty(ref _portNameSelected, value);
         }
 
-        public string[] PortName
+        public ReadOnlyCollection<string> PortName
         {
             get => _portName;
             set => SetProperty(ref _portName, value);
@@ -161,7 +162,7 @@ namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
             for (byte i = 0; i < 255; i++)
                 AddressDevice.Add(i);
 
-            PortName = SerialPort.GetPortNames();
+            PortName = new ReadOnlyCollection<string>(SerialPort.GetPortNames());
         }
 
         private void SetDefaultSettings()

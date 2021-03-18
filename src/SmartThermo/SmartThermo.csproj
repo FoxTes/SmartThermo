@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DataAccess\SmartThermo.DataAccess.Sqlite\SmartThermo.DataAccess.Sqlite.csproj" />
     <ProjectReference Include="..\Modules\SmartThermo.Modules.DataViewer\SmartThermo.Modules.DataViewer.csproj" />
     <ProjectReference Include="..\Modules\SmartThermo.Modules.Dialog.SettingsDevice\SmartThermo.Modules.Dialog.SettingsDevice.csproj" />
     <ProjectReference Include="..\Modules\SmartThermo.Modules.Dialog.SettingsPort\SmartThermo.Modules.Dialog.SettingsPort.csproj" />

@@ -1,4 +1,3 @@
-using System;
 using Xunit;
 
 namespace SmartThermo.Modules.ModuleName.Tests

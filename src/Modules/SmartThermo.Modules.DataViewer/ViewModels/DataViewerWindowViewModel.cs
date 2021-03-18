@@ -2,6 +2,8 @@
 using LiveCharts.Configurations;
 using Prism.Commands;
 using SmartThermo.Core.Mvvm;
+using SmartThermo.DataAccess.Sqlite;
+using SmartThermo.DataAccess.Sqlite.Models;
 using SmartThermo.Modules.DataViewer.Models;
 using SmartThermo.Modules.Dialog.SettingsDevice.Enums;
 using SmartThermo.Services.DeviceConnector;

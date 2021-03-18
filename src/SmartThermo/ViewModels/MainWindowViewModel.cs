@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Prism.Commands;
 using Prism.Regions;
 using Prism.Services.Dialogs;
 using SmartThermo.Core;
 using SmartThermo.Core.Mvvm;
+using SmartThermo.DataAccess.Sqlite;
+using SmartThermo.DataAccess.Sqlite.Models;
 using SmartThermo.DialogExtensions;
 using SmartThermo.Services.DeviceConnector;
 using SmartThermo.Services.DeviceConnector.Enums;
@@ -71,6 +75,9 @@ namespace SmartThermo.ViewModels
             
             ChangeConnectDeviceCommand = new DelegateCommand(ChangeConnectDeviceExecute);
             SettingDeviceCommand = new DelegateCommand(SettingDeviceExecute);
+
+            using Context context = new Context();
+            var result = context.Database.EnsureCreated();
         }
 
         #endregion

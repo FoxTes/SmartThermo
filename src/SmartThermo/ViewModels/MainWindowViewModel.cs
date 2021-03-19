@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Prism.Commands;
+﻿using Prism.Commands;
 using Prism.Regions;
 using Prism.Services.Dialogs;
 using SmartThermo.Core;
@@ -13,6 +9,10 @@ using SmartThermo.DialogExtensions;
 using SmartThermo.Services.DeviceConnector;
 using SmartThermo.Services.DeviceConnector.Enums;
 using SmartThermo.Services.Notifications;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using ToastNotifications.Core;
 
 namespace SmartThermo.ViewModels
@@ -27,19 +27,19 @@ namespace SmartThermo.ViewModels
         #endregion
 
         #region Property
-        
+
         public bool IsEnableSettings
         {
             get => _isEnableSettings;
             set => SetProperty(ref _isEnableSettings, value);
         }
-        
+
         public string LabelButton
         {
             get => _labelButton;
             set => SetProperty(ref _labelButton, value);
         }
-        
+
         public DelegateCommand ChangeConnectDeviceCommand { get; }
 
         public DelegateCommand SettingDeviceCommand { get; }
@@ -48,7 +48,7 @@ namespace SmartThermo.ViewModels
 
         #region Constructor
 
-        public MainWindowViewModel(IRegionManager regionManager, IDeviceConnector deviceConnector, INotifications notifications, IDialogService dialogService) 
+        public MainWindowViewModel(IRegionManager regionManager, IDeviceConnector deviceConnector, INotifications notifications, IDialogService dialogService)
             : base(regionManager, deviceConnector, notifications, dialogService)
         {
             DeviceConnector.StatusConnectChanged += async (_, connect) =>
@@ -72,10 +72,47 @@ namespace SmartThermo.ViewModels
                     Notifications.ShowInformation("Осуществлено отключение от прибора.");
                 }
             };
-            
+
             ChangeConnectDeviceCommand = new DelegateCommand(ChangeConnectDeviceExecute);
             SettingDeviceCommand = new DelegateCommand(SettingDeviceExecute);
 
+            CreateSession();
+        }
+
+        private async void CreateSession()
+        {
+            CheckDatabaseCreate();
+
+            using Context context = new Context();
+            try
+            {
+                context.Add(new Session
+                {
+                    DateCreate = DateTime.Now,
+                    SensorGroups = new List<SensorGroup>
+                    {
+                        new SensorGroup { Name = "Певрая группа"},
+                        new SensorGroup { Name = "Вторая группа"},
+                        new SensorGroup { Name = "Третья группа"},
+                        new SensorGroup { Name = "Четвертая группа"},
+                        new SensorGroup { Name = "Пятая группа"},
+                        new SensorGroup { Name = "Шестая группа"},
+                    }
+                });
+                await context.SaveChangesAsync().ConfigureAwait(false);
+            }
+            catch (Exception)
+            {
+                await Task.Delay(1000);
+                Notifications.ShowError("Внимание! Ошибка работы с БД. Приложение будет закрыто через 3 секунды.");
+                await Task.Delay(3000);
+
+                App.Current.Shutdown();
+            }
+        }
+
+        private void CheckDatabaseCreate()
+        {
             using Context context = new Context();
             var result = context.Database.EnsureCreated();
         }

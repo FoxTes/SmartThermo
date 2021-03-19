@@ -14,8 +14,7 @@
     <PackageReference Include="NModbus.Serial" Version="3.0.62" />
     <PackageReference Include="Prism.Core" Version="8.0.0.1909" />
     <PackageReference Include="Prism.DryIoc" Version="8.0.0.1909" />
-    <PackageReference Include="ScottPlot.WPF" Version="4.1.9-beta" />
-    <PackageReference Include="System.IO.Ports" Version="5.0.0" />
+    <PackageReference Include="System.IO.Ports" Version="5.0.1" />
   </ItemGroup>
 
   <ItemGroup>

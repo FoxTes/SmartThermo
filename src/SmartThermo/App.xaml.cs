@@ -1,18 +1,19 @@
-﻿using System;
-using Prism.Ioc;
+﻿using Prism.Ioc;
 using Prism.Modularity;
+using SmartThermo.DataAccess.Sqlite;
 using SmartThermo.Modules.DataViewer;
+using SmartThermo.Modules.Dialog.SettingsDevice.ViewModels;
+using SmartThermo.Modules.Dialog.SettingsDevice.Views;
+using SmartThermo.Modules.Dialog.SettingsPort.ViewModels;
+using SmartThermo.Modules.Dialog.SettingsPort.Views;
 using SmartThermo.Services.DeviceConnector;
 using SmartThermo.Services.Notifications;
 using SmartThermo.Views;
+using System;
 using System.Windows;
-using SmartThermo.Modules.Dialog.SettingsDevice.ViewModels;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Position;
-using SmartThermo.Modules.Dialog.SettingsPort.Views;
-using SmartThermo.Modules.Dialog.SettingsPort.ViewModels;
-using SmartThermo.Modules.Dialog.SettingsDevice.Views;
 
 namespace SmartThermo
 {
@@ -21,6 +22,11 @@ namespace SmartThermo
     /// </summary>
     public partial class App
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+        }
+
         protected override Window CreateShell()
         {
             return Container.Resolve<MainWindow>();
@@ -30,7 +36,7 @@ namespace SmartThermo
         {
             var instance = new Notifications(new Notifier(cfg =>
             {
-                cfg.PositionProvider = new WindowPositionProvider(Current.MainWindow, 
+                cfg.PositionProvider = new WindowPositionProvider(Current.MainWindow,
                     Corner.BottomRight, 25, 0);
 
                 cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
@@ -43,11 +49,11 @@ namespace SmartThermo
             }));
 
             containerRegistry.RegisterInstance<INotifications>(instance);
-            #if DEBUG
-                containerRegistry.RegisterSingleton<IDeviceConnector, DeviceConnectorTest>();
-            #else
+#if DEBUG
+            containerRegistry.RegisterSingleton<IDeviceConnector, DeviceConnectorTest>();
+#else
                 containerRegistry.RegisterSingleton<IDeviceConnector, DeviceConnector>();
-            #endif
+#endif
 
             containerRegistry.RegisterDialog<SettingsPortDialog, SettingsPortDialogViewModel>();
             containerRegistry.RegisterDialog<SettingsDeviceDialog, SettingsDeviceDialogViewModel>();

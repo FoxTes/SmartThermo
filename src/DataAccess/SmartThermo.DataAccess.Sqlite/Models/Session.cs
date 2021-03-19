@@ -9,6 +9,6 @@ namespace SmartThermo.DataAccess.Sqlite.Models
 
         public DateTime DateCreate { get; set; }
 
-        public ICollection<GroupSensor> GroupSensors { get; set; }
+        public List<SensorGroup> SensorGroups { get; set; }
     }
 }

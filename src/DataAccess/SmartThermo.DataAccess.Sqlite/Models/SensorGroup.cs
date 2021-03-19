@@ -2,14 +2,16 @@
 
 namespace SmartThermo.DataAccess.Sqlite.Models
 {
-    public class GroupSensor
+    public class SensorGroup
     {
         public int Id { get; set; }
 
         public string Name { get; set; }
 
+        public int SessionId { get; set; }
+
         public Session Session { get; set; }
 
-        public ICollection<SensorInfo> SensorInfos { get; set; }
+        public List<SensorInformation> SensorInformations { get; set; }
     }
 }

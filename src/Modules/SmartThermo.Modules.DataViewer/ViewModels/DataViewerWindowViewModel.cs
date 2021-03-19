@@ -146,6 +146,31 @@ namespace SmartThermo.Modules.DataViewer.ViewModels
                 item.RemoveAt(0);
             foreach (var item in ChartValues2.Where(item => item.Count > 30))
                 item.RemoveAt(0);
+
+            SaveDataToDatabaseAsync(e);
+        }
+
+        private async void SaveDataToDatabaseAsync(List<SensorInfoEventArgs> e)
+        {
+            using Context context = new Context();
+            var groupSensorId = context.GroupSensors
+                .Where(x => x.SessionId == context.Sessions.Max(p => p.Id))
+                .Select(x => x.Id)
+                .ToList();
+
+            //TODO: Подумать над оптимизацией.
+            context.SensorInformations.AddRange(new List<SensorInformation>()
+            {
+                new SensorInformation { Value1 = e[0].Temperature, Value2 = e[1].Temperature, 
+                                        Value3 = e[2].Temperature, Value4 = e[3].Temperature,
+                                        Value5 = e[4].Temperature, Value6 = e[5].Temperature, 
+                                        SensorGroupId = groupSensorId[0] },
+                new SensorInformation { Value1 = e[6].Temperature, Value2 = e[7].Temperature,
+                                        Value3 = e[8].Temperature, Value4 = e[9].Temperature,
+                                        Value5 = e[10].Temperature, Value6 = e[11].Temperature,
+                                        SensorGroupId = groupSensorId[1] }
+            });
+            await context.SaveChangesAsync();
         }
 
         private void InitCharts()

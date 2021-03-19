@@ -7,9 +7,12 @@ namespace SmartThermo.DataAccess.Sqlite
     {
         public DbSet<Session> Sessions { get; set; }
 
-        public DbSet<GroupSensor> GroupSensors { get; set; }
+        public DbSet<SensorGroup> GroupSensors { get; set; }
+
+        public DbSet<SensorInformation> SensorInformations { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
             => options.UseSqlite(@"Data Source=app.db");
+
     }
 }

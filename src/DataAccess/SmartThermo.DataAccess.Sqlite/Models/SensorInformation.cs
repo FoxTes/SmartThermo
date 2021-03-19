@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SmartThermo.DataAccess.Sqlite.Models
+﻿namespace SmartThermo.DataAccess.Sqlite.Models
 {
-    public class SensorInfo
+    public class SensorInformation
     {
         public int Id { get; set; }
 
@@ -20,6 +16,8 @@ namespace SmartThermo.DataAccess.Sqlite.Models
 
         public int Value6 { get; set; }
 
-        public GroupSensor GroupSensor { get; set; }
+        public int SensorGroupId { get; set; }
+
+        public SensorGroup SensorGroup { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace SmartThermo.Services.DeviceConnector.BitExtensions
+namespace SmartThermo.Core.Extensions
 {
     public static class BitOperationsExtensions
     {

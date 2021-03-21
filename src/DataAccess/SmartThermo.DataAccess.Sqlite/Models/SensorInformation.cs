@@ -1,4 +1,6 @@
-﻿namespace SmartThermo.DataAccess.Sqlite.Models
+﻿using System;
+
+namespace SmartThermo.DataAccess.Sqlite.Models
 {
     public class SensorInformation
     {
@@ -15,6 +17,8 @@
         public int Value5 { get; set; }
 
         public int Value6 { get; set; }
+
+        public DateTime DataTime { get; set; }
 
         public int SensorGroupId { get; set; }
 

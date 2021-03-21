@@ -1,12 +1,12 @@
 ﻿using System;
-using Prism.Mvvm;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using Prism.Mvvm;
 
-namespace SmartThermo.Modules.Dialog.SettingsDevice.Extensions
+namespace SmartThermo.Core.Extensions
 {
-    public class ObservableCollectionExtension<T> : ObservableCollection<T> where T : BindableBase
+    public sealed class ObservableCollectionExtension<T> : ObservableCollection<T> where T : BindableBase
     {
         public ObservableCollectionExtension()
         {

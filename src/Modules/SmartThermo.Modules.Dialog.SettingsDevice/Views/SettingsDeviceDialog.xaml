@@ -20,7 +20,6 @@
     Background="{DynamicResource SystemControlPageBackgroundChromeMediumLowBrush}"
     mc:Ignorable="d">
 
-    <!--  TODO: Венести в ресурсы.  -->
     <prism:Dialog.WindowStyle>
         <Style TargetType="Window">
             <Setter Property="WindowStyle" Value="None" />
@@ -99,11 +98,15 @@
                                         Width="{Binding Path=ActualWidth, ElementName=Panel}"
                                         ItemsSource="{Binding Source={StaticResource ParityValues}}"
                                         SelectedItem="{Binding ParitySelected}" />
+                                    <TextBlock
+                                        Margin="0,8,0,0"
+                                        Text="* Настройки вступят в силу после перезапуска прибора."
+                                        TextWrapping="Wrap" />
                                 </StackPanel>
                             </GroupBox>
                         </StackPanel>
                         <StackPanel Grid.Column="2" Width="255">
-                            <GroupBox Grid.Column="2" Header="Номер">
+                            <GroupBox Header="Номер">
                                 <StackPanel>
                                     <ui:NumberBox
                                         Header="Канала связи"
@@ -118,9 +121,13 @@
                                         Minimum="0"
                                         PlaceholderText="[0-255]"
                                         Value="{Binding ModemFrequencyChannelNumber}" />
+
                                 </StackPanel>
                             </GroupBox>
+
                         </StackPanel>
+
+
                     </Grid>
                 </Grid>
             </TabItem>

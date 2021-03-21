@@ -5,14 +5,15 @@ using SmartThermo.Core;
 using SmartThermo.Core.Mvvm;
 using SmartThermo.DataAccess.Sqlite;
 using SmartThermo.DataAccess.Sqlite.Models;
-using SmartThermo.DialogExtensions;
 using SmartThermo.Services.DeviceConnector;
 using SmartThermo.Services.DeviceConnector.Enums;
 using SmartThermo.Services.Notifications;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
+using ModernWpf.Controls;
+using SmartThermo.Core.Extensions;
 using ToastNotifications.Core;
 
 namespace SmartThermo.ViewModels
@@ -21,8 +22,12 @@ namespace SmartThermo.ViewModels
     {
         #region Field
 
-        private string _labelButton = "Подключить прибор";
         private bool _isEnableSettings;
+        private string _labelButton = "Подключить прибор";
+        private string _labelView = "Измерительный участок";
+
+        // TODO: Переписать!
+        private string _nameRegion = "DataViewerWindow";
 
         #endregion
 
@@ -40,9 +45,17 @@ namespace SmartThermo.ViewModels
             set => SetProperty(ref _labelButton, value);
         }
 
+        public string LabelView
+        {
+            get => _labelView;
+            set => SetProperty(ref _labelView, value);
+        }
+
         public DelegateCommand ChangeConnectDeviceCommand { get; }
 
         public DelegateCommand SettingDeviceCommand { get; }
+
+        public DelegateCommand<NavigationViewItemInvokedEventArgs> NavigationViewInvokedCommand { get; }
 
         #endregion
 
@@ -57,7 +70,10 @@ namespace SmartThermo.ViewModels
                 {
                     IsEnableSettings = true;
                     LabelButton = "Отключить прибор";
-                    regionManager.RequestNavigate(RegionNames.MainContent, "DataViewerWindow");
+
+                    // TODO: Переписать!
+                    if (_nameRegion == "DataViewerWindow")
+                        regionManager.RequestNavigate(RegionNames.MainContent, "DataViewerWindow");
 
                     await Task.Delay(250);
                     Notifications.ShowSuccess("Осуществлено подключение к прибору.");
@@ -66,7 +82,10 @@ namespace SmartThermo.ViewModels
                 {
                     IsEnableSettings = false;
                     LabelButton = "Подключить прибор";
-                    regionManager.RequestNavigate(RegionNames.MainContent, "NoLoadDataViewerWindow");
+
+                    // TODO: Переписать!
+                    if (_nameRegion == "DataViewerWindow")
+                        regionManager.RequestNavigate(RegionNames.MainContent, "NoLoadDataViewerWindow");
 
                     await Task.Delay(250);
                     Notifications.ShowInformation("Осуществлено отключение от прибора.");
@@ -75,15 +94,36 @@ namespace SmartThermo.ViewModels
 
             ChangeConnectDeviceCommand = new DelegateCommand(ChangeConnectDeviceExecute);
             SettingDeviceCommand = new DelegateCommand(SettingDeviceExecute);
+            NavigationViewInvokedCommand = new DelegateCommand<NavigationViewItemInvokedEventArgs>(NavigationViewInvokedExecute);
 
             CreateSession();
         }
+
+        private void NavigationViewInvokedExecute(NavigationViewItemInvokedEventArgs obj)
+        {
+            // TODO: Переписать!
+            LabelView = obj.InvokedItem.ToString();
+
+            var nameRegion = obj.InvokedItemContainer.Tag.ToString();
+            if (nameRegion == "DataViewerWindow")
+            {
+                RegionManager.RequestNavigate(RegionNames.MainContent,
+                    DeviceConnector.StatusConnect == StatusConnect.Connected ? nameRegion : "NoLoadDataViewerWindow");
+                return;
+            }
+            _nameRegion = nameRegion;
+            RegionManager.RequestNavigate(RegionNames.MainContent, nameRegion);
+        }
+
+        #endregion
+
+        #region Method
 
         private async void CreateSession()
         {
             CheckDatabaseCreate();
 
-            using Context context = new Context();
+            await using var context = new Context();
             try
             {
                 context.Add(new Session
@@ -91,7 +131,7 @@ namespace SmartThermo.ViewModels
                     DateCreate = DateTime.Now,
                     SensorGroups = new List<SensorGroup>
                     {
-                        new SensorGroup { Name = "Певрая группа"},
+                        new SensorGroup { Name = "Первая группа"},
                         new SensorGroup { Name = "Вторая группа"},
                         new SensorGroup { Name = "Третья группа"},
                         new SensorGroup { Name = "Четвертая группа"},
@@ -107,19 +147,15 @@ namespace SmartThermo.ViewModels
                 Notifications.ShowError("Внимание! Ошибка работы с БД. Приложение будет закрыто через 3 секунды.");
                 await Task.Delay(3000);
 
-                App.Current.Shutdown();
+                Application.Current.Shutdown();
             }
         }
 
-        private void CheckDatabaseCreate()
+        private static void CheckDatabaseCreate()
         {
-            using Context context = new Context();
-            var result = context.Database.EnsureCreated();
+            using var context = new Context();
+            context.Database.EnsureCreated();
         }
-
-        #endregion
-
-        #region Method
 
         private void ChangeConnectDeviceExecute()
         {

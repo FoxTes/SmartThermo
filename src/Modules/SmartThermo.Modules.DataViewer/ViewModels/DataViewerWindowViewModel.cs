@@ -14,8 +14,10 @@ using SmartThermo.Services.Notifications;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
+using SmartThermo.Core.Extensions;
 
 namespace SmartThermo.Modules.DataViewer.ViewModels
 {
@@ -26,7 +28,7 @@ namespace SmartThermo.Modules.DataViewer.ViewModels
         private static readonly object Lock = new object();
 
         private readonly IDeviceConnector _deviceConnector;
-        private readonly INotifications _notifications;
+        private readonly List<int> _groupSensorId = new List<int>();
         private ObservableCollection<LimitRelay> _limitRelayItems = new ObservableCollection<LimitRelay>();
         private ObservableCollection<SensorsEther> _sensorsEtherItems = new ObservableCollection<SensorsEther>();
 
@@ -49,11 +51,9 @@ namespace SmartThermo.Modules.DataViewer.ViewModels
             set => SetProperty(ref _sensorsEtherItems, value);
         }
 
-        public List<ChartValues<MeasureData>> ChartValues1 { get; set; }
+        public List<ChartValues<MeasureData>> ChartValues { get; set; }
 
-        public List<ChartValues<MeasureData>> ChartValues2 { get; set; }
-
-        public Func<double, string> DateTimeFormatter { get; set; }
+        public Func<double, string> XFormatter { get; set; }
 
         public Func<double, string> YFormatter { get; set; }
 
@@ -81,26 +81,32 @@ namespace SmartThermo.Modules.DataViewer.ViewModels
 
         public DataViewerWindowViewModel(IDeviceConnector deviceConnector, INotifications notifications)
         {
-            _notifications = notifications;
             _deviceConnector = deviceConnector;
             _deviceConnector.RegistersRequested += DeviceConnector_RegistersRequested;
             _deviceConnector.SettingDeviceChanged += DeviceConnector_SettingDeviceChanged;
             _deviceConnector.StatusConnectChanged += DeviceConnector_StatusConnectChanged;
 
             InitCharts();
+            GetIdGroupsSensorAsync();
             BindingOperations.EnableCollectionSynchronization(SensorsEtherItems, Lock);
 
-            ResetScalingChartCommand = new DelegateCommand<int?>(ResetScalingChartExecute);
+            ResetScalingChartCommand =
+                new DelegateCommand<int?>(i => notifications.ShowInformation($"Сброшен масштаб графика №{i}."));
+        }
+
+        private async void GetIdGroupsSensorAsync()
+        {
+            await using var context = new Context();
+            var result = context.GroupSensors
+                .Where(x => x.SessionId == context.Sessions.Max(p => p.Id))
+                .Select(x => x.Id)
+                .ToList();
+            _groupSensorId.AddRange(result);
         }
 
         #endregion
 
         #region Method
-
-        private void ResetScalingChartExecute(int? index)
-        {
-            _notifications.ShowInformation($"Сброшен маштаб графика номер {index}.");
-        }
 
         private void DeviceConnector_StatusConnectChanged(object sender, StatusConnect e)
         {
@@ -113,9 +119,9 @@ namespace SmartThermo.Modules.DataViewer.ViewModels
             SetRelayLimits();
         }
 
-        private void DeviceConnector_RegistersRequested(object sender, List<SensorInfoEventArgs> e)
+        private void DeviceConnector_RegistersRequested(object sender, List<SensorInfoEventArgs> sensorData)
         {
-            var data = e.Where(x => x.IsAir)
+            var data = sensorData.Where(x => x.IsAir)
                         .Select(x => new SensorsEther
                         {
                             Id = x.Number,
@@ -126,50 +132,38 @@ namespace SmartThermo.Modules.DataViewer.ViewModels
             SensorsEtherItems.Clear();
             SensorsEtherItems.AddRange(data);
 
-            var now = DateTime.Now;
-            for (var i = 0; i < 6; i++)
-                ChartValues1[i].Add(new MeasureData
+            var now = DateTime.Now.Round(TimeSpan.FromSeconds(1));
+            for (var i = 0; i < 36; i++)
+                ChartValues[i].Add(new MeasureData
                 {
                     DateTime = now,
-                    Value = e[i].Temperature
-                });
-
-            for (var i = 6; i < 12; i++)
-                ChartValues2[i - 6].Add(new MeasureData
-                {
-                    DateTime = now,
-                    Value = e[i].Temperature
+                    Value = sensorData[i].Temperature
                 });
 
             SetAxisLimits(now);
-            foreach (var item in ChartValues1.Where(item => item.Count > 30))
-                item.RemoveAt(0);
-            foreach (var item in ChartValues2.Where(item => item.Count > 30))
+            foreach (var item in ChartValues.Where(item => item.Count > 30))
                 item.RemoveAt(0);
 
-            SaveDataToDatabaseAsync(e);
+            SaveDataToDatabaseAsync(now, sensorData);
         }
 
-        private async void SaveDataToDatabaseAsync(List<SensorInfoEventArgs> e)
+        private async void SaveDataToDatabaseAsync(DateTime time, IReadOnlyList<SensorInfoEventArgs> sensorData)
         {
-            using Context context = new Context();
-            var groupSensorId = context.GroupSensors
-                .Where(x => x.SessionId == context.Sessions.Max(p => p.Id))
-                .Select(x => x.Id)
-                .ToList();
+            await using var context = new Context();
+            var result = Enumerable.Range(0, 6)
+                .Select((x, index) => new SensorInformation
+                {
+                    Value1 = sensorData[0 + index * 6].Temperature,
+                    Value2 = sensorData[1 + index * 6].Temperature,
+                    Value3 = sensorData[2 + index * 6].Temperature,
+                    Value4 = sensorData[3 + index * 6].Temperature,
+                    Value5 = sensorData[4 + index * 6].Temperature,
+                    Value6 = sensorData[5 + index * 6].Temperature,
+                    DataTime = time,
+                    SensorGroupId = _groupSensorId[index]
+                }).ToList();
 
-            //TODO: Подумать над оптимизацией.
-            context.SensorInformations.AddRange(new List<SensorInformation>()
-            {
-                new SensorInformation { Value1 = e[0].Temperature, Value2 = e[1].Temperature, 
-                                        Value3 = e[2].Temperature, Value4 = e[3].Temperature,
-                                        Value5 = e[4].Temperature, Value6 = e[5].Temperature, 
-                                        SensorGroupId = groupSensorId[0] },
-                new SensorInformation { Value1 = e[6].Temperature, Value2 = e[7].Temperature,
-                                        Value3 = e[8].Temperature, Value4 = e[9].Temperature,
-                                        Value5 = e[10].Temperature, Value6 = e[11].Temperature,
-                                        SensorGroupId = groupSensorId[1] }
-            });
+            await context.SensorInformations.AddRangeAsync(result);
             await context.SaveChangesAsync();
         }
 
@@ -180,17 +174,16 @@ namespace SmartThermo.Modules.DataViewer.ViewModels
                 .Y(model => model.Value);
             Charting.For<MeasureData>(mapper);
 
-            ChartValues1 = new List<ChartValues<MeasureData>>();
-            ChartValues2 = new List<ChartValues<MeasureData>>();
-            for (var i = 0; i < 6; i++)
-            {
-                ChartValues1.Add(new ChartValues<MeasureData>());
-                ChartValues2.Add(new ChartValues<MeasureData>());
-                LimitRelayItems.Add(new LimitRelay());
-            }
+            ChartValues = new List<ChartValues<MeasureData>>();
+            ChartValues.AddRange(Enumerable.Range(0, 36)
+                .Select(x => new ChartValues<MeasureData>())
+                .ToList());
+            LimitRelayItems.AddRange(Enumerable.Range(0, 6)
+                .Select(x => new LimitRelay())
+                .ToList());
 
-            DateTimeFormatter = value => new DateTime((long)value).ToString("mm:ss");
-            YFormatter = value => Math.Round(value, 1).ToString();
+            XFormatter = value => new DateTime((long)value).ToString("mm:ss");
+            YFormatter = value => Math.Round(value, 1).ToString(CultureInfo.InvariantCulture);
             AxisStep = TimeSpan.FromSeconds(10).Ticks;
             AxisUnit = TimeSpan.TicksPerSecond;
             SetAxisLimits(DateTime.Now);

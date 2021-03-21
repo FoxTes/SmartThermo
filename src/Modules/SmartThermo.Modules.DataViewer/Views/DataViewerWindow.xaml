@@ -50,7 +50,7 @@
                             PointGeometry="{x:Null}"
                             Stroke="#003f5c"
                             StrokeThickness="2"
-                            Values="{Binding ChartValues1[0]}" />
+                            Values="{Binding ChartValues[0]}" />
                         <lvc:LineSeries
                             Title="Д 12"
                             Fill="Transparent"
@@ -58,7 +58,7 @@
                             PointGeometry="{x:Null}"
                             Stroke="#444e86"
                             StrokeThickness="2"
-                            Values="{Binding ChartValues1[1]}" />
+                            Values="{Binding ChartValues[1]}" />
                         <lvc:LineSeries
                             Title="Д 13"
                             Fill="Transparent"
@@ -66,7 +66,7 @@
                             PointGeometry="{x:Null}"
                             Stroke="#955196"
                             StrokeThickness="2"
-                            Values="{Binding ChartValues1[2]}" />
+                            Values="{Binding ChartValues[2]}" />
                         <lvc:LineSeries
                             Title="Д 14"
                             Fill="Transparent"
@@ -74,7 +74,7 @@
                             PointGeometry="{x:Null}"
                             Stroke="#dd5182"
                             StrokeThickness="2"
-                            Values="{Binding ChartValues1[3]}" />
+                            Values="{Binding ChartValues[3]}" />
                         <lvc:LineSeries
                             Title="Д 15"
                             Fill="Transparent"
@@ -82,7 +82,7 @@
                             PointGeometry="{x:Null}"
                             Stroke="#ff6e54"
                             StrokeThickness="2"
-                            Values="{Binding ChartValues1[4]}" />
+                            Values="{Binding ChartValues[4]}" />
                         <lvc:LineSeries
                             Title="Д 16"
                             Fill="Transparent"
@@ -90,7 +90,7 @@
                             PointGeometry="{x:Null}"
                             Stroke="#ffa600"
                             StrokeThickness="2"
-                            Values="{Binding ChartValues1[5]}" />
+                            Values="{Binding ChartValues[5]}" />
                     </lvc:CartesianChart.Series>
                     <lvc:CartesianChart.AxisY>
                         <lvc:Axis
@@ -123,7 +123,7 @@
                         <lvc:Axis
                             DisableAnimations="True"
                             FontSize="12"
-                            LabelFormatter="{Binding DateTimeFormatter}"
+                            LabelFormatter="{Binding XFormatter}"
                             MaxValue="{Binding AxisMax}"
                             MinValue="{Binding AxisMin}"
                             RangeChangedCommand="{Binding RangeChangedCommand}"
@@ -141,7 +141,7 @@
                             <Setter Property="ContextMenu">
                                 <Setter.Value>
                                     <ContextMenu>
-                                        <MenuItem Command="{Binding ResetScalingChartCommand}" Header="Сбросить маштаб">
+                                        <MenuItem Command="{Binding ResetScalingChartCommand}" Header="Сбросить масштаб">
                                             <MenuItem.CommandParameter>
                                                 <sys:Int32>1</sys:Int32>
                                             </MenuItem.CommandParameter>
@@ -174,7 +174,7 @@
                             PointGeometry="{x:Null}"
                             Stroke="#003f5c"
                             StrokeThickness="2"
-                            Values="{Binding ChartValues2[0]}" />
+                            Values="{Binding ChartValues[6]}" />
                         <lvc:LineSeries
                             Title="Д 22"
                             Fill="Transparent"
@@ -182,7 +182,7 @@
                             PointGeometry="{x:Null}"
                             Stroke="#444e86"
                             StrokeThickness="2"
-                            Values="{Binding ChartValues2[1]}" />
+                            Values="{Binding ChartValues[7]}" />
                         <lvc:LineSeries
                             Title="Д 23"
                             Fill="Transparent"
@@ -190,7 +190,7 @@
                             PointGeometry="{x:Null}"
                             Stroke="#955196"
                             StrokeThickness="2"
-                            Values="{Binding ChartValues2[2]}" />
+                            Values="{Binding ChartValues[8]}" />
                         <lvc:LineSeries
                             Title="Д 24"
                             Fill="Transparent"
@@ -198,7 +198,7 @@
                             PointGeometry="{x:Null}"
                             Stroke="#dd5182"
                             StrokeThickness="2"
-                            Values="{Binding ChartValues2[3]}" />
+                            Values="{Binding ChartValues[9]}" />
                         <lvc:LineSeries
                             Title="Д 25"
                             Fill="Transparent"
@@ -206,7 +206,7 @@
                             PointGeometry="{x:Null}"
                             Stroke="#ff6e54"
                             StrokeThickness="2"
-                            Values="{Binding ChartValues2[4]}" />
+                            Values="{Binding ChartValues[10]}" />
                         <lvc:LineSeries
                             Title="Д 26"
                             Fill="Transparent"
@@ -214,7 +214,7 @@
                             PointGeometry="{x:Null}"
                             Stroke="#ffa600"
                             StrokeThickness="2"
-                            Values="{Binding ChartValues2[5]}" />
+                            Values="{Binding ChartValues[11]}" />
                     </lvc:CartesianChart.Series>
                     <lvc:CartesianChart.AxisY>
                         <lvc:Axis
@@ -247,7 +247,7 @@
                         <lvc:Axis
                             DisableAnimations="True"
                             FontSize="12"
-                            LabelFormatter="{Binding DateTimeFormatter}"
+                            LabelFormatter="{Binding XFormatter}"
                             MaxValue="{Binding AxisMax}"
                             MinValue="{Binding AxisMin}"
                             Unit="{Binding AxisUnit}">
@@ -264,7 +264,7 @@
                             <Setter Property="ContextMenu">
                                 <Setter.Value>
                                     <ContextMenu>
-                                        <MenuItem Header="Сбросить маштаб" />
+                                        <MenuItem Header="Сбросить масштаб" />
                                     </ContextMenu>
                                 </Setter.Value>
                             </Setter>

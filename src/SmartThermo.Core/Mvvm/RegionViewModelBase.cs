@@ -13,7 +13,7 @@ namespace SmartThermo.Core.Mvvm
         protected IDeviceConnector DeviceConnector { get; }
         protected INotifications Notifications { get; }
 
-        public RegionViewModelBase(IRegionManager regionManager, IDeviceConnector deviceConnector, 
+        protected RegionViewModelBase(IRegionManager regionManager, IDeviceConnector deviceConnector, 
             INotifications notifications, IDialogService dialogService)
         {
             RegionManager = regionManager;

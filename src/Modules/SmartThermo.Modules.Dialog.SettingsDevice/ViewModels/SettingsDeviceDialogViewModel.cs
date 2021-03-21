@@ -1,9 +1,8 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
-using Prism.Regions;
 using Prism.Services.Dialogs;
+using SmartThermo.Core.Extensions;
 using SmartThermo.Modules.Dialog.SettingsDevice.Enums;
-using SmartThermo.Modules.Dialog.SettingsDevice.Extensions;
 using SmartThermo.Modules.Dialog.SettingsDevice.Models;
 using SmartThermo.Modules.Dialog.SettingsPort.Enums;
 using SmartThermo.Services.DeviceConnector;

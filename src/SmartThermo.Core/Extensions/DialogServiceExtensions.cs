@@ -1,7 +1,7 @@
-﻿using Prism.Services.Dialogs;
-using System;
+﻿using System;
+using Prism.Services.Dialogs;
 
-namespace SmartThermo.DialogExtensions
+namespace SmartThermo.Core.Extensions
 {
     public static class DialogServiceExtensions
     {

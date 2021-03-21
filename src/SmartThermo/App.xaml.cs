@@ -1,6 +1,6 @@
 ﻿using Prism.Ioc;
 using Prism.Modularity;
-using SmartThermo.DataAccess.Sqlite;
+using SmartThermo.Modules.Analytics;
 using SmartThermo.Modules.DataViewer;
 using SmartThermo.Modules.Dialog.SettingsDevice.ViewModels;
 using SmartThermo.Modules.Dialog.SettingsDevice.Views;
@@ -22,11 +22,6 @@ namespace SmartThermo
     /// </summary>
     public partial class App
     {
-        protected override void OnStartup(StartupEventArgs e)
-        {
-            base.OnStartup(e);
-        }
-
         protected override Window CreateShell()
         {
             return Container.Resolve<MainWindow>();
@@ -49,11 +44,11 @@ namespace SmartThermo
             }));
 
             containerRegistry.RegisterInstance<INotifications>(instance);
-#if DEBUG
-            containerRegistry.RegisterSingleton<IDeviceConnector, DeviceConnectorTest>();
-#else
+            #if DEBUG
+                containerRegistry.RegisterSingleton<IDeviceConnector, DeviceConnectorTest>();
+            #else
                 containerRegistry.RegisterSingleton<IDeviceConnector, DeviceConnector>();
-#endif
+            #endif
 
             containerRegistry.RegisterDialog<SettingsPortDialog, SettingsPortDialogViewModel>();
             containerRegistry.RegisterDialog<SettingsDeviceDialog, SettingsDeviceDialogViewModel>();
@@ -62,8 +57,12 @@ namespace SmartThermo
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
             moduleCatalog.AddModule<DataViewerModule>();
+            moduleCatalog.AddModule<AnalyticsModule>();
         }
 
-        // TODO: 5) Далее с аналитикой. 6) Венеси в ресурсы стиль Dialog окон. 7) Сделать базовую модель для Dialog окон.
+        // TODO: 5) Далее с аналитикой. 6) Вынеси в ресурсы стиль Dialog окон.
+        // 7) Переделать диалоговые окна.
+        // 8) Reset масштаба графиков. 9) Tooltip для графиков.
+        // 11) No data style.
     }
 }

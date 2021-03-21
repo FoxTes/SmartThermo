@@ -26,9 +26,6 @@ namespace SmartThermo.ViewModels
         private string _labelButton = "Подключить прибор";
         private string _labelView = "Измерительный участок";
 
-        // TODO: Переписать!
-        private string _nameRegion = "DataViewerWindow";
-
         #endregion
 
         #region Property
@@ -70,10 +67,7 @@ namespace SmartThermo.ViewModels
                 {
                     IsEnableSettings = true;
                     LabelButton = "Отключить прибор";
-
-                    // TODO: Переписать!
-                    if (_nameRegion == "DataViewerWindow")
-                        regionManager.RequestNavigate(RegionNames.MainContent, "DataViewerWindow");
+                    regionManager.RequestNavigate(RegionNames.MainContent, "DataViewerWindow");
 
                     await Task.Delay(250);
                     Notifications.ShowSuccess("Осуществлено подключение к прибору.");
@@ -82,10 +76,7 @@ namespace SmartThermo.ViewModels
                 {
                     IsEnableSettings = false;
                     LabelButton = "Подключить прибор";
-
-                    // TODO: Переписать!
-                    if (_nameRegion == "DataViewerWindow")
-                        regionManager.RequestNavigate(RegionNames.MainContent, "NoLoadDataViewerWindow");
+                    regionManager.RequestNavigate(RegionNames.MainContent, "NoLoadDataViewerWindow");
 
                     await Task.Delay(250);
                     Notifications.ShowInformation("Осуществлено отключение от прибора.");
@@ -101,17 +92,9 @@ namespace SmartThermo.ViewModels
 
         private void NavigationViewInvokedExecute(NavigationViewItemInvokedEventArgs obj)
         {
-            // TODO: Переписать!
             LabelView = obj.InvokedItem.ToString();
 
             var nameRegion = obj.InvokedItemContainer.Tag.ToString();
-            if (nameRegion == "DataViewerWindow")
-            {
-                RegionManager.RequestNavigate(RegionNames.MainContent,
-                    DeviceConnector.StatusConnect == StatusConnect.Connected ? nameRegion : "NoLoadDataViewerWindow");
-                return;
-            }
-            _nameRegion = nameRegion;
             RegionManager.RequestNavigate(RegionNames.MainContent, nameRegion);
         }
 

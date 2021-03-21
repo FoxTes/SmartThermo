@@ -53,15 +53,15 @@ namespace SmartThermo.Services.DeviceConnector
         private void OnTimer(object o)
         {
             var data = new ushort[36];
-            for (var i = 0; i < 36; i++) 
-                data[i] = 0xAC00;
+            for (var i = 0; i < 36; i++)
+                data[i] = (ushort)(0xAC00 + _random.Next(16128, 32256));
 
-            var result = data.Select((x , index)=> new SensorInfoEventArgs
+            var result = data.Select((x, index) => new SensorInfoEventArgs
             {
                 Id = index,
-                Number = (index / 6 + 1) * 10 + (index + 1) - 6 * (index / 6),
-                Temperature = (byte)_random.Next(40,60),
-                TimeLastBroadcast = (byte)((data[index] & 0b0011_1111_0000_0000) >> 8),
+                Number = (index / 6 + 1) * 10 + index + 1 - 6 * (index / 6),
+                Temperature = (byte) _random.Next(40, 60),
+                TimeLastBroadcast = (byte) ((data[index] & 0b0011_1111_0000_0000) >> 8),
                 IsEmergencyDescent = data[index].IsBitSet(14),
                 IsAir = data[index].IsBitSet(15)
             }).ToList();

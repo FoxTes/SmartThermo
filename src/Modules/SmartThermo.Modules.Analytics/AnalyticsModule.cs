@@ -15,7 +15,7 @@ namespace SmartThermo.Modules.Analytics
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterDialog<SessionDialog, SessionDialogViewModel>();
-            containerRegistry.RegisterForNavigation<AnalyticsWindow>();
+            containerRegistry.RegisterForNavigation<AnalyticsWindow, AnalyticsWindowViewModel>();
         }
     }
 }

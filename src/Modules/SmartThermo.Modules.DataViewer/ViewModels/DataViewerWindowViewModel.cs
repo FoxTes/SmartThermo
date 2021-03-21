@@ -16,11 +16,12 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Windows.Data;
+using Prism.Regions;
 using SmartThermo.Core.Extensions;
 
 namespace SmartThermo.Modules.DataViewer.ViewModels
 {
-    public class DataViewerWindowViewModel : ViewModelBase
+    public class DataViewerWindowViewModel : ViewModelBase, IRegionMemberLifetime
     {
         #region Field
 
@@ -74,6 +75,8 @@ namespace SmartThermo.Modules.DataViewer.ViewModels
 
         public DelegateCommand<int?> ResetScalingChartCommand { get; }
 
+        public bool KeepAlive => true;
+
         #endregion
 
         #region Constructor
@@ -121,25 +124,19 @@ namespace SmartThermo.Modules.DataViewer.ViewModels
         private void DeviceConnector_RegistersRequested(object sender, List<SensorInfoEventArgs> sensorData)
         {
             var data = sensorData.Where(x => x.IsAir)
-                        .Select(x => new SensorsEther
-                        {
-                            Id = x.Number,
-                            Time = x.TimeLastBroadcast
-                        })
-                        .ToList();
+                .Select(x => new SensorsEther
+                {
+                    Id = x.Number,
+                    Time = x.TimeLastBroadcast
+                })
+                .ToList();
 
             SensorsEtherItems.Clear();
             SensorsEtherItems.AddRange(data);
 
             var now = DateTime.Now.Round(TimeSpan.FromSeconds(1));
-            for (var i = 0; i < 36; i++)
-                ChartValues[i].Add(new MeasureData
-                {
-                    DateTime = now,
-                    Value = sensorData[i].Temperature
-                });
 
-            SetAxisLimits(now);
+
             foreach (var item in ChartValues.Where(item => item.Count > 30))
                 item.RemoveAt(0);
 

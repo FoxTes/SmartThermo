@@ -35,6 +35,7 @@
 
             <Grid Margin="0,8,8,8" Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
                 <lvc:CartesianChart
+                    
                     Margin="8"
                     DataTooltip="{x:Null}"
                     DisableAnimations="True"

@@ -1,21 +1,30 @@
 ﻿using Prism.Commands;
-using Prism.Mvvm;
-using System;
+using Prism.Regions;
+using Prism.Services.Dialogs;
+using SmartThermo.Core.Extensions;
+using SmartThermo.Core.Mvvm;
+using SmartThermo.Services.DeviceConnector;
+using SmartThermo.Services.Notifications;
 
 namespace SmartThermo.Modules.Analytics.ViewModels
 {
-    public class AnalyticsWindowViewModel : BindableBase
+    public class AnalyticsWindowViewModel : RegionViewModelBase
     {
-        public DelegateCommand CancelCommand { get; }
+        public DelegateCommand SetSessionCommand { get; }
 
-        public AnalyticsWindowViewModel()
+        public AnalyticsWindowViewModel(IRegionManager regionManager, IDeviceConnector deviceConnector, INotifications notifications, IDialogService dialogService)
+            : base(regionManager, deviceConnector, notifications, dialogService)
         {
-            CancelCommand = new DelegateCommand(SetSessionExecute);
+            SetSessionCommand = new DelegateCommand(SetSessionExecute);
         }
 
         private void SetSessionExecute()
         {
-            //throw new NotImplementedException();
+            DialogService.ShowNotification("SessionDialog", r =>
+            {
+                if (r.Result == ButtonResult.None)
+                    Notifications.ShowInformation("Операция прервана пользователем.");
+            });
         }
     }
 }

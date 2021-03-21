@@ -6,7 +6,7 @@ namespace SmartThermo.Modules.Analytics.ViewModels
 {
     public class SessionDialogViewModel : DialogViewModelBase
     {
-        public DelegateCommand CloseDialogCommand { get; set; }
+        public DelegateCommand CloseDialogCommand { get; }
 
         public SessionDialogViewModel()
         {

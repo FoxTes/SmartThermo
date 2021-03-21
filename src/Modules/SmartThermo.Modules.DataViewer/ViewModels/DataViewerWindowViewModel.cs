@@ -7,7 +7,6 @@ using SmartThermo.DataAccess.Sqlite.Models;
 using SmartThermo.Modules.DataViewer.Models;
 using SmartThermo.Modules.Dialog.SettingsDevice.Enums;
 using SmartThermo.Services.DeviceConnector;
-using SmartThermo.Services.DeviceConnector.BitExtensions;
 using SmartThermo.Services.DeviceConnector.Enums;
 using SmartThermo.Services.DeviceConnector.Models;
 using SmartThermo.Services.Notifications;

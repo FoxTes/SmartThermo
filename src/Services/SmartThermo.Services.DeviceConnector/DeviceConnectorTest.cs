@@ -1,11 +1,11 @@
-﻿using SmartThermo.Services.DeviceConnector.BitExtensions;
-using SmartThermo.Services.DeviceConnector.Enums;
+﻿using SmartThermo.Services.DeviceConnector.Enums;
 using SmartThermo.Services.DeviceConnector.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using SmartThermo.Services.DeviceConnector.Extensions;
 
 namespace SmartThermo.Services.DeviceConnector
 {

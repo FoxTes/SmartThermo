@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace SmartThermo.Core.Extensions
 {
-    public static class BitOperationsExtensions
+    public static class BitOperationsExtension
     {
         /// <summary>
         /// Returns whether the bit at the specified position is set.

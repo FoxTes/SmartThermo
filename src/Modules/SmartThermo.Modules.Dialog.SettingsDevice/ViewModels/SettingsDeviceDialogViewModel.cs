@@ -6,7 +6,6 @@ using SmartThermo.Modules.Dialog.SettingsDevice.Enums;
 using SmartThermo.Modules.Dialog.SettingsDevice.Models;
 using SmartThermo.Modules.Dialog.SettingsPort.Enums;
 using SmartThermo.Services.DeviceConnector;
-using SmartThermo.Services.DeviceConnector.BitExtensions;
 using SmartThermo.Services.DeviceConnector.Models;
 using SmartThermo.Services.Notifications;
 using System;

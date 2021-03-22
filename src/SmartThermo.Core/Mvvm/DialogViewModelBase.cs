@@ -9,7 +9,7 @@ namespace SmartThermo.Core.Mvvm
         public event Action<IDialogResult> RequestClose;
 
         private string _iconSource;
-        private string _title;
+        private string _title = string.Empty;
 
         public string IconSource
         {
@@ -23,15 +23,12 @@ namespace SmartThermo.Core.Mvvm
             set => SetProperty(ref _title, value);
         }
 
-        public virtual void RaiseRequestClose(IDialogResult dialogResult)
+        protected void RaiseRequestClose(IDialogResult dialogResult)
         {
             RequestClose?.Invoke(dialogResult);
         }
 
-        public virtual bool CanCloseDialog()
-        {
-            return true;
-        }
+        public virtual bool CanCloseDialog() => true;
 
         public virtual void OnDialogClosed()
         {

@@ -1,7 +1,7 @@
 ﻿using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using SmartThermo.Core.Extensions;
+using SmartThermo.Core.Mvvm;
 using SmartThermo.Modules.Dialog.SettingsDevice.Enums;
 using SmartThermo.Modules.Dialog.SettingsDevice.Models;
 using SmartThermo.Modules.Dialog.SettingsPort.Enums;
@@ -17,14 +17,8 @@ using ToastNotifications.Core;
 
 namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
 {
-    public class SettingsDeviceDialogViewModel : BindableBase, IDialogAware
+    public class SettingsDeviceDialogViewModel : DialogViewModelBase
     {
-        #region Event
-
-        public event Action<IDialogResult> RequestClose;
-
-        #endregion
-
         #region Field
 
         private readonly IDeviceConnector _deviceConnector;
@@ -164,8 +158,6 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
             set => SetProperty(ref _isEnable, value);
         }
 
-        public string Title => string.Empty;
-
         public DelegateCommand WriteCommand { get; }
 
         public DelegateCommand CancelCommand { get; }
@@ -279,12 +271,12 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
             }
 
             if (!isSuccessful)
-                RequestClose?.Invoke(new DialogResult(ButtonResult.None));
+                RaiseRequestClose(new DialogResult(ButtonResult.None));
         }
 
         private void CancelExecute()
         {
-            RequestClose?.Invoke(new DialogResult(_isSettingsSet ? ButtonResult.None : ButtonResult.Cancel));
+            RaiseRequestClose(new DialogResult(_isSettingsSet ? ButtonResult.None : ButtonResult.Cancel));
         }
 
         private void UpdateGroupCheckItems(int value)
@@ -331,12 +323,7 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
             _dataGroupCheckItems[_relayNumberSelected - 1] = data;
         }
 
-        public void OnDialogClosed()
-        {
-
-        }
-
-        public void OnDialogOpened(IDialogParameters parameters)
+        public override void OnDialogOpened(IDialogParameters parameters)
         {
             GetDeviceSettingsAsync();
         }
@@ -381,8 +368,6 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
                 setting.StatusAlarmRelay.IsBitSet(2)
             };
         }
-
-        public bool CanCloseDialog() => true;
 
         #endregion
     }

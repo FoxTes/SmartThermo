@@ -1,6 +1,6 @@
 ﻿using Prism.Commands;
-using Prism.Mvvm;
 using Prism.Services.Dialogs;
+using SmartThermo.Core.Mvvm;
 using SmartThermo.Modules.Dialog.SettingsPort.Enums;
 using SmartThermo.Services.DeviceConnector;
 using SmartThermo.Services.DeviceConnector.Models;
@@ -13,14 +13,8 @@ using ToastNotifications.Core;
 
 namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
 {
-    public class SettingsPortDialogViewModel : BindableBase, IDialogAware
+    public class SettingsPortDialogViewModel : DialogViewModelBase
     {
-        #region Event
-
-        public event Action<IDialogResult> RequestClose;
-
-        #endregion
-
         #region Field
 
         private readonly IDeviceConnector _deviceConnector;
@@ -47,8 +41,6 @@ namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
             get => _isEnable;
             set => SetProperty(ref _isEnable, value);
         }
-
-        public string Title => string.Empty;
 
         public byte AddressDeviceSelected
         {
@@ -151,10 +143,10 @@ namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
                 IsEnable = true;
             }
 
-            RequestClose?.Invoke(new DialogResult(ButtonResult.None));
+            RaiseRequestClose(new DialogResult(ButtonResult.None));
         }
 
-        private void CancelExecute() => RequestClose?.Invoke(new DialogResult(ButtonResult.Cancel));
+        private void CancelExecute() => RaiseRequestClose(new DialogResult(ButtonResult.Cancel));
 
         private void UploadingDataSources()
         {
@@ -173,18 +165,6 @@ namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
             StopBitsSelected = StopBits.One;
             ParitySelected = Parity.None;
         }
-
-        public void OnDialogClosed()
-        {
-
-        }
-
-        public void OnDialogOpened(IDialogParameters parameters)
-        {
-
-        }
-
-        public bool CanCloseDialog() => true;
 
         #endregion
     }

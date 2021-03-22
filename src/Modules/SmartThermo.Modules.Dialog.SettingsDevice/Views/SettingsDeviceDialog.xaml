@@ -109,18 +109,18 @@
                             <GroupBox Header="Номер">
                                 <StackPanel>
                                     <ui:NumberBox
-                                        Header="Канала связи"
+                                        Header="Частотный канал модема"
                                         Maximum="126"
                                         Minimum="1"
                                         PlaceholderText="[1-126]"
-                                        Value="{Binding CommunicationChanelNumber}" />
+                                        Value="{Binding ModemFrequencyChannelNumber}" />
                                     <ui:NumberBox
                                         Margin="0,8,0,0"
-                                        Header="Частотный канала модема"
+                                        Header="Идентификатор для привязки"
                                         Maximum="255"
                                         Minimum="0"
                                         PlaceholderText="[0-255]"
-                                        Value="{Binding ModemFrequencyChannelNumber}" />
+                                        Value="{Binding CommunicationChanelNumber}" />
 
                                 </StackPanel>
                             </GroupBox>

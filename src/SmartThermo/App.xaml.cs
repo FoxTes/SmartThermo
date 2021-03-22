@@ -61,8 +61,6 @@ namespace SmartThermo
         }
 
         // -Вынести стили диалоговых окон.
-        // -Логика представления для DataViewer (Connect, NoConnect).
-        // -Логика представления для Analytics (Connect, NoConnect).
         // -Загрузка данных для Analytics.
         // -Переделка дизайна для Analytics и диалогового окна.
         // -Сброс масштаба графиков.

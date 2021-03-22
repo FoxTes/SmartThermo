@@ -45,7 +45,7 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
         private List<bool> _statusAlarmRelay;
 
         private readonly List<ushort> _dataGroupCheckItems = new List<ushort>();
-        private ObservableCollectionExtension<GroupInfo> _groupCheckItems  = new ObservableCollectionExtension<GroupInfo>();
+        private ObservableCollectionExtension<GroupInfo> _groupCheckItems = new ObservableCollectionExtension<GroupInfo>();
         private List<RelayNumber> _relayNumber;
         private int _relayNumberSelected;
         private bool _workLogic;
@@ -219,6 +219,22 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
             {
                 var setting = new SettingDeviceEventArgs
                 {
+                    AddressDevice = AddressDeviceInModbus,
+                    Speed = BaudRateSelected switch
+                    {
+                        BaudRate.S9600 => 0,
+                        BaudRate.S19200 => 1,
+                        BaudRate.S38400 => 2,
+                        BaudRate.S57600 => 3,
+                        _ => 4
+                    },
+                    Parity = ParitySelected switch
+                    {
+                        Parity.None => 0,
+                        Parity.Even => 1,
+                        _ => 2
+                    },
+                    NumberChanelId = (ushort)((CommunicationChanelNumber << 8) | ModemFrequencyChannelNumber),
                     TemperatureThreshold = TemperatureThreshold,
                     TemperatureHysteresis = (ushort)((TemperatureHysteresis[1] << 8) | TemperatureHysteresis[0]),
                     DelaySignalRelays = (ushort)((DelaySignalRelays[1] << 8) | DelaySignalRelays[0]),
@@ -327,9 +343,9 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
 
         private void GetDeviceSettingsAsync()
         {
-            var setting =  _deviceConnector.SettingDevice;
+            var setting = _deviceConnector.SettingDevice;
 
-            AddressDeviceInModbus = (byte) setting.AddressDevice;
+            AddressDeviceInModbus = (byte)setting.AddressDevice;
             BaudRateSelected = setting.Speed switch
             {
                 0 => BaudRate.S9600,
@@ -344,8 +360,8 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
                 1 => Parity.Even,
                 _ => Parity.Odd
             };
-            CommunicationChanelNumber = (byte) setting.NumberChanelId;
-            ModemFrequencyChannelNumber = (byte) (setting.NumberChanelId >> 8);
+            ModemFrequencyChannelNumber = (byte)setting.NumberChanelId;
+            CommunicationChanelNumber = (byte)(setting.NumberChanelId >> 8);
 
             TemperatureThreshold = setting.TemperatureThreshold;
             TemperatureHysteresis = new List<byte>

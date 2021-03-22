@@ -21,7 +21,9 @@ namespace SmartThermo.Services.DeviceConnector.Models
         public ushort Parity { get; set; }
 
         /// <summary>
-        /// Номер канала связи и ID. 00..07 [1-126] номер частотного канала модема 08..15 ID[0-255].
+        /// Номер канала связи и ID. 
+        /// 00..07 Номер частотного канала модема [1-126].
+        /// 08..15 ID [0..255] (идентификатор для привязки датчиков к контроллеру).
         /// </summary>
         public ushort NumberChanelId { get; set; }
 

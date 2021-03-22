@@ -14,4 +14,10 @@
     <ProjectReference Include="..\Services\SmartThermo.Services.Notifications\SmartThermo.Services.Notifications.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Styles\DialogStyle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+  </ItemGroup>
+
 </Project>

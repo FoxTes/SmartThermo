@@ -67,7 +67,6 @@ namespace SmartThermo.ViewModels
                 {
                     IsEnableSettings = true;
                     LabelButton = "Отключить прибор";
-                    regionManager.RequestNavigate(RegionNames.MainContent, "DataViewerWindow");
 
                     await Task.Delay(250);
                     Notifications.ShowSuccess("Осуществлено подключение к прибору.");
@@ -76,7 +75,6 @@ namespace SmartThermo.ViewModels
                 {
                     IsEnableSettings = false;
                     LabelButton = "Подключить прибор";
-                    regionManager.RequestNavigate(RegionNames.MainContent, "NoLoadDataViewerWindow");
 
                     await Task.Delay(250);
                     Notifications.ShowInformation("Осуществлено отключение от прибора.");

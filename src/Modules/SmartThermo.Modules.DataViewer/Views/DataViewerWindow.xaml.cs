@@ -1,10 +1,9 @@
-﻿using LiveCharts.Events;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace SmartThermo.Modules.DataViewer.Views
 {
     /// <summary>
-    /// Interaction logic for ViewA.xaml
+    /// Interaction logic for DataViewerWindow
     /// </summary>
     public partial class DataViewerWindow : UserControl
     {

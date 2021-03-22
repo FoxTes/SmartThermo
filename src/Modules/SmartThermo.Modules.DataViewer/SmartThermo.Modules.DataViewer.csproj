@@ -14,4 +14,14 @@
     <ProjectReference Include="..\..\SmartThermo.Core\SmartThermo.Core.csproj" />
     <ProjectReference Include="..\SmartThermo.Modules.Dialog.SettingsDevice\SmartThermo.Modules.Dialog.SettingsDevice.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Represent\NoLoadDataViewerWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Views\Represent\NoLoadDataViewerWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
 </Project>

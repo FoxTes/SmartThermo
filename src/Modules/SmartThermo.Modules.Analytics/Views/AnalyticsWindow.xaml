@@ -12,7 +12,38 @@
     ui:ThemeManager.RequestedTheme="Dark"
     Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}"
     mc:Ignorable="d">
+
     <Grid>
-        <WpfPlot Grid.Row="1" Margin="0,8,0,0" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Margin="8" Orientation="Horizontal">
+                <Label
+                    Margin="0,0,16,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="Группа датчиков:"
+                    FontSize="16" />
+                <ComboBox Width="200" />
+            </StackPanel>
+
+            <Button
+                Grid.Column="1"
+                Width="150"
+                Margin="8"
+                HorizontalAlignment="Right"
+                Command="{Binding GetSensorDataCommand}"
+                Content="Обновить" />
+        </Grid>
+
+        <ContentControl Grid.Row="1" Content="{Binding PlotControl}" />
     </Grid>
 </UserControl>

@@ -20,6 +20,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Threading;
+using Microsoft.EntityFrameworkCore;
 
 namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
 {
@@ -132,10 +133,14 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
         private async void GetIdGroupsSensorAsync()
         {
             await using var context = new Context();
-            var result = context.GroupSensors
-                .Where(x => x.SessionId == context.Sessions.Max(p => p.Id))
+            
+            var sessionId = await context.Sessions
+                .MaxAsync(p => p.Id);
+            var result = await context.GroupSensors
+                .Where(x => x.SessionId == sessionId)
                 .Select(x => x.Id)
-                .ToList();
+                .ToListAsync();
+            
             _groupSensorId.AddRange(result);
         }
 
@@ -168,7 +173,7 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
             SensorsEtherItems.AddRange(data);
 
             var now = DateTime.Now.Round(TimeSpan.FromSeconds(1));
-            // Вызов диспечера требуется для корректной работы отрисовки графика при переключении окон.
+            // Вызов диспетчера требуется для корректной работы отрисовки графика при переключении окон.
             Application.Current.Dispatcher?.InvokeAsync(() =>
             {
                 for (var i = 0; i < 36; i++)

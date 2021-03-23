@@ -7,7 +7,7 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.Behaviors
 {
     public class TabControlBehavior : Behavior<TabControl>
     {
-        private TabControl AssociatedTabControl { get { return AssociatedObject; } }
+        private TabControl AssociatedTabControl => AssociatedObject;
 
         protected override void OnAttached()
         {
@@ -20,7 +20,7 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.Behaviors
             if (!(sender is TabControl tabControl))
                 return;
 
-            double contentWidth = ((FrameworkElement)((TabItem)tabControl.SelectedItem).Content).ActualWidth;
+            var contentWidth = ((FrameworkElement)((TabItem)tabControl.SelectedItem).Content).ActualWidth;
             double max = 0;
 
             foreach (TabItem tab in tabControl.Items)

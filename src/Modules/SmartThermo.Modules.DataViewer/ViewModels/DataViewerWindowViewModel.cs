@@ -10,7 +10,8 @@ namespace SmartThermo.Modules.DataViewer.ViewModels
 {
     public class DataViewerWindowViewModel : RegionViewModelBase
     {
-        public DataViewerWindowViewModel(IRegionManager regionManager, IDeviceConnector deviceConnector, INotifications notifications, IDialogService dialogService)
+        public DataViewerWindowViewModel(IRegionManager regionManager, IDeviceConnector deviceConnector,
+            INotifications notifications, IDialogService dialogService)
             : base(regionManager, deviceConnector, notifications, dialogService)
         {
             DeviceConnector.StatusConnectChanged += (_, connect) =>

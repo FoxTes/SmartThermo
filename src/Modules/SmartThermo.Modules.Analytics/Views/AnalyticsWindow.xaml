@@ -25,20 +25,24 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <StackPanel Margin="8" Orientation="Horizontal">
+            <StackPanel Margin="0,8,8,8" Orientation="Horizontal">
                 <Label
                     Margin="0,0,16,0"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Content="Группа датчиков:"
+                    Content="Датчики:"
                     FontSize="16" />
-                <ComboBox Width="200" />
+                <ComboBox
+                    Width="150"
+                    DisplayMemberPath="Name"
+                    ItemsSource="{Binding Path=SensorGroups}"
+                    SelectedValue="{Binding Path=SensorGroupSelected}"
+                    SelectedValuePath="Value" />
             </StackPanel>
 
             <Button
                 Grid.Column="1"
                 Width="150"
-                Margin="8"
                 HorizontalAlignment="Right"
                 Command="{Binding GetSensorDataCommand}"
                 Content="Обновить" />

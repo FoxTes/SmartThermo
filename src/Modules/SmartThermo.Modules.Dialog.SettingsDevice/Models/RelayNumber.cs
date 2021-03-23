@@ -1,5 +1,6 @@
 ﻿namespace SmartThermo.Modules.Dialog.SettingsDevice.Models
 {
+    // TODO: Убрать.
     public class RelayNumber
     {
         public string Name { get; set; }

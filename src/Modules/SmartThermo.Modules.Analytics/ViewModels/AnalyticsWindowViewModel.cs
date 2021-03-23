@@ -10,7 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ScottPlot;
-using SmartThermo.DataAccess.Sqlite.Models;
+using SmartThermo.Core.Models;
 
 namespace SmartThermo.Modules.Analytics.ViewModels
 {
@@ -19,14 +19,29 @@ namespace SmartThermo.Modules.Analytics.ViewModels
         #region Field
 
         private readonly List<int> _groupSensorId = new List<int>();
+        private WpfPlot _plotControl;
         private Plot _plot;
 
+        private int _sensorGroupSelected;
+
         #endregion
-        
+
         #region Property
 
-        public WpfPlot PlotControl { get; set; } 
-        
+        public WpfPlot PlotControl
+        {
+            get => _plotControl;
+            set => SetProperty(ref _plotControl, value);
+        }
+
+        public List<ItemDescriptor<int>> SensorGroups { get; }
+
+        public int SensorGroupSelected
+        {
+            get => _sensorGroupSelected;
+            set => SetProperty(ref _sensorGroupSelected, value);
+        }
+
         public DelegateCommand GetSensorDataCommand { get; }
 
         #endregion
@@ -40,6 +55,17 @@ namespace SmartThermo.Modules.Analytics.ViewModels
             InitChart();
             InitChartValueAsync();
 
+            SensorGroups = new List<ItemDescriptor<int>>()
+            {
+                new ItemDescriptor<int>("Группа №1", 0),
+                new ItemDescriptor<int>("Группа №2", 1),
+                new ItemDescriptor<int>("Группа №3", 2),
+                new ItemDescriptor<int>("Группа №4", 3),
+                new ItemDescriptor<int>("Группа №5", 4),
+                new ItemDescriptor<int>("Группа №6", 5),
+            };
+            SensorGroupSelected = 0;
+
             GetSensorDataCommand = new DelegateCommand(GetSensorDataExecute);
         }
         
@@ -49,23 +75,12 @@ namespace SmartThermo.Modules.Analytics.ViewModels
             
             _plot = PlotControl.Plot;
             _plot.Style(Style.Gray1);
-            _plot.SetAxisLimits(yMin: 0, yMax: 165);
         }
 
         private async void InitChartValueAsync()
         {
             await GetIdGroupsSensorAsync();
-            
-            var result = await GetSensorDataAsync();
-            if (result.Count == 0) 
-                    Notifications.ShowInformation("Нет данных для анализа.");
-            
-            _plot.AddSignal(result.Select(x => (double)x.Value1).ToArray());
-            _plot.AddSignal(result.Select(x => (double)x.Value2).ToArray());
-            _plot.AddSignal(result.Select(x => (double)x.Value3).ToArray());
-            _plot.AddSignal(result.Select(x => (double)x.Value4).ToArray());
-            _plot.AddSignal(result.Select(x => (double)x.Value5).ToArray());
-            _plot.AddSignal(result.Select(x => (double)x.Value6).ToArray());
+            await GetSensorDataAsync();
         }
 
         private async Task GetIdGroupsSensorAsync()
@@ -82,26 +97,34 @@ namespace SmartThermo.Modules.Analytics.ViewModels
             _groupSensorId.AddRange(result);
         }
 
-        private async Task<List<SensorInformation>> GetSensorDataAsync()
+        private async Task GetSensorDataAsync()
         {
             await using var context = new Context();
-            return await context.SensorInformations
-                .Where(x => x.SensorGroupId == _groupSensorId[0])
+            var result =  await context.SensorInformations
+                .Where(x => x.SensorGroupId == _groupSensorId[_sensorGroupSelected])
                 .ToListAsync();
-        }
 
-        private async void GetSensorDataExecute()
-        {
-            var result = await GetSensorDataAsync();
-            if (result.Count == 0) 
+            if (result.Count < 2)
+            {
                 Notifications.ShowInformation("Нет данных для анализа.");
-            
+                return;
+            }
+
+            InitChart();
             _plot.AddSignal(result.Select(x => (double)x.Value1).ToArray());
             _plot.AddSignal(result.Select(x => (double)x.Value2).ToArray());
             _plot.AddSignal(result.Select(x => (double)x.Value3).ToArray());
             _plot.AddSignal(result.Select(x => (double)x.Value4).ToArray());
             _plot.AddSignal(result.Select(x => (double)x.Value5).ToArray());
             _plot.AddSignal(result.Select(x => (double)x.Value6).ToArray());
+            _plot.AxisAutoX();
+            _plot.SetAxisLimitsY(0,165);
+            _plot.Render();
+        }
+
+        private async void GetSensorDataExecute()
+        {
+            await GetSensorDataAsync();
         }
 
         #endregion

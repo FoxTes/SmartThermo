@@ -7,7 +7,7 @@
     public sealed class ItemDescriptor<T>
     {
         public string Name { get; }
-        public T Value { get; }
+        public T Value { get; set; }
         public string Group { get; }
 
         public ItemDescriptor(string name, T value, string group = null)

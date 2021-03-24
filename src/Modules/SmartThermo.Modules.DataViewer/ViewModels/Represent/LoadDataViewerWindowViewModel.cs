@@ -134,17 +134,17 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
 
         private async void TestAsync()
         {
-            Random random = new Random();
+            var random = new Random();
             await using var context = new Context();
-            var result = Enumerable.Range(0, 1000)
+            var result = Enumerable.Range(0, 100_000)
                 .Select((x, index) => new SensorInformation
                 {
-                    Value1 = (int)(random.Next(30, 32) + (Math.Cosh(index * 0.0001d) * 20)),
-                    Value2 = (int)(random.Next(10, 15) + (Math.Sinh(index * 0.0001d) * 20)),
-                    Value3 = (int)(random.Next(50, 65) + (Math.Sin(index * 0.0001d) * 20)),
-                    Value4 = (int)(random.Next(70, 75) + (Math.Cos(index * 0.0001d) * 20)),
-                    Value5 = (int)(random.Next(120, 125) + (Math.Sinh(index * 0.1001d) * 20)),
-                    Value6 = (int)(random.Next(100, 105) + (Math.Cosh(index * 0.0101d) * 20)),
+                    Value1 = (int)(random.Next(30, 32) + Math.Sin(index * 0.0001d) * 20),
+                    Value2 = (int)(random.Next(10, 15) + Math.Cos(index * 0.0001d) * 20),
+                    Value3 = (int)(random.Next(50, 65) + Math.Sin(index * 0.0001d) * 20),
+                    Value4 = (int)(random.Next(70, 75) + Math.Cos(index * 0.0001d) * 20),
+                    Value5 = (int)(random.Next(120, 125) + Math.Sin(index * 0.0001d) * 20),
+                    Value6 = (int)(random.Next(100, 105) + Math.Cos(index * 0.0001d) * 20),
                     DataTime = DateTime.Now,
                     SensorGroupId = _groupSensorId[0]
                 }).ToList();
@@ -155,6 +155,7 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
 
         private async void GetIdGroupsSensorAsync()
         {
+            // TODO: Перевести в асинхрощину.
             await using var context = new Context();
             
             var sessionId = await context.Sessions

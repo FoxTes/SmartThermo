@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Prism.Commands;
+﻿using Prism.Commands;
 using Prism.Regions;
 using Prism.Services.Dialogs;
 using ScottPlot;
@@ -12,6 +11,8 @@ using SmartThermo.Services.Notifications;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -97,7 +98,12 @@ namespace SmartThermo.Modules.Analytics.ViewModels
             PlotControl = new WpfPlot();
 
             _plot = PlotControl.Plot;
-            _plot.Style(ScottPlot.Style.Gray1);
+            _plot.Style(dataBackground:Color.FromArgb(31,31,31),
+                figureBackground:Color.FromArgb(31, 31, 31), 
+                grid: Color.FromArgb(121, 121, 121),
+                tick: Color.FromArgb(170, 170, 170));
+            _plot.XAxis.TickLabelStyle(fontSize: 12);
+            _plot.YAxis.TickLabelStyle(fontSize: 12);
         }
 
         private async void InitChartValueAsync()
@@ -108,44 +114,67 @@ namespace SmartThermo.Modules.Analytics.ViewModels
 
         private async Task GetIdGroupsSensorAsync()
         {
-            await using var context = new Context();
+            var idTask = Task.Run(() =>
+            {
+                using var context = new Context();
+                return context.Sessions
+                    .Max(p => p.Id);
+            });
+            await Task.WhenAll(idTask);
+            var sessionId = idTask.Result;
 
-            var sessionId = await context.Sessions
-                .MaxAsync(p => p.Id);
-
-            DateCreateSession = (await context.Sessions
-                .Where(x => x.Id == sessionId)
-                .Select(x => x.DateCreate)
-                .FirstOrDefaultAsync())
+            var dataCreateTask = Task.Run(() =>
+            {
+                using var context = new Context();
+                return context.Sessions
+                    .Where(x => x.Id == sessionId)
+                    .Select(x => x.DateCreate)
+                    .FirstOrDefault();
+            });
+            await Task.WhenAll(dataCreateTask);
+            DateCreateSession = dataCreateTask.Result   
                 .Round(TimeSpan.FromSeconds(1))
-                .ToString();
+                .ToString(CultureInfo.InvariantCulture);
 
-            var result = await context.GroupSensors
-                .Where(x => x.SessionId == sessionId)
-                .Select(x => x.Id)
-                .ToListAsync();
-            _groupSensorId.AddRange(result);
+            var groupIdTask = Task.Run(() =>
+            {
+                using var context = new Context();
+                return context.GroupSensors
+                    .Where(x => x.SessionId == sessionId)
+                    .Select(x => x.Id)
+                    .ToList();
+            });
+            await Task.WhenAll(groupIdTask);
+            _groupSensorId.AddRange(groupIdTask.Result);
         }
 
         private async Task GetSensorDataAsync()
         {
-            ShowLoadIndicator = Visibility.Visible;
+            var task = Task.Run(() =>
+            {
+                using var context = new Context();
+                return context.SensorInformations
+                    .Count(x => x.SensorGroupId == _groupSensorId[_sensorGroupSelected]);
+            });
+            await Task.WhenAll(task);
+            var countItem = task.Result;
 
-            await using var context = new Context();
-            var countRecord = await context.SensorInformations
-                .Where(x => x.SensorGroupId == _groupSensorId[_sensorGroupSelected])
-                .CountAsync().ConfigureAwait(false);
-            if (countRecord < 2)
+            if (countItem < 2)
             {
                 Notifications.ShowInformation("Нет данных для анализа.");
                 return;
             }
+            ShowLoadIndicator = Visibility.Visible;
 
-            var taskLoad = context.SensorInformations
-                .Where(x => x.SensorGroupId == _groupSensorId[_sensorGroupSelected])
-                .ToListAsync();
-            await Task.WhenAll(taskLoad, Task.Delay(1000));
-            var result = taskLoad.Result;
+            var getItemsTask = Task.Run(() =>
+            {
+                using var context = new Context();
+                return context.SensorInformations
+                    .Where(x => x.SensorGroupId == _groupSensorId[_sensorGroupSelected])
+                    .ToList();
+            });
+            await Task.WhenAll(getItemsTask, Task.Delay(1000));
+            var result = getItemsTask.Result;
 
             InitChart();
             if (GroupCheckItems[0].Value)
@@ -160,6 +189,13 @@ namespace SmartThermo.Modules.Analytics.ViewModels
                 _plot.AddSignal(result.Select(x => (double)x.Value5).ToArray());
             if (GroupCheckItems[5].Value)
                 _plot.AddSignal(result.Select(x => (double)x.Value6).ToArray());
+
+            //                Stroke = "#003f5c"
+            //                Stroke = "#444e86"
+            //                Stroke = "#955196"
+            //                Stroke = "#dd5182"
+            //                Stroke = "#ff6e54"
+            //                Stroke = "#ffa600"
 
             _plot.AxisAutoX();
             _plot.SetAxisLimitsY(0, 165);

@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO.Ports;
 using System.Linq;
+using SmartThermo.Core.Models;
 using ToastNotifications.Core;
 
 namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
@@ -40,7 +41,7 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
 
         private readonly List<ushort> _dataGroupCheckItems = new List<ushort>();
         private ObservableCollectionExtension<GroupInfo> _groupCheckItems = new ObservableCollectionExtension<GroupInfo>();
-        private List<RelayNumber> _relayNumber;
+        private List<ItemDescriptor<int>> _relayNumber;
         private int _relayNumberSelected;
         private bool _workLogic;
         private BindingRelay _bindingRelayMode;
@@ -110,7 +111,7 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
             set => SetProperty(ref _groupCheckItems, value);
         }
 
-        public List<RelayNumber> RelayNumber
+        public List<ItemDescriptor<int>> RelayNumber
         {
             get => _relayNumber;
             set => SetProperty(ref _relayNumber, value);
@@ -181,14 +182,14 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
                     Name = $"Группа {i + 1} (датчики {(i + 1) * 10 + 1}-{(i + 1) * 10 + 7})"
                 });
 
-            for (int i = 0; i < 3; i++)
+            for (var i = 0; i < 3; i++)
                 EnableRelayMode.Add(true);
 
-            RelayNumber = new List<RelayNumber>
+            RelayNumber = new List<ItemDescriptor<int>>
             {
-                new RelayNumber {Name = "Реле №1", Value = 1},
-                new RelayNumber {Name = "Реле №2", Value = 2},
-                new RelayNumber {Name = "Реле №3", Value = 3}
+                new ItemDescriptor<int> ("Реле №1", 1),
+                new ItemDescriptor<int> ("Реле №2", 2),
+                new ItemDescriptor<int> ("Реле №3", 3)
             };
             RelayNumberSelected = 1;
 

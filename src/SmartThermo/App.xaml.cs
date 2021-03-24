@@ -60,8 +60,8 @@ namespace SmartThermo
             moduleCatalog.AddModule<AnalyticsModule>();
         }
 
-        // -Вынести стили диалоговых окон.
-        // -Загрузка данных для Analytics.
-        // -Переделка дизайна для Analytics и диалогового окна.
+        // -Analytics и диалогового окна.
+        // -Tooltip для аналитики.
+        // -About.
     }
 }

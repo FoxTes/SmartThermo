@@ -36,7 +36,10 @@
                                 VerticalAlignment="Center"
                                 Style="{DynamicResource BodyTextBlockStyle}"
                                 Text="{Binding DateCreateSession, StringFormat=Дата создания: {0:C}}" />
-                            <Button Width="240" Content="Выбрать">
+                            <Button
+                                Width="240"
+                                Command="{Binding SelectSessionCommand}"
+                                Content="Выбрать">
                                 <Button.Style>
                                     <Style BasedOn="{StaticResource DefaultButtonStyle}" TargetType="Button">
                                         <Setter Property="IsEnabled" Value="True" />

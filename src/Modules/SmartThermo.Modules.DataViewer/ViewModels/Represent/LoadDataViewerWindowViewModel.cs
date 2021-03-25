@@ -21,6 +21,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Threading;
 using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
 {
@@ -108,7 +109,6 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
         public LoadDataViewerWindowViewModel(IDeviceConnector deviceConnector, INotifications notifications)
         {
             _deviceConnector = deviceConnector;
-            _deviceConnector.RegistersRequested += DeviceConnector_RegistersRequested;
             _deviceConnector.SettingDeviceChanged += DeviceConnector_SettingDeviceChanged;
             _deviceConnector.StatusConnectChanged += DeviceConnector_StatusConnectChanged;
 
@@ -134,9 +134,11 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
 
         private async void TestAsync()
         {
+            await Task.Delay(1000);
+
             var random = new Random();
             await using var context = new Context();
-            var result = Enumerable.Range(0, 100_000)
+            var result = Enumerable.Range(0, 50_000)
                 .Select((x, index) => new SensorInformation
                 {
                     Value1 = (int)(random.Next(30, 32) + Math.Sin(index * 0.0001d) * 20),
@@ -155,17 +157,20 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
 
         private async void GetIdGroupsSensorAsync()
         {
-            // TODO: Перевести в асинхрощину.
-            await using var context = new Context();
-            
-            var sessionId = await context.Sessions
-                .MaxAsync(p => p.Id);
-            var result = await context.GroupSensors
-                .Where(x => x.SessionId == sessionId)
-                .Select(x => x.Id)
-                .ToListAsync();
-            
-            _groupSensorId.AddRange(result);
+            var groupIdTask = Task.Run(() =>
+            {
+                using var context = new Context();
+                var sessionId = context.Sessions
+                    .Max(p => p.Id);
+                return context.GroupSensors
+                    .Where(x => x.SessionId == sessionId)
+                    .Select(x => x.Id)
+                    .ToList();
+            });
+            await Task.WhenAll(groupIdTask);
+            _groupSensorId.AddRange(groupIdTask.Result);
+
+            _deviceConnector.RegistersRequested += DeviceConnector_RegistersRequested;
         }
 
         #endregion

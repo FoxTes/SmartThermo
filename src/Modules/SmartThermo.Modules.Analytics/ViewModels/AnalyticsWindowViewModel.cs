@@ -31,6 +31,8 @@ namespace SmartThermo.Modules.Analytics.ViewModels
         private ObservableCollection<ItemDescriptor<bool>> _groupCheckItems = new ObservableCollection<ItemDescriptor<bool>>();
         private string _dateCreateSession;
         private Visibility _showLoadIndicator = Visibility.Hidden;
+        private int _currentSessionId;
+        private bool _isLoadCurrentSession = true;
 
         #endregion
 
@@ -68,6 +70,8 @@ namespace SmartThermo.Modules.Analytics.ViewModels
             set => SetProperty(ref _showLoadIndicator, value);
         }
 
+        public DelegateCommand  SelectSessionCommand { get; }
+
         public DelegateCommand GetSensorDataCommand { get; }
 
         #endregion
@@ -90,16 +94,22 @@ namespace SmartThermo.Modules.Analytics.ViewModels
             InitChart();
             InitChartValueAsync();
 
+            SelectSessionCommand = new DelegateCommand(SelectSessionExecute);
             GetSensorDataCommand = new DelegateCommand(GetSensorDataExecute);
         }
+
+        #endregion
+
+        #region Method
 
         private void InitChart()
         {
             PlotControl = new WpfPlot();
 
             _plot = PlotControl.Plot;
-            _plot.Style(dataBackground:Color.FromArgb(31,31,31),
-                figureBackground:Color.FromArgb(31, 31, 31), 
+            _plot.Style(
+                dataBackground: Color.FromArgb(31, 31, 31),
+                figureBackground: Color.FromArgb(31, 31, 31),
                 grid: Color.FromArgb(121, 121, 121),
                 tick: Color.FromArgb(170, 170, 170));
             _plot.XAxis.TickLabelStyle(fontSize: 12);
@@ -132,7 +142,7 @@ namespace SmartThermo.Modules.Analytics.ViewModels
                     .FirstOrDefault();
             });
             await Task.WhenAll(dataCreateTask);
-            DateCreateSession = dataCreateTask.Result   
+            DateCreateSession = dataCreateTask.Result
                 .Round(TimeSpan.FromSeconds(1))
                 .ToString(CultureInfo.InvariantCulture);
 
@@ -145,11 +155,15 @@ namespace SmartThermo.Modules.Analytics.ViewModels
                     .ToList();
             });
             await Task.WhenAll(groupIdTask);
+
+            _groupSensorId.Clear();
             _groupSensorId.AddRange(groupIdTask.Result);
         }
 
         private async Task GetSensorDataAsync()
         {
+            InitChart();
+
             var task = Task.Run(() =>
             {
                 using var context = new Context();
@@ -176,7 +190,6 @@ namespace SmartThermo.Modules.Analytics.ViewModels
             await Task.WhenAll(getItemsTask, Task.Delay(1000));
             var result = getItemsTask.Result;
 
-            InitChart();
             if (GroupCheckItems[0].Value)
                 _plot.AddSignal(result.Select(x => (double)x.Value1).ToArray());
             if (GroupCheckItems[1].Value)
@@ -202,6 +215,70 @@ namespace SmartThermo.Modules.Analytics.ViewModels
             _plot.Render();
 
             ShowLoadIndicator = Visibility.Hidden;
+        }
+
+        private void SelectSessionExecute()
+        {
+            var parameters = new DialogParameters
+            {
+                { "CheckCurrentSession", _isLoadCurrentSession },
+                { "SessionItemSelected", _currentSessionId }
+            };
+
+            DialogService.ShowNotification("SessionDialog", async r =>
+            {
+                if (r.Result == ButtonResult.Cancel)
+                    Notifications.ShowInformation("Операция прервана пользователем.");
+                else if (r.Result == ButtonResult.OK)
+                {
+                    var isLoadCurrentSession = r.Parameters.GetValue<bool>("CheckCurrentSession");
+                    _currentSessionId = r.Parameters.GetValue<int>("SessionItemSelected");
+
+                    if (isLoadCurrentSession)
+                    {
+                        if (_isLoadCurrentSession)
+                            return;
+
+                        await GetIdGroupsSensorAsync();
+                        await GetSensorDataAsync();
+
+                        Notifications.ShowInformation($"Загружена текущая сессия.");
+                        _isLoadCurrentSession = true;
+                    }
+                    else
+                    {
+                        var dataCreateTask = Task.Run(() =>
+                        {
+                            using var context = new Context();
+                            return context.Sessions
+                                .Where(x => x.Id == _currentSessionId)
+                                .Select(x => x.DateCreate)
+                                .FirstOrDefault();
+                        });
+                        await Task.WhenAll(dataCreateTask);
+                        DateCreateSession = dataCreateTask.Result
+                            .Round(TimeSpan.FromSeconds(1))
+                            .ToString(CultureInfo.InvariantCulture);
+
+                        var groupIdTask = Task.Run(() =>
+                        {
+                            using var context = new Context();
+                            return context.GroupSensors
+                                .Where(x => x.SessionId == _currentSessionId)
+                                .Select(x => x.Id)
+                                .ToList();
+                        });
+                        await Task.WhenAll(groupIdTask);
+
+                        _groupSensorId.Clear();
+                        _groupSensorId.AddRange(groupIdTask.Result);
+
+                        await GetSensorDataAsync();
+                        Notifications.ShowInformation($"Загружена сессия от {DateCreateSession}.");
+                        _isLoadCurrentSession = false;
+                    }
+                }
+            }, parameters);
         }
 
         private async void GetSensorDataExecute()

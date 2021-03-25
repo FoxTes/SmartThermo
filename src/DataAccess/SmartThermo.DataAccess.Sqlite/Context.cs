@@ -13,6 +13,5 @@ namespace SmartThermo.DataAccess.Sqlite
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
             => options.UseSqlite(@"Data Source=app.db");
-
     }
 }

@@ -1,5 +1,7 @@
-﻿using Prism.Ioc;
+﻿using Microsoft.EntityFrameworkCore;
+using Prism.Ioc;
 using Prism.Modularity;
+using SmartThermo.DataAccess.Sqlite;
 using SmartThermo.Modules.Analytics;
 using SmartThermo.Modules.DataViewer;
 using SmartThermo.Modules.Dialog.SettingsDevice.ViewModels;
@@ -46,10 +48,9 @@ namespace SmartThermo
             containerRegistry.RegisterInstance<INotifications>(instance);
             #if DEBUG
                 containerRegistry.RegisterSingleton<IDeviceConnector, DeviceConnectorTest>();
-            #else
+#else
                 containerRegistry.RegisterSingleton<IDeviceConnector, DeviceConnector>();
-            #endif
-
+#endif
             containerRegistry.RegisterDialog<SettingsPortDialog, SettingsPortDialogViewModel>();
             containerRegistry.RegisterDialog<SettingsDeviceDialog, SettingsDeviceDialogViewModel>();
         }
@@ -63,5 +64,7 @@ namespace SmartThermo
         // -Analytics и диалогового окна.
         // -Tooltip для аналитики.
         // -About.
+        // -Connection pooling.
+        // -AddDbContext.
     }
 }

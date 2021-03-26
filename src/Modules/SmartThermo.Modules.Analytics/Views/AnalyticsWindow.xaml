@@ -95,11 +95,13 @@
                 </GroupBox>
                 <Button
                     Grid.Column="1"
-                    Width="120"
                     Margin="0,8,0,0"
                     HorizontalAlignment="Right"
-                    Command="{Binding GetSensorDataCommand}"
-                    Content="Обновить">
+                    Command="{Binding GetSensorDataCommand}">
+                    <ui:SimpleStackPanel Orientation="Horizontal" Spacing="8">
+                        <ui:SymbolIcon Symbol="Refresh" />
+                        <TextBlock>Обновить</TextBlock>
+                    </ui:SimpleStackPanel>
                     <Button.Style>
                         <Style BasedOn="{StaticResource DefaultButtonStyle}" TargetType="Button">
                             <Setter Property="IsEnabled" Value="True" />

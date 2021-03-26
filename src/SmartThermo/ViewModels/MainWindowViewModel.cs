@@ -1,10 +1,13 @@
-﻿using Prism.Commands;
+﻿using ModernWpf.Controls;
+using Prism.Commands;
 using Prism.Regions;
 using Prism.Services.Dialogs;
 using SmartThermo.Core;
+using SmartThermo.Core.Extensions;
 using SmartThermo.Core.Mvvm;
 using SmartThermo.DataAccess.Sqlite;
 using SmartThermo.DataAccess.Sqlite.Models;
+using SmartThermo.Dialogs.Views;
 using SmartThermo.Services.DeviceConnector;
 using SmartThermo.Services.DeviceConnector.Enums;
 using SmartThermo.Services.Notifications;
@@ -12,8 +15,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
-using ModernWpf.Controls;
-using SmartThermo.Core.Extensions;
 using ToastNotifications.Core;
 
 namespace SmartThermo.ViewModels
@@ -54,6 +55,8 @@ namespace SmartThermo.ViewModels
 
         public DelegateCommand<NavigationViewItemInvokedEventArgs> NavigationViewInvokedCommand { get; }
 
+        public DelegateCommand AboutCommand { get; }
+
         #endregion
 
         #region Constructor
@@ -84,16 +87,9 @@ namespace SmartThermo.ViewModels
             ChangeConnectDeviceCommand = new DelegateCommand(ChangeConnectDeviceExecute);
             SettingDeviceCommand = new DelegateCommand(SettingDeviceExecute);
             NavigationViewInvokedCommand = new DelegateCommand<NavigationViewItemInvokedEventArgs>(NavigationViewInvokedExecute);
+            AboutCommand = new DelegateCommand(AboutExecute);
 
             CreateSession();
-        }
-
-        private void NavigationViewInvokedExecute(NavigationViewItemInvokedEventArgs obj)
-        {
-            LabelView = obj.InvokedItem.ToString();
-
-            var nameRegion = obj.InvokedItemContainer.Tag.ToString();
-            RegionManager.RequestNavigate(RegionNames.MainContent, nameRegion);
         }
 
         #endregion
@@ -102,6 +98,7 @@ namespace SmartThermo.ViewModels
 
         private async void CreateSession()
         {
+            // TODO: Возможно убрать в StartOn.
             CheckDatabaseCreate();
 
             await using var context = new Context();
@@ -164,6 +161,20 @@ namespace SmartThermo.ViewModels
                 if (r.Result == ButtonResult.Cancel)
                     Notifications.ShowInformation("Операция прервана пользователем.");
             });
+        }
+
+        private static void AboutExecute()
+        {
+            var dialog = new AboutDialog();
+            dialog.ShowAsync();
+        }
+
+        private void NavigationViewInvokedExecute(NavigationViewItemInvokedEventArgs obj)
+        {
+            LabelView = obj.InvokedItem.ToString();
+
+            var nameRegion = obj.InvokedItemContainer.Tag.ToString();
+            RegionManager.RequestNavigate(RegionNames.MainContent, nameRegion);
         }
 
         #endregion

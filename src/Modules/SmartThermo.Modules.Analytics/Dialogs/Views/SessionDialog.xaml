@@ -61,24 +61,45 @@
                 </Grid.RowDefinitions>
                 <ui:SimpleStackPanel Spacing="8">
                     <Button
-                        Width="120"
+                        Width="150"
                         Command="{Binding SelectCommand}"
                         Content="Выбрать" />
                     <Separator />
                     <Button
-                        Width="120"
+                        Width="150"
                         Command="{Binding DeleteSelectCommand}"
-                        Content="Удалить"
-                        IsEnabled="False" />
+                        Content="Удалить">
+                        <Button.Style>
+                            <Style BasedOn="{StaticResource DefaultButtonStyle}" TargetType="Button">
+                                <Setter Property="IsEnabled" Value="True" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CheckCurrentSession}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+
                     <Button
-                        Width="120"
+                        Width="150"
                         Command="{Binding DeleteAllCommand}"
-                        Content="Удалить всё"
-                        IsEnabled="False" />
+                        Content="Удалить всё">
+                        <Button.Style>
+                            <Style BasedOn="{StaticResource DefaultButtonStyle}" TargetType="Button">
+                                <Setter Property="IsEnabled" Value="True" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CheckCurrentSession}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
                 </ui:SimpleStackPanel>
                 <Button
                     Grid.Row="1"
-                    Width="120"
+                    Width="150"
                     Command="{Binding CancelCommand}"
                     Content="Отмена" />
             </Grid>

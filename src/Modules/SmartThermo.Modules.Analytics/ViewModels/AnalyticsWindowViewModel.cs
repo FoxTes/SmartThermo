@@ -70,7 +70,7 @@ namespace SmartThermo.Modules.Analytics.ViewModels
             set => SetProperty(ref _showLoadIndicator, value);
         }
 
-        public DelegateCommand  SelectSessionCommand { get; }
+        public DelegateCommand SelectSessionCommand { get; }
 
         public DelegateCommand GetSensorDataCommand { get; }
 
@@ -108,9 +108,9 @@ namespace SmartThermo.Modules.Analytics.ViewModels
 
             _plot = PlotControl.Plot;
             _plot.Style(
-                dataBackground: Color.FromArgb(31, 31, 31),
+                dataBackground: Color.FromArgb(31, 31, 31), 
                 figureBackground: Color.FromArgb(31, 31, 31),
-                grid: Color.FromArgb(121, 121, 121),
+                grid: Color.FromArgb(121, 121, 121), 
                 tick: Color.FromArgb(170, 170, 170));
             _plot.XAxis.TickLabelStyle(fontSize: 12);
             _plot.YAxis.TickLabelStyle(fontSize: 12);
@@ -162,7 +162,7 @@ namespace SmartThermo.Modules.Analytics.ViewModels
 
         private async Task GetSensorDataAsync()
         {
-            InitChart();
+            _plot.Clear();
 
             var task = Task.Run(() =>
             {
@@ -191,28 +191,21 @@ namespace SmartThermo.Modules.Analytics.ViewModels
             var result = getItemsTask.Result;
 
             if (GroupCheckItems[0].Value)
-                _plot.AddSignal(result.Select(x => (double)x.Value1).ToArray());
+                _plot.AddSignal(result.Select(x => (double)x.Value1).ToArray(), color: Color.FromArgb(0x00, 0x3f, 0x5c));
             if (GroupCheckItems[1].Value)
-                _plot.AddSignal(result.Select(x => (double)x.Value2).ToArray());
+                _plot.AddSignal(result.Select(x => (double)x.Value2).ToArray(), color: Color.FromArgb(0x44, 0x4e, 0x86));
             if (GroupCheckItems[2].Value)
-                _plot.AddSignal(result.Select(x => (double)x.Value3).ToArray());
+                _plot.AddSignal(result.Select(x => (double)x.Value3).ToArray(), color: Color.FromArgb(0x95, 0x51, 0x96));
             if (GroupCheckItems[3].Value)
-                _plot.AddSignal(result.Select(x => (double)x.Value4).ToArray());
+                _plot.AddSignal(result.Select(x => (double)x.Value4).ToArray(), color: Color.FromArgb(0xdd, 0x51, 0x82));
             if (GroupCheckItems[4].Value)
-                _plot.AddSignal(result.Select(x => (double)x.Value5).ToArray());
+                _plot.AddSignal(result.Select(x => (double)x.Value5).ToArray(), color: Color.FromArgb(0xff, 0x6e, 0x54));
             if (GroupCheckItems[5].Value)
-                _plot.AddSignal(result.Select(x => (double)x.Value6).ToArray());
-
-            //                Stroke = "#003f5c"
-            //                Stroke = "#444e86"
-            //                Stroke = "#955196"
-            //                Stroke = "#dd5182"
-            //                Stroke = "#ff6e54"
-            //                Stroke = "#ffa600"
+                _plot.AddSignal(result.Select(x => (double)x.Value6).ToArray(), color: Color.FromArgb(0xff, 0xa6, 0x00));
 
             _plot.AxisAutoX();
             _plot.SetAxisLimitsY(0, 165);
-            _plot.Render();
+            PlotControl.Render();
 
             ShowLoadIndicator = Visibility.Hidden;
         }
@@ -242,7 +235,7 @@ namespace SmartThermo.Modules.Analytics.ViewModels
                         await GetIdGroupsSensorAsync();
                         await GetSensorDataAsync();
 
-                        Notifications.ShowInformation($"Загружена текущая сессия.");
+                        Notifications.ShowSuccess($"Загружена текущая сессия.");
                         _isLoadCurrentSession = true;
                     }
                     else
@@ -274,17 +267,14 @@ namespace SmartThermo.Modules.Analytics.ViewModels
                         _groupSensorId.AddRange(groupIdTask.Result);
 
                         await GetSensorDataAsync();
-                        Notifications.ShowInformation($"Загружена сессия от {DateCreateSession}.");
+                        Notifications.ShowSuccess($"Загружена сессия от {DateCreateSession}.");
                         _isLoadCurrentSession = false;
                     }
                 }
             }, parameters);
         }
 
-        private async void GetSensorDataExecute()
-        {
-            await GetSensorDataAsync();
-        }
+        private async void GetSensorDataExecute() => await GetSensorDataAsync();
 
         #endregion
     }

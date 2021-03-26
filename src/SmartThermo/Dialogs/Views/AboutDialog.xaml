@@ -1,0 +1,17 @@
+﻿<ui:ContentDialog
+    x:Class="SmartThermo.Dialogs.Views.AboutDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.modernwpf.com/2019"
+    CloseButtonText="Закрыть"
+    mc:Ignorable="d">
+    <Grid>
+        <ui:SimpleStackPanel Width="320" Spacing="16">
+            <TextBlock Style="{DynamicResource TitleTextBlockStyle}">SmartThermo</TextBlock>
+            <TextBlock>Версия прошивки 0.3.0</TextBlock>
+            <TextBlock TextWrapping="WrapWithOverflow">SmartThermo - это ПО для контроля, управления и записи данных с датчиков температуры.</TextBlock>
+        </ui:SimpleStackPanel>
+    </Grid>
+</ui:ContentDialog>

@@ -10,9 +10,6 @@ namespace SmartThermo.Modules.Analytics.Models
 
         public int CountRecord { get; set; }
 
-        public override string ToString()
-        {
-            return $"От {DateCreate} - {CountRecord} записи";
-        }
+        public override string ToString() => $"От {DateCreate} - {CountRecord} записей";
     }
 }

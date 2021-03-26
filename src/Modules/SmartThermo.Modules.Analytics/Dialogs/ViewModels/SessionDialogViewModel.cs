@@ -4,7 +4,6 @@ using SmartThermo.Core.Mvvm;
 using SmartThermo.DataAccess.Sqlite;
 using SmartThermo.Modules.Analytics.Models;
 using SmartThermo.Services.Notifications;
-using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -56,10 +55,7 @@ namespace SmartThermo.Modules.Analytics.Dialogs.ViewModels
             CancelCommand = new DelegateCommand(CancelExecute);
         }
 
-        public override void OnDialogOpened(IDialogParameters parameters)
-        {
-            CheckCurrentSession = parameters.GetValue<bool>("CheckCurrentSession");
-        }
+        public override void OnDialogOpened(IDialogParameters parameters) => CheckCurrentSession = parameters.GetValue<bool>("CheckCurrentSession");
 
         private void SelectExecute()
         {
@@ -72,31 +68,63 @@ namespace SmartThermo.Modules.Analytics.Dialogs.ViewModels
             var parameters = new DialogParameters
             {
                 { "CheckCurrentSession", CheckCurrentSession },
-                { "SessionItemSelected", SessionItems[_sessionItemsSelected].Id }
+                { "SessionItemSelected", CheckCurrentSession ? 0 : SessionItems[_sessionItemsSelected].Id }
             };
             RaiseRequestClose(new DialogResult(ButtonResult.OK, parameters));
         }
 
-        private void DeleteExecute()
+        private async void DeleteExecute()
         {
-            // TODO: Проверить сначала количество.
-            _notifications.ShowInformation("Запись от xx^xx^xx была удалена.");
+            if (CheckSessionItemsForZero()) 
+                return;
+            
+            var sessionDeleteTask = Task.Run(() =>
+            {
+                using var context = new Context();
+                var session = context.Sessions.First(x => x.Id == _sessionItems[_sessionItemsSelected].Id);
+                context.Remove(session);
+                context.SaveChanges();
+            });
+            await Task.WhenAll(sessionDeleteTask);
+            
+            _notifications.ShowSuccess($"Запись от {_sessionItems[_sessionItemsSelected].DateCreate} была удалена.");
+            GetSessionInfo();
+        }
+        
+        private async void DeleteAllExecute()
+        {
+            if (CheckSessionItemsForZero()) 
+                return;
+
+            var sessionDeleteTask = Task.Run(() =>
+            {
+                using var context = new Context();
+                var sessions = context.Sessions
+                    .OrderByDescending(x => x.DateCreate)
+                    .Skip(1)
+                    .ToList();
+                context.RemoveRange(sessions);
+                context.SaveChanges();
+            });
+            await Task.WhenAll(sessionDeleteTask);
+
+            _notifications.ShowSuccess("Все записи были успешно удалены.");
+            GetSessionInfo();        
+        }
+        
+        private bool CheckSessionItemsForZero()
+        {
+            if (SessionItems.Count != 0) 
+                return false;
+            _notifications.ShowInformation("Отсутствуют записи для удаления.");
+            return true;
         }
 
-        private void DeleteAllExecute()
-        {
-            // TODO: Проверить сначала количество.
-            _notifications.ShowInformation("Все записи были успешно удалены.");
-        }
-
-        private void CancelExecute()
-        {
-            RaiseRequestClose(new DialogResult(ButtonResult.Cancel));
-        }
+        private void CancelExecute() => RaiseRequestClose(new DialogResult(ButtonResult.Cancel));
 
         private async void GetSessionInfo()
         {
-            var sesionInfoTask = Task.Run(() =>
+            var sessionInfoTask = Task.Run(() =>
             {
                 using var context = new Context();
                 return context.Sessions
@@ -104,15 +132,18 @@ namespace SmartThermo.Modules.Analytics.Dialogs.ViewModels
                     .Select(x => new SessionInfo
                     {
                         Id = x.Id,
-                        DateCreate = x.DateCreate
+                        DateCreate = x.DateCreate,
+                        CountRecord = context.SensorInformations
+                            .Count(y => y.SensorGroup.SessionId == x.Id 
+                                                    && y.SensorGroup.Name == "Первая группа")
                     })
                     .Skip(1)
                     .ToList();
             });
-            await Task.WhenAll(sesionInfoTask);
+            await Task.WhenAll(sessionInfoTask);
 
             SessionItems.Clear();
-            SessionItems.AddRange(sesionInfoTask.Result);
+            SessionItems.AddRange(sessionInfoTask.Result);
             SessionItemSelected = 0;
         }
     }

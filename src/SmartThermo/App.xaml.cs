@@ -1,7 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Prism.Ioc;
+﻿using Prism.Ioc;
 using Prism.Modularity;
-using SmartThermo.DataAccess.Sqlite;
 using SmartThermo.Modules.Analytics;
 using SmartThermo.Modules.DataViewer;
 using SmartThermo.Modules.Dialog.SettingsDevice.ViewModels;
@@ -62,9 +60,8 @@ namespace SmartThermo
         }
 
         // -Analytics и диалогового окна.
-        // -Tooltip для аналитики.
-        // -About.
-        // -Connection pooling.
-        // -AddDbContext.
+        // -Tooltip и легенда для аналитики.
+        // -Margin для всех.
+        // -Refactoring имен для всех модулей.
     }
 }

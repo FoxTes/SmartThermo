@@ -59,9 +59,12 @@ namespace SmartThermo
             moduleCatalog.AddModule<AnalyticsModule>();
         }
 
-        // -Analytics и диалогового окна.
         // -Tooltip и легенда для аналитики.
         // -Margin для всех.
+        // -Перевод графика во дата.
+        // -Запись null значений.
+        // -Выбор сессию (нет значений, если count ==0).
+        // -About изменить.
         // -Refactoring имен для всех модулей.
     }
 }

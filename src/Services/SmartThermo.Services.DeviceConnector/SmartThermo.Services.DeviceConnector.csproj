@@ -7,7 +7,8 @@
   <ItemGroup>
     <PackageReference Include="NModbus" Version="3.0.62" />
     <PackageReference Include="NModbus.Serial" Version="3.0.62" />
-    <PackageReference Include="System.IO.Ports" Version="5.0.0" />
+    <PackageReference Include="System.IO.Ports" Version="5.0.1" />
+    <PackageReference Include="System.Runtime.InteropServices" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>

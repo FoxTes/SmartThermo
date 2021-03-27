@@ -220,56 +220,75 @@ namespace SmartThermo.Modules.Analytics.ViewModels
 
             DialogService.ShowNotification("SessionDialog", async r =>
             {
-                if (r.Result == ButtonResult.Cancel)
-                    Notifications.ShowInformation("Операция прервана пользователем.");
-                else if (r.Result == ButtonResult.OK)
+                switch (r.Result)
                 {
-                    var isLoadCurrentSession = r.Parameters.GetValue<bool>("CheckCurrentSession");
-                    _currentSessionId = r.Parameters.GetValue<int>("SessionItemSelected");
-
-                    if (isLoadCurrentSession)
+                    case ButtonResult.Cancel:
+                        Notifications.ShowInformation("Операция прервана пользователем.");
+                        break;
+                    case ButtonResult.OK:
                     {
-                        if (_isLoadCurrentSession)
-                            return;
+                        var isLoadCurrentSession = r.Parameters.GetValue<bool>("CheckCurrentSession");
+                        _currentSessionId = r.Parameters.GetValue<int>("SessionItemSelected");
 
-                        await GetIdGroupsSensorAsync();
-                        await GetSensorDataAsync();
-
-                        Notifications.ShowSuccess($"Загружена текущая сессия.");
-                        _isLoadCurrentSession = true;
-                    }
-                    else
-                    {
-                        var dataCreateTask = Task.Run(() =>
+                        if (isLoadCurrentSession)
                         {
-                            using var context = new Context();
-                            return context.Sessions
-                                .Where(x => x.Id == _currentSessionId)
-                                .Select(x => x.DateCreate)
-                                .FirstOrDefault();
-                        });
-                        await Task.WhenAll(dataCreateTask);
-                        DateCreateSession = dataCreateTask.Result
-                            .Round(TimeSpan.FromSeconds(1))
-                            .ToString(CultureInfo.InvariantCulture);
+                            if (_isLoadCurrentSession)
+                                return;
 
-                        var groupIdTask = Task.Run(() =>
+                            await GetIdGroupsSensorAsync();
+                            await GetSensorDataAsync();
+
+                            Notifications.ShowSuccess($"Загружена текущая сессия.");
+                            _isLoadCurrentSession = true;
+                        }
+                        else
                         {
-                            using var context = new Context();
-                            return context.GroupSensors
-                                .Where(x => x.SessionId == _currentSessionId)
-                                .Select(x => x.Id)
-                                .ToList();
-                        });
-                        await Task.WhenAll(groupIdTask);
+                            var dataCreateTask = Task.Run(() =>
+                            {
+                                using var context = new Context();
+                                return context.Sessions
+                                    .Where(x => x.Id == _currentSessionId)
+                                    .Select(x => x.DateCreate)
+                                    .FirstOrDefault();
+                            });
+                            await Task.WhenAll(dataCreateTask);
+                            DateCreateSession = dataCreateTask.Result
+                                .Round(TimeSpan.FromSeconds(1))
+                                .ToString(CultureInfo.InvariantCulture);
 
-                        _groupSensorId.Clear();
-                        _groupSensorId.AddRange(groupIdTask.Result);
+                            var groupIdTask = Task.Run(() =>
+                            {
+                                using var context = new Context();
+                                return context.GroupSensors
+                                    .Where(x => x.SessionId == _currentSessionId)
+                                    .Select(x => x.Id)
+                                    .ToList();
+                            });
+                            await Task.WhenAll(groupIdTask);
 
-                        await GetSensorDataAsync();
-                        Notifications.ShowSuccess($"Загружена сессия от {DateCreateSession}.");
-                        _isLoadCurrentSession = false;
+                            _groupSensorId.Clear();
+                            _groupSensorId.AddRange(groupIdTask.Result);
+
+                            await GetSensorDataAsync();
+                            Notifications.ShowSuccess($"Загружена сессия от {DateCreateSession}.");
+                            _isLoadCurrentSession = false;
+                        }
+                        break;
                     }
+                    case ButtonResult.Abort:
+                        break;
+                    case ButtonResult.Ignore:
+                        break;
+                    case ButtonResult.No:
+                        break;
+                    case ButtonResult.None:
+                        break;
+                    case ButtonResult.Retry:
+                        break;
+                    case ButtonResult.Yes:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
             }, parameters);
         }

@@ -20,7 +20,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Threading;
-using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 
 namespace SmartThermo.Modules.DataViewer.ViewModels.Represent

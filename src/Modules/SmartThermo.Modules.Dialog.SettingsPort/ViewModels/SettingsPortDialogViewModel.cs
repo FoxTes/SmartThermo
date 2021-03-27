@@ -159,8 +159,8 @@ namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
 
         private void SetDefaultSettings()
         {
-            AddressDeviceSelected = 3;
             PortNameSelected = PortName[0];
+            AddressDeviceSelected = 3;
             BaudRateSelected = BaudRate.S9600;
             StopBitsSelected = StopBits.One;
             ParitySelected = Parity.None;

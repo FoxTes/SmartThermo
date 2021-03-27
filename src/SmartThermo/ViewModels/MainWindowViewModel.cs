@@ -13,6 +13,7 @@ using SmartThermo.Services.DeviceConnector.Enums;
 using SmartThermo.Services.Notifications;
 using System;
 using System.Collections.Generic;
+using System.IO.Ports;
 using System.Threading.Tasks;
 using System.Windows;
 using ToastNotifications.Core;
@@ -98,7 +99,6 @@ namespace SmartThermo.ViewModels
 
         private async void CreateSession()
         {
-            // TODO: Возможно убрать в StartOn.
             CheckDatabaseCreate();
 
             await using var context = new Context();
@@ -147,11 +147,19 @@ namespace SmartThermo.ViewModels
                     Notifications.ShowWarning("Не удалось закрыть соединение.\n" + ex.Message, new MessageOptions());
                 }
             else
+            {
+                if (SerialPort.GetPortNames().Length == 0)
+                {
+                    Notifications.ShowError("В компьютере найдены активные COM порты.");
+                    return;
+                }
                 DialogService.ShowNotification("SettingsPortDialog", r =>
                 {
                     if (r.Result == ButtonResult.Cancel)
                         Notifications.ShowInformation("Операция прервана пользователем.");
                 });
+            }
+
         }
 
         private void SettingDeviceExecute()

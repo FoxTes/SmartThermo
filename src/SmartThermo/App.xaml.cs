@@ -1,4 +1,7 @@
-﻿using Prism.Ioc;
+﻿using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
+using Prism.Ioc;
 using Prism.Modularity;
 using SmartThermo.Modules.Analytics;
 using SmartThermo.Modules.DataViewer;
@@ -15,6 +18,7 @@ using ToastNotifications;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Position;
 
+
 namespace SmartThermo
 {
     /// <summary>
@@ -22,6 +26,19 @@ namespace SmartThermo
     /// </summary>
     public partial class App
     {
+        public App()
+        {
+            AppDomain.CurrentDomain.UnhandledException += (sender, e)
+                => MessageBox.Show(e.ExceptionObject.ToString());
+        }
+
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            AppCenter.Start("3fb4a695-2ae6-4663-9878-d0fa3ada2d1e",
+                typeof(Analytics), typeof(Crashes));
+        }
+
         protected override Window CreateShell()
         {
             return Container.Resolve<MainWindow>();
@@ -60,7 +77,6 @@ namespace SmartThermo
         }
 
         // -Tooltip и легенда для аналитики.
-        // -Margin для всех.
         // -Перевод графика во дата.
         // -Запись null значений.
         // -Выбор сессию (нет значений, если count ==0).

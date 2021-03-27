@@ -101,7 +101,8 @@
                     Grid.Row="1"
                     Width="150"
                     Command="{Binding CancelCommand}"
-                    Content="Отмена" />
+                    Content="Отмена"
+                    Style="{DynamicResource AccentButtonStyle}" />
             </Grid>
         </GroupBox>
     </Grid>

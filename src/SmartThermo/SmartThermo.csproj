@@ -12,6 +12,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AppCenter.Analytics" Version="4.2.0" />
+    <PackageReference Include="Microsoft.AppCenter.Crashes" Version="4.2.0" />
     <PackageReference Include="ModernWpfUI" Version="0.9.4" />
     <PackageReference Include="NModbus" Version="3.0.62" />
     <PackageReference Include="NModbus.Serial" Version="3.0.62" />

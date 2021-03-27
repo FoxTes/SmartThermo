@@ -20,14 +20,14 @@
             <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
 
-        <ContentControl Margin="0,8,8,0" Content="{Binding PlotControl}" />
+        <ContentControl Margin="0,16,16,0" Content="{Binding PlotControl}" />
 
         <Border
             Grid.Column="1"
-            Margin="0,8,0,0"
+            Margin="0,16,0,0"
             Background="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}" />
 
-        <Grid Grid.Column="2" Margin="8,8,0,8">
+        <Grid Grid.Column="2" Margin="16,8,0,8">
             <ui:SimpleStackPanel Spacing="16">
                 <GroupBox Padding="0,-8,0,0" Header="Сессии">
                     <ui:SimpleStackPanel Orientation="Vertical" Spacing="8">

@@ -124,6 +124,7 @@ namespace SmartThermo.Modules.Analytics.Dialogs.ViewModels
 
         private async void GetSessionInfo()
         {
+            // TODO: Зарефакторить.
             var sessionInfoTask = Task.Run(() =>
             {
                 using var context = new Context();

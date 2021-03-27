@@ -114,6 +114,10 @@ namespace SmartThermo.Modules.Analytics.ViewModels
                 tick: Color.FromArgb(170, 170, 170));
             _plot.XAxis.TickLabelStyle(fontSize: 12);
             _plot.YAxis.TickLabelStyle(fontSize: 12);
+
+            var legend = _plot.Legend();
+            legend.Padding = 8;
+            legend.FontSize = 12;
         }
 
         private async void InitChartValueAsync()
@@ -191,17 +195,23 @@ namespace SmartThermo.Modules.Analytics.ViewModels
             var result = getItemsTask.Result;
 
             if (GroupCheckItems[0].Value)
-                _plot.AddSignal(result.Select(x => (double)x.Value1).ToArray(), color: Color.FromArgb(0x00, 0x3f, 0x5c));
+                _plot.AddSignal(result.Select(x => (double) x.Value1).ToArray(),
+                    color: Color.FromArgb(0x00, 0x3f, 0x5c), label: "Датчик №1");
             if (GroupCheckItems[1].Value)
-                _plot.AddSignal(result.Select(x => (double)x.Value2).ToArray(), color: Color.FromArgb(0x44, 0x4e, 0x86));
+                _plot.AddSignal(result.Select(x => (double) x.Value2).ToArray(),
+                    color: Color.FromArgb(0x44, 0x4e, 0x86), label: "Датчик №2");
             if (GroupCheckItems[2].Value)
-                _plot.AddSignal(result.Select(x => (double)x.Value3).ToArray(), color: Color.FromArgb(0x95, 0x51, 0x96));
+                _plot.AddSignal(result.Select(x => (double) x.Value3).ToArray(),
+                    color: Color.FromArgb(0x95, 0x51, 0x96), label: "Датчик №3");
             if (GroupCheckItems[3].Value)
-                _plot.AddSignal(result.Select(x => (double)x.Value4).ToArray(), color: Color.FromArgb(0xdd, 0x51, 0x82));
+                _plot.AddSignal(result.Select(x => (double) x.Value4).ToArray(),
+                    color: Color.FromArgb(0xdd, 0x51, 0x82), label: "Датчик №4");
             if (GroupCheckItems[4].Value)
-                _plot.AddSignal(result.Select(x => (double)x.Value5).ToArray(), color: Color.FromArgb(0xff, 0x6e, 0x54));
+                _plot.AddSignal(result.Select(x => (double) x.Value5).ToArray(),
+                    color: Color.FromArgb(0xff, 0x6e, 0x54), label: "Датчик №5");
             if (GroupCheckItems[5].Value)
-                _plot.AddSignal(result.Select(x => (double)x.Value6).ToArray(), color: Color.FromArgb(0xff, 0xa6, 0x00));
+                _plot.AddSignal(result.Select(x => (double) x.Value6).ToArray(),
+                    color: Color.FromArgb(0xff, 0xa6, 0x00), label: "Датчик №6");
 
             _plot.AxisAutoX();
             _plot.SetAxisLimitsY(0, 165);

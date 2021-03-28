@@ -62,7 +62,16 @@ namespace SmartThermo.Services.DeviceConnector
             {
                 Id = index,
                 Number = (index / 6 + 1) * 10 + index + 1 - 6 * (index / 6),
-                Temperature = (byte) _random.Next(40, 60),
+                Temperature = index switch
+                {
+                    1 => (byte)(_random.Next(25, 35) + Math.Sin(index * 0.03d) * 20),
+                    2 => (byte)(_random.Next(50, 59) + Math.Cos(index * 0.01d) * 20),
+                    3 => (byte)(_random.Next(42, 49) + Math.Sin(index * 0.1d) * 20),
+                    4 => (byte)(_random.Next(86, 89) + Math.Cos(index * 1d) * 20),
+                    5 => (byte)(_random.Next(110, 119) + Math.Cos(index * 2d) * 20),
+                    6 => (byte)(_random.Next(145, 159) + Math.Sin(index * 0.05d) * 20),
+                    _ => (byte)(_random.Next(5, 9) + Math.Cos(index * 0.03d) * 20),
+                },
                 TimeLastBroadcast = (byte) ((data[index] & 0b0011_1111_0000_0000) >> 8),
                 IsEmergencyDescent = data[index].IsBitSet(14),
                 IsAir = data[index].IsBitSet(15)

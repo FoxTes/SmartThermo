@@ -127,31 +127,6 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
                     RaisePropertyChanged(nameof(AxisYMax));
                     RaisePropertyChanged(nameof(AxisYMin));
                 });
-
-            TestAsync();
-        }
-
-        private async void TestAsync()
-        {
-            await Task.Delay(1000);
-
-            var random = new Random();
-            await using var context = new Context();
-            var result = Enumerable.Range(0, 50_000)
-                .Select((x, index) => new SensorInformation
-                {
-                    Value1 = (int)(random.Next(30, 32) + Math.Sin(index * 0.0001d) * 20),
-                    Value2 = (int)(random.Next(10, 15) + Math.Cos(index * 0.0001d) * 20),
-                    Value3 = (int)(random.Next(50, 65) + Math.Sin(index * 0.0001d) * 20),
-                    Value4 = (int)(random.Next(70, 75) + Math.Cos(index * 0.0001d) * 20),
-                    Value5 = (int)(random.Next(120, 125) + Math.Sin(index * 0.0001d) * 20),
-                    Value6 = (int)(random.Next(100, 105) + Math.Cos(index * 0.0001d) * 20),
-                    DataTime = DateTime.Now,
-                    SensorGroupId = _groupSensorId[0]
-                }).ToList();
-
-            await context.SensorInformations.AddRangeAsync(result);
-            await context.SaveChangesAsync();
         }
 
         private async void GetIdGroupsSensorAsync()
@@ -202,7 +177,7 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
 
             var now = DateTime.Now.Round(TimeSpan.FromSeconds(1));
             // Вызов диспетчера требуется для корректной работы отрисовки графика при переключении окон.
-            Application.Current.Dispatcher?.InvokeAsync(() =>
+            Application.Current?.Dispatcher?.InvokeAsync(() =>
             {
                 for (var i = 0; i < 36; i++)
                     ChartValues[i].Add(new MeasureData

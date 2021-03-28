@@ -113,11 +113,12 @@ namespace SmartThermo.Modules.Analytics.ViewModels
                 grid: Color.FromArgb(121, 121, 121), 
                 tick: Color.FromArgb(170, 170, 170));
             _plot.XAxis.TickLabelStyle(fontSize: 12);
+            _plot.XAxis.DateTimeFormat(true);
             _plot.YAxis.TickLabelStyle(fontSize: 12);
-
+            
             var legend = _plot.Legend();
             legend.Padding = 8;
-            legend.FontSize = 12;
+            legend.FontSize = 14;
         }
 
         private async void InitChartValueAsync()
@@ -191,26 +192,29 @@ namespace SmartThermo.Modules.Analytics.ViewModels
                     .Where(x => x.SensorGroupId == _groupSensorId[_sensorGroupSelected])
                     .ToList();
             });
+
             await Task.WhenAll(getItemsTask, Task.Delay(1000));
             var result = getItemsTask.Result;
 
+            var dateTime = result.Select(x => x.DataTime.ToOADate()).ToArray();
+
             if (GroupCheckItems[0].Value)
-                _plot.AddSignal(result.Select(x => (double) x.Value1).ToArray(),
+                _plot.AddSignalXYConst(dateTime, result.Select(x => (double) x.Value1).ToArray(),
                     color: Color.FromArgb(0x00, 0x3f, 0x5c), label: "Датчик №1");
             if (GroupCheckItems[1].Value)
-                _plot.AddSignal(result.Select(x => (double) x.Value2).ToArray(),
+                _plot.AddSignalXYConst(dateTime, result.Select(x => (double) x.Value2).ToArray(),
                     color: Color.FromArgb(0x44, 0x4e, 0x86), label: "Датчик №2");
             if (GroupCheckItems[2].Value)
-                _plot.AddSignal(result.Select(x => (double) x.Value3).ToArray(),
+                _plot.AddSignalXYConst(dateTime, result.Select(x => (double) x.Value3).ToArray(),
                     color: Color.FromArgb(0x95, 0x51, 0x96), label: "Датчик №3");
             if (GroupCheckItems[3].Value)
-                _plot.AddSignal(result.Select(x => (double) x.Value4).ToArray(),
+                _plot.AddSignalXYConst(dateTime, result.Select(x => (double) x.Value4).ToArray(),
                     color: Color.FromArgb(0xdd, 0x51, 0x82), label: "Датчик №4");
             if (GroupCheckItems[4].Value)
-                _plot.AddSignal(result.Select(x => (double) x.Value5).ToArray(),
+                _plot.AddSignalXYConst(dateTime, result.Select(x => (double) x.Value5).ToArray(),
                     color: Color.FromArgb(0xff, 0x6e, 0x54), label: "Датчик №5");
             if (GroupCheckItems[5].Value)
-                _plot.AddSignal(result.Select(x => (double) x.Value6).ToArray(),
+                _plot.AddSignalXYConst(dateTime, result.Select(x => (double) x.Value6).ToArray(),
                     color: Color.FromArgb(0xff, 0xa6, 0x00), label: "Датчик №6");
 
             _plot.AxisAutoX();
@@ -248,7 +252,7 @@ namespace SmartThermo.Modules.Analytics.ViewModels
                             await GetIdGroupsSensorAsync();
                             await GetSensorDataAsync();
 
-                            Notifications.ShowSuccess($"Загружена текущая сессия.");
+                            Notifications.ShowSuccess("Загружена текущая сессия.");
                             _isLoadCurrentSession = true;
                         }
                         else

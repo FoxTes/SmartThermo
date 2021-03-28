@@ -141,6 +141,14 @@ namespace SmartThermo.Modules.Analytics.Dialogs.ViewModels
                     .Skip(1)
                     .ToList();
             });
+
+            using var context = new Context();
+            var countRecord = context.SensorInformations
+                .Where(x => x.SensorGroup.Name == "Первая группа")
+                .GroupBy(t => t.SensorGroupId)
+                .Select(b => b.Count())
+                .ToList();
+
             await Task.WhenAll(sessionInfoTask);
 
             SessionItems.Clear();

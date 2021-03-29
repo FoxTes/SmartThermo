@@ -11,6 +11,12 @@
     Background="{DynamicResource SystemControlPageBackgroundChromeMediumLowBrush}"
     mc:Ignorable="d">
 
+    <UserControl.Resources>
+        <ControlTemplate x:Key="EmptyListBoxTemplate">
+            <TextBlock Text="Items count == 0" />
+        </ControlTemplate>
+    </UserControl.Resources>
+
     <prism:Dialog.WindowStyle>
         <Style TargetType="Window">
             <Setter Property="WindowStyle" Value="None" />
@@ -45,6 +51,21 @@
                                 <DataTrigger Binding="{Binding CheckCurrentSession}" Value="True">
                                     <Setter Property="IsEnabled" Value="False" />
                                 </DataTrigger>
+                                <Trigger Property="HasItems" Value="false">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate>
+                                                <Border BorderBrush="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}" BorderThickness="1">
+                                                    <TextBlock
+                                                        HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Style="{DynamicResource BodyTextBlockStyle}"
+                                                        Text="Нет данных о сессиях" />
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
                             </Style.Triggers>
                         </Style>
                     </ListView.Style>

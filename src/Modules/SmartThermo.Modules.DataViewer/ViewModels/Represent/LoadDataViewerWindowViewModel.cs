@@ -46,6 +46,8 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
         private double _axisMin;
         private List<double> _axisYMax = new List<double>();
         private List<double> _axisYMin = new List<double>();
+        private List<bool> _selectMode = new List<bool>();
+        private List<int> _temperature = new List<int>();
 
         #endregion
 
@@ -97,6 +99,20 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
             set => SetProperty(ref _axisYMin, value);
         }
 
+        public List<bool> SelectMode
+        {
+            get => _selectMode;
+            set => SetProperty(ref _selectMode, value);
+        }
+
+        public List<int> Temperature
+        {
+            get => _temperature;
+            set => SetProperty(ref _temperature, value);
+        }
+
+        public DelegateCommand<int?> ChangeSelectModeCommand { get; }
+
         public DelegateCommand<int?> ResetScalingChartCommand { get; }
 
         public bool KeepAlive => true;
@@ -118,14 +134,23 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
             ResetScalingChartCommand =
                 new DelegateCommand<int?>(i =>
                 {
-                    notifications.ShowInformation($"Сброшен масштаб графика №{i}.");
-
                     if (i == null)
                         return;
+
+                    notifications.ShowInformation($"Сброшен масштаб графика №{i}.");
                     AxisYMax[(int)i - 1] = MaxAxisYValue;
                     AxisYMin[(int)i - 1] = MinAxisYValue;
                     RaisePropertyChanged(nameof(AxisYMax));
                     RaisePropertyChanged(nameof(AxisYMin));
+                });
+            ChangeSelectModeCommand =
+                new DelegateCommand<int?>(i =>
+                {
+                    if (i == null)
+                        return;
+
+                    SelectMode[(int)i - 1] = !SelectMode[(int)i - 1];
+                    RaisePropertyChanged(nameof(SelectMode));
                 });
         }
 
@@ -164,16 +189,17 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
 
         private void DeviceConnector_RegistersRequested(object sender, List<SensorInfoEventArgs> sensorData)
         {
-            var data = sensorData.Where(x => x.IsAir)
+            SensorsEtherItems.Clear();
+            SensorsEtherItems.AddRange(sensorData.Where(x => x.IsAir)
                 .Select(x => new SensorsEther
                 {
                     Id = x.Number,
                     Time = x.TimeLastBroadcast
-                })
-                .ToList();
+                }).ToList());
 
-            SensorsEtherItems.Clear();
-            SensorsEtherItems.AddRange(data);
+            Temperature.Clear();
+            Temperature.AddRange(sensorData.Select(x => (int)x.Temperature).ToList());
+            RaisePropertyChanged(nameof(Temperature));
 
             var now = DateTime.Now.Round(TimeSpan.FromSeconds(1));
             // Вызов диспетчера требуется для корректной работы отрисовки графика при переключении окон.
@@ -188,7 +214,7 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
             }, DispatcherPriority.Background);
 
             SetAxisXLimits(now);
-            foreach (var item in ChartValues.Where(item => item.Count > 30))
+            foreach (var item in ChartValues.Where(item => item.Count > 25))
                 item.RemoveAt(0);
 
             SaveDataToDatabaseAsync(now, sensorData);
@@ -227,6 +253,9 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
                 .ToList());
             LimitRelayItems.AddRange(Enumerable.Range(0, 6)
                 .Select(x => new LimitRelay())
+                .ToList());
+            SelectMode.AddRange(Enumerable.Range(0, 6)
+                .Select(x => false)
                 .ToList());
 
             XFormatter = value => new DateTime((long)value).ToString("mm:ss");

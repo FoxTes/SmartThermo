@@ -76,9 +76,10 @@ namespace SmartThermo
             moduleCatalog.AddModule<AnalyticsModule>();
         }
 
+        // Альтернативное представление для отображения данных.
+        // Tooltip доработать. 
         // -Tooltip и легенда для аналитики.
         // -Запись null значений.
-        // -Выбор сессию (нет значений, если count ==0).
         // -About изменить.
         // -Refactoring имен для всех модулей.
     }

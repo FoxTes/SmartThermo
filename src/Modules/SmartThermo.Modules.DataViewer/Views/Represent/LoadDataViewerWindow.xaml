@@ -9,32 +9,20 @@
     xmlns:prism="http://prismlibrary.com/"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:ui="http://schemas.modernwpf.com/2019"
-    d:DesignHeight="768"
-    d:DesignWidth="1366"
+    d:DesignHeight="720"
+    d:DesignWidth="1280"
     prism:ViewModelLocator.AutoWireViewModel="True"
     ui:ThemeManager.RequestedTheme="Dark"
     Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}"
     mc:Ignorable="d">
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition Width="1" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-
-        <Grid Margin="0,8,8,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-
-            <Grid Margin="0,8,8,8" Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
+    <UserControl.Resources>
+        <DataTemplate x:Key="Chart0">
+            <Grid
+                Grid.Row="0"
+                Grid.Column="2"
+                Margin="0,8,8,8"
+                Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
                 <lvc:CartesianChart
                     Margin="8"
                     DisableAnimations="True"
@@ -140,6 +128,12 @@
                             <Setter Property="ContextMenu">
                                 <Setter.Value>
                                     <ContextMenu>
+                                        <MenuItem Command="{Binding ChangeSelectModeCommand}" Header="Изменить режим отображения">
+                                            <MenuItem.CommandParameter>
+                                                <sys:Int32>1</sys:Int32>
+                                            </MenuItem.CommandParameter>
+                                        </MenuItem>
+                                        <Separator />
                                         <MenuItem Command="{Binding ResetScalingChartCommand}" Header="Сбросить масштаб">
                                             <MenuItem.CommandParameter>
                                                 <sys:Int32>1</sys:Int32>
@@ -155,6 +149,464 @@
                     </lvc:CartesianChart.DataTooltip>
                 </lvc:CartesianChart>
             </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="Data0">
+            <Grid
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="0,8,8,8"
+                Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="32" />
+                    <RowDefinition />
+                    <RowDefinition Height="32" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.ColumnSpan="3"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                    Style="{DynamicResource SubtitleTextBlockStyle}"
+                    Text="Группа №1" />
+                <Border
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Margin="8,8,4,8"
+                    Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                    CornerRadius="2">
+                    <Viewbox>
+                        <TextBlock
+                            Margin="8"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding Temperature[0], StringFormat={}{0}°C}"
+                            TextWrapping="Wrap" />
+                    </Viewbox>
+                </Border>
+                <Border
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Margin="4,8,4,8"
+                    Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                    CornerRadius="2">
+                    <Viewbox>
+                        <TextBlock
+                            Margin="8"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding Temperature[1], StringFormat={}{0}°C}"
+                            TextWrapping="Wrap" />
+                    </Viewbox>
+                </Border>
+                <Border
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    Margin="4,8,8,8"
+                    Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                    CornerRadius="2">
+                    <Viewbox>
+                        <TextBlock
+                            Margin="8"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding Temperature[2], StringFormat={}{0}°C}"
+                            TextWrapping="Wrap" />
+                    </Viewbox>
+                </Border>
+                <TextBlock
+                    Grid.Row="3"
+                    Grid.ColumnSpan="3"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                    Style="{DynamicResource SubtitleTextBlockStyle}"
+                    Text="Группа №2" />
+                <Border
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    Margin="8,8,4,8"
+                    Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                    CornerRadius="2">
+                    <Viewbox>
+                        <TextBlock
+                            Margin="8"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding Temperature[3], StringFormat={}{0}°C}"
+                            TextWrapping="Wrap" />
+                    </Viewbox>
+                </Border>
+                <Border
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Margin="4,8,4,8"
+                    Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                    CornerRadius="2">
+                    <Viewbox>
+                        <TextBlock
+                            Margin="8"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding Temperature[4], StringFormat={}{0}°C}"
+                            TextWrapping="Wrap" />
+                    </Viewbox>
+                </Border>
+                <Border
+                    Grid.Row="4"
+                    Grid.Column="2"
+                    Margin="4,8,8,8"
+                    Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                    CornerRadius="2">
+                    <Viewbox>
+                        <TextBlock
+                            Margin="8"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="{Binding Temperature[5], StringFormat={}{0}°C}"
+                            TextWrapping="Wrap" />
+                    </Viewbox>
+                </Border>
+
+                <Grid.Style>
+                    <Style TargetType="{x:Type Grid}">
+                        <Setter Property="ContextMenu">
+                            <Setter.Value>
+                                <ContextMenu>
+                                    <MenuItem Command="{Binding ChangeSelectModeCommand}" Header="Изменить режим отображения">
+                                        <MenuItem.CommandParameter>
+                                            <sys:Int32>1</sys:Int32>
+                                        </MenuItem.CommandParameter>
+                                    </MenuItem>
+                                </ContextMenu>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Grid.Style>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="Chart3">
+            <Grid
+                Grid.Row="0"
+                Grid.Column="2"
+                Margin="8"
+                Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
+                <lvc:CartesianChart
+                    Margin="8"
+                    DisableAnimations="True"
+                    FontSize="12"
+                    Hoverable="False"
+                    LegendLocation="Top"
+                    Zoom="Y">
+                    <lvc:CartesianChart.Series>
+                        <lvc:LineSeries
+                            Title="Д 41"
+                            Fill="Transparent"
+                            LineSmoothness="1"
+                            PointGeometry="{x:Null}"
+                            Stroke="#003f5c"
+                            StrokeThickness="2"
+                            Values="{Binding ChartValues[18]}" />
+                        <lvc:LineSeries
+                            Title="Д 42"
+                            Fill="Transparent"
+                            LineSmoothness="1"
+                            PointGeometry="{x:Null}"
+                            Stroke="#444e86"
+                            StrokeThickness="2"
+                            Values="{Binding ChartValues[19]}" />
+                        <lvc:LineSeries
+                            Title="Д 43"
+                            Fill="Transparent"
+                            LineSmoothness="1"
+                            PointGeometry="{x:Null}"
+                            Stroke="#955196"
+                            StrokeThickness="2"
+                            Values="{Binding ChartValues[20]}" />
+                        <lvc:LineSeries
+                            Title="Д 44"
+                            Fill="Transparent"
+                            LineSmoothness="1"
+                            PointGeometry="{x:Null}"
+                            Stroke="#dd5182"
+                            StrokeThickness="2"
+                            Values="{Binding ChartValues[21]}" />
+                        <lvc:LineSeries
+                            Title="Д 45"
+                            Fill="Transparent"
+                            LineSmoothness="1"
+                            PointGeometry="{x:Null}"
+                            Stroke="#ff6e54"
+                            StrokeThickness="2"
+                            Values="{Binding ChartValues[22]}" />
+                        <lvc:LineSeries
+                            Title="Д 46"
+                            Fill="Transparent"
+                            LineSmoothness="1"
+                            PointGeometry="{x:Null}"
+                            Stroke="#ffa600"
+                            StrokeThickness="2"
+                            Values="{Binding ChartValues[23]}" />
+                    </lvc:CartesianChart.Series>
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis
+                            DisableAnimations="True"
+                            FontSize="12"
+                            LabelFormatter="{Binding YFormatter}"
+                            MaxRange="{Binding AxisYMax[3], Mode=TwoWay}"
+                            MaxValue="{Binding AxisYMax[3], Mode=TwoWay}"
+                            MinRange="{Binding AxisYMin[3], Mode=TwoWay}"
+                            MinValue="{Binding AxisYMin[3], Mode=TwoWay}"
+                            Unit="1">
+                            <lvc:Axis.Sections>
+                                <lvc:AxisSection SectionWidth="{Binding LimitRelayItems[3].HysteresisThreshold1}" Value="{Binding LimitRelayItems[3].TemperatureThreshold1}">
+                                    <lvc:AxisSection.Fill>
+                                        <SolidColorBrush Opacity=".25" Color="red" />
+                                    </lvc:AxisSection.Fill>
+                                </lvc:AxisSection>
+                                <lvc:AxisSection SectionWidth="{Binding LimitRelayItems[3].HysteresisThreshold2}" Value="{Binding LimitRelayItems[3].TemperatureThreshold2}">
+                                    <lvc:AxisSection.Fill>
+                                        <SolidColorBrush Opacity=".25" Color="Green" />
+                                    </lvc:AxisSection.Fill>
+                                </lvc:AxisSection>
+                            </lvc:Axis.Sections>
+                            <lvc:Axis.Separator>
+                                <lvc:Separator Stroke="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}" StrokeThickness="1" />
+                            </lvc:Axis.Separator>
+                        </lvc:Axis>
+                    </lvc:CartesianChart.AxisY>
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis
+                            DisableAnimations="True"
+                            FontSize="12"
+                            LabelFormatter="{Binding XFormatter}"
+                            MaxValue="{Binding AxisMax}"
+                            MinValue="{Binding AxisMin}"
+                            Unit="{Binding AxisUnit}">
+                            <lvc:Axis.Separator>
+                                <lvc:Separator
+                                    Step="{Binding AxisStep}"
+                                    Stroke="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                                    StrokeThickness="1" />
+                            </lvc:Axis.Separator>
+                        </lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+                    <lvc:CartesianChart.Style>
+                        <Style TargetType="lvc:CartesianChart">
+                            <Setter Property="ContextMenu">
+                                <Setter.Value>
+                                    <ContextMenu>
+                                        <MenuItem Command="{Binding ChangeSelectModeCommand}" Header="Изменить режим отображения">
+                                            <MenuItem.CommandParameter>
+                                                <sys:Int32>4</sys:Int32>
+                                            </MenuItem.CommandParameter>
+                                        </MenuItem>
+                                        <Separator />
+                                        <MenuItem Command="{Binding ResetScalingChartCommand}" Header="Сбросить масштаб">
+                                            <MenuItem.CommandParameter>
+                                                <sys:Int32>4</sys:Int32>
+                                            </MenuItem.CommandParameter>
+                                        </MenuItem>
+                                    </ContextMenu>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </lvc:CartesianChart.Style>
+                    <lvc:CartesianChart.DataTooltip>
+                        <lvc:DefaultTooltip Background="{DynamicResource SystemControlPageBackgroundChromeMediumLowBrush}" />
+                    </lvc:CartesianChart.DataTooltip>
+                </lvc:CartesianChart>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="Data3">
+            <Grid
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="0,8,8,0"
+                Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="32" />
+                    <RowDefinition />
+                    <RowDefinition Height="32" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.ColumnSpan="3"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                    Style="{DynamicResource SubtitleTextBlockStyle}"
+                    Text="Группа №1" />
+                <Border
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Margin="8,0,4,8"
+                    Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                    <Viewbox>
+                        <TextBlock
+                            Margin="8"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="32"
+                            Text="{Binding Temperature[18], StringFormat={}{0}°C}"
+                            TextWrapping="Wrap" />
+                    </Viewbox>
+                </Border>
+                <Border
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Margin="4,0,4,8"
+                    Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                    <Viewbox>
+                        <TextBlock
+                            Margin="8"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="32"
+                            Text="{Binding Temperature[19], StringFormat={}{0}°C}"
+                            TextWrapping="Wrap" />
+                    </Viewbox>
+                </Border>
+                <Border
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    Margin="4,0,8,8"
+                    Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                    <Viewbox>
+                        <TextBlock
+                            Margin="8"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="32"
+                            Text="{Binding Temperature[20], StringFormat={}{0}°C}"
+                            TextWrapping="Wrap" />
+                    </Viewbox>
+                </Border>
+                <TextBlock
+                    Grid.Row="3"
+                    Grid.ColumnSpan="3"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                    Style="{DynamicResource SubtitleTextBlockStyle}"
+                    Text="Группа №2" />
+                <Border
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    Margin="8,0,4,8"
+                    Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                    <Viewbox>
+                        <TextBlock
+                            Margin="8"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="32"
+                            Text="{Binding Temperature[21], StringFormat={}{0}°C}"
+                            TextWrapping="Wrap" />
+                    </Viewbox>
+                </Border>
+                <Border
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Margin="4,0,4,8"
+                    Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                    <Viewbox>
+                        <TextBlock
+                            Margin="8"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="32"
+                            Text="{Binding Temperature[22], StringFormat={}{0}°C}"
+                            TextWrapping="Wrap" />
+                    </Viewbox>
+                </Border>
+                <Border
+                    Grid.Row="4"
+                    Grid.Column="2"
+                    Margin="4,0,8,8"
+                    Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                    <Viewbox>
+                        <TextBlock
+                            Margin="8"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="32"
+                            Text="{Binding Temperature[23], StringFormat={}{0}°C}"
+                            TextWrapping="Wrap" />
+                    </Viewbox>
+                </Border>
+
+                <Grid.Style>
+                    <Style TargetType="{x:Type Grid}">
+                        <Setter Property="ContextMenu">
+                            <Setter.Value>
+                                <ContextMenu>
+                                    <MenuItem Command="{Binding ChangeSelectModeCommand}" Header="Изменить режим отображения">
+                                        <MenuItem.CommandParameter>
+                                            <sys:Int32>4</sys:Int32>
+                                        </MenuItem.CommandParameter>
+                                    </MenuItem>
+                                </ContextMenu>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Grid.Style>
+
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="1" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Margin="0,8,8,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <ContentControl Grid.Column="0" Content="{Binding}">
+                <ContentControl.Style>
+                    <Style TargetType="ContentControl">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SelectMode[0]}" Value="False">
+                                <Setter Property="ContentTemplate" Value="{StaticResource Chart0}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding SelectMode[0]}" Value="True">
+                                <Setter Property="ContentTemplate" Value="{StaticResource Data0}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ContentControl.Style>
+            </ContentControl>
             <Grid
                 Grid.Row="0"
                 Grid.Column="1"
@@ -405,137 +857,30 @@
                     </lvc:CartesianChart.DataTooltip>
                 </lvc:CartesianChart>
             </Grid>
-            <Grid
+
+            <ContentControl
                 Grid.Row="1"
                 Grid.Column="0"
-                Margin="0,8,8,0"
-                Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
-                <lvc:CartesianChart
-                    Margin="8"
-                    DisableAnimations="True"
-                    FontSize="12"
-                    Hoverable="False"
-                    LegendLocation="Top"
-                    Zoom="Y">
-                    <lvc:CartesianChart.Series>
-                        <lvc:LineSeries
-                            Title="Д 41"
-                            Fill="Transparent"
-                            LineSmoothness="1"
-                            PointGeometry="{x:Null}"
-                            Stroke="#003f5c"
-                            StrokeThickness="2"
-                            Values="{Binding ChartValues[18]}" />
-                        <lvc:LineSeries
-                            Title="Д 42"
-                            Fill="Transparent"
-                            LineSmoothness="1"
-                            PointGeometry="{x:Null}"
-                            Stroke="#444e86"
-                            StrokeThickness="2"
-                            Values="{Binding ChartValues[19]}" />
-                        <lvc:LineSeries
-                            Title="Д 43"
-                            Fill="Transparent"
-                            LineSmoothness="1"
-                            PointGeometry="{x:Null}"
-                            Stroke="#955196"
-                            StrokeThickness="2"
-                            Values="{Binding ChartValues[20]}" />
-                        <lvc:LineSeries
-                            Title="Д 44"
-                            Fill="Transparent"
-                            LineSmoothness="1"
-                            PointGeometry="{x:Null}"
-                            Stroke="#dd5182"
-                            StrokeThickness="2"
-                            Values="{Binding ChartValues[21]}" />
-                        <lvc:LineSeries
-                            Title="Д 45"
-                            Fill="Transparent"
-                            LineSmoothness="1"
-                            PointGeometry="{x:Null}"
-                            Stroke="#ff6e54"
-                            StrokeThickness="2"
-                            Values="{Binding ChartValues[22]}" />
-                        <lvc:LineSeries
-                            Title="Д 46"
-                            Fill="Transparent"
-                            LineSmoothness="1"
-                            PointGeometry="{x:Null}"
-                            Stroke="#ffa600"
-                            StrokeThickness="2"
-                            Values="{Binding ChartValues[23]}" />
-                    </lvc:CartesianChart.Series>
-                    <lvc:CartesianChart.AxisY>
-                        <lvc:Axis
-                            DisableAnimations="True"
-                            FontSize="12"
-                            LabelFormatter="{Binding YFormatter}"
-                            MaxRange="{Binding AxisYMax[3], Mode=TwoWay}"
-                            MaxValue="{Binding AxisYMax[3], Mode=TwoWay}"
-                            MinRange="{Binding AxisYMin[3], Mode=TwoWay}"
-                            MinValue="{Binding AxisYMin[3], Mode=TwoWay}"
-                            Unit="1">
-                            <lvc:Axis.Sections>
-                                <lvc:AxisSection SectionWidth="{Binding LimitRelayItems[3].HysteresisThreshold1}" Value="{Binding LimitRelayItems[3].TemperatureThreshold1}">
-                                    <lvc:AxisSection.Fill>
-                                        <SolidColorBrush Opacity=".25" Color="red" />
-                                    </lvc:AxisSection.Fill>
-                                </lvc:AxisSection>
-                                <lvc:AxisSection SectionWidth="{Binding LimitRelayItems[3].HysteresisThreshold2}" Value="{Binding LimitRelayItems[3].TemperatureThreshold2}">
-                                    <lvc:AxisSection.Fill>
-                                        <SolidColorBrush Opacity=".25" Color="Green" />
-                                    </lvc:AxisSection.Fill>
-                                </lvc:AxisSection>
-                            </lvc:Axis.Sections>
-                            <lvc:Axis.Separator>
-                                <lvc:Separator Stroke="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}" StrokeThickness="1" />
-                            </lvc:Axis.Separator>
-                        </lvc:Axis>
-                    </lvc:CartesianChart.AxisY>
-                    <lvc:CartesianChart.AxisX>
-                        <lvc:Axis
-                            DisableAnimations="True"
-                            FontSize="12"
-                            LabelFormatter="{Binding XFormatter}"
-                            MaxValue="{Binding AxisMax}"
-                            MinValue="{Binding AxisMin}"
-                            Unit="{Binding AxisUnit}">
-                            <lvc:Axis.Separator>
-                                <lvc:Separator
-                                    Step="{Binding AxisStep}"
-                                    Stroke="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
-                                    StrokeThickness="1" />
-                            </lvc:Axis.Separator>
-                        </lvc:Axis>
-                    </lvc:CartesianChart.AxisX>
-                    <lvc:CartesianChart.Style>
-                        <Style TargetType="lvc:CartesianChart">
-                            <Setter Property="ContextMenu">
-                                <Setter.Value>
-                                    <ContextMenu>
-                                        <MenuItem Command="{Binding ResetScalingChartCommand}" Header="Сбросить масштаб">
-                                            <MenuItem.CommandParameter>
-                                                <sys:Int32>4</sys:Int32>
-                                            </MenuItem.CommandParameter>
-                                        </MenuItem>
-                                    </ContextMenu>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </lvc:CartesianChart.Style>
-                    <lvc:CartesianChart.DataTooltip>
-                        <lvc:DefaultTooltip Background="{DynamicResource SystemControlPageBackgroundChromeMediumLowBrush}" />
-                    </lvc:CartesianChart.DataTooltip>
-                </lvc:CartesianChart>
-            </Grid>
+                Content="{Binding}">
+                <ContentControl.Style>
+                    <Style TargetType="ContentControl">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SelectMode[3]}" Value="False">
+                                <Setter Property="ContentTemplate" Value="{StaticResource Chart3}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding SelectMode[3]}" Value="True">
+                                <Setter Property="ContentTemplate" Value="{StaticResource Data3}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ContentControl.Style>
+            </ContentControl>
             <Grid
                 Grid.Row="1"
                 Grid.Column="1"
                 Margin="8,8,8,0"
                 Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
-                <lvc:CartesianChart
+                <!--<lvc:CartesianChart
                     Margin="8"
                     DisableAnimations="True"
                     FontSize="12"
@@ -653,7 +998,110 @@
                     <lvc:CartesianChart.DataTooltip>
                         <lvc:DefaultTooltip Background="{DynamicResource SystemControlPageBackgroundChromeMediumLowBrush}" />
                     </lvc:CartesianChart.DataTooltip>
-                </lvc:CartesianChart>
+                </lvc:CartesianChart>-->
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="32" />
+                    <RowDefinition />
+                    <RowDefinition Height="32" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.ColumnSpan="3"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                    Style="{DynamicResource SubtitleTextBlockStyle}"
+                    Text="Группа №1" />
+                <Border
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Margin="8,8,4,8"
+                    Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="32"
+                        Text="65 °C" />
+                </Border>
+                <Border
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Margin="4,8,4,8"
+                    Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
+                    CornerRadius="2">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="32"
+                        Text="72 °C" />
+                </Border>
+                <Border
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    Margin="4,0,8,8"
+                    Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="32"
+                        Text="23 °C" />
+                </Border>
+                <TextBlock
+                    Grid.Row="3"
+                    Grid.ColumnSpan="3"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                    Style="{DynamicResource SubtitleTextBlockStyle}"
+                    Text="Группа №2" />
+                <Border
+                    Grid.Row="4"
+                    Grid.Column="0"
+                    Margin="8,0,4,8"
+                    Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="32"
+                        Text="73 °C" />
+                </Border>
+                <Border
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Margin="4,0,4,8"
+                    Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                    <Viewbox>
+                        <TextBlock
+                            Margin="4"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="32 °C"
+                            TextWrapping="Wrap" />
+                    </Viewbox>
+                </Border>
+                <Border
+                    Grid.Row="4"
+                    Grid.Column="2"
+                    Margin="4,0,8,8"
+                    Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}">
+                    <Viewbox>
+                        <TextBlock
+                            Margin="4"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="132 °C"
+                            TextWrapping="Wrap" />
+                    </Viewbox>
+                </Border>
             </Grid>
             <Grid
                 Grid.Row="1"

@@ -151,6 +151,13 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
 
                     SelectMode[(int)i - 1] = !SelectMode[(int)i - 1];
                     RaisePropertyChanged(nameof(SelectMode));
+
+                    using var context = new Context();
+                    var selectMode = context.SelectModes
+                        .Where(x => x.Id == i)
+                        .FirstOrDefault();
+                    selectMode.Stage = _selectMode[(int)i - 1];
+                    context.SaveChanges();
                 });
         }
 
@@ -251,12 +258,13 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
             ChartValues.AddRange(Enumerable.Range(0, 36)
                 .Select(x => new ChartValues<MeasureData>())
                 .ToList());
+            Temperature.AddRange(Enumerable.Range(0,36)
+                .Select(x => 0)
+                .ToList());
             LimitRelayItems.AddRange(Enumerable.Range(0, 6)
                 .Select(x => new LimitRelay())
                 .ToList());
-            SelectMode.AddRange(Enumerable.Range(0, 6)
-                .Select(x => false)
-                .ToList());
+            GetSelectMode();
 
             XFormatter = value => new DateTime((long)value).ToString("mm:ss");
             YFormatter = value => Math.Round(value, 1).ToString(CultureInfo.InvariantCulture);
@@ -265,6 +273,12 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
             SetAxisXLimits(DateTime.Now);
             SetAxisYLimits();
             SetRelayLimits();
+        }
+
+        private void GetSelectMode()
+        {
+            using var context = new Context();
+            SelectMode.AddRange(context.SelectModes.Select(x => x.Stage).ToList());
         }
 
         private void SetRelayLimits()

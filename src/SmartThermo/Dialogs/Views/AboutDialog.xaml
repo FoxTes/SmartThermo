@@ -10,8 +10,8 @@
     <Grid>
         <ui:SimpleStackPanel Width="320" Spacing="16">
             <TextBlock Style="{DynamicResource TitleTextBlockStyle}">SmartThermo</TextBlock>
-            <TextBlock>Версия прошивки 0.3.0</TextBlock>
-            <TextBlock TextWrapping="WrapWithOverflow">SmartThermo - это ПО для контроля, управления и записи данных с датчиков температуры.</TextBlock>
+            <TextBlock>Версия прошивки - 0.4.0</TextBlock>
+            <TextBlock TextWrapping="WrapWithOverflow">SmartThermo - это ПО для контроля, мониторинга и записи данных с датчиков температуры.</TextBlock>
         </ui:SimpleStackPanel>
     </Grid>
 </ui:ContentDialog>

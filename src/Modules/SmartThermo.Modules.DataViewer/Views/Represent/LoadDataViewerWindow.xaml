@@ -147,9 +147,7 @@
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="Data0">
-            <Grid
-                Margin="0,8,8,8"
-                Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
+            <Grid Margin="0,8,8,8" Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="8" />
@@ -219,7 +217,8 @@
                 </Border>
                 <TextBlock
                     Grid.Row="3"
-                    Grid.ColumnSpan="3" Grid.Column="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
@@ -419,9 +418,7 @@
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="Data1">
-            <Grid
-                Margin="8"
-                Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
+            <Grid Margin="8" Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="8" />
@@ -491,7 +488,8 @@
                 </Border>
                 <TextBlock
                     Grid.Row="3"
-                    Grid.ColumnSpan="3" Grid.Column="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
@@ -691,9 +689,7 @@
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="Data2">
-            <Grid
-                Margin="8"
-                Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
+            <Grid Margin="8" Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="8" />
@@ -763,7 +759,8 @@
                 </Border>
                 <TextBlock
                     Grid.Row="3"
-                    Grid.ColumnSpan="3" Grid.Column="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
@@ -1033,7 +1030,8 @@
                 </Border>
                 <TextBlock
                     Grid.Row="3"
-                    Grid.ColumnSpan="3" Grid.Column="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
@@ -1104,7 +1102,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="Chart4">
-            <Grid Margin="0,8,8,0" Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
+            <Grid Margin="8,8,8,0" Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
                 <lvc:CartesianChart
                     Margin="8"
                     DisableAnimations="True"
@@ -1303,7 +1301,8 @@
                 </Border>
                 <TextBlock
                     Grid.Row="3"
-                    Grid.ColumnSpan="3" Grid.Column="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
@@ -1374,7 +1373,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="Chart5">
-            <Grid Margin="0,8,8,0" Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
+            <Grid Margin="8,8,8,0" Background="{DynamicResource SystemControlBackgroundChromeMediumBrush}">
                 <lvc:CartesianChart
                     Margin="8"
                     DisableAnimations="True"
@@ -1573,7 +1572,8 @@
                 </Border>
                 <TextBlock
                     Grid.Row="3"
-                    Grid.ColumnSpan="3" Grid.Column="0"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="3"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"

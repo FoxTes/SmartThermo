@@ -14,7 +14,7 @@ namespace SmartThermo.Modules.Analytics.Dialogs.ViewModels
     {
         private readonly INotifications _notifications;
         private ObservableCollection<SessionInfo> _sessionItems = new ObservableCollection<SessionInfo>();
-        private bool _checkCurrentSession = true;
+        private bool _checkCurrentSession;
         private int _sessionItemsSelected;
 
         public bool CheckCurrentSession
@@ -116,6 +116,7 @@ namespace SmartThermo.Modules.Analytics.Dialogs.ViewModels
         {
             if (SessionItems.Count != 0) 
                 return false;
+
             _notifications.ShowInformation("Отсутствуют записи для удаления.");
             return true;
         }
@@ -136,7 +137,7 @@ namespace SmartThermo.Modules.Analytics.Dialogs.ViewModels
                         DateCreate = x.DateCreate,
                         CountRecord = context.SensorInformations
                             .Count(y => y.SensorGroup.SessionId == x.Id 
-                                                    && y.SensorGroup.Name == "Первая группа")
+                                     && y.SensorGroup.Name == "Первая группа")
                     })
                     .Skip(1)
                     .ToList();

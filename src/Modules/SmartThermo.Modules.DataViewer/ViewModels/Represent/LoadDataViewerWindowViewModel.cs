@@ -154,8 +154,7 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
 
                     using var context = new Context();
                     var selectMode = context.SelectModes
-                        .Where(x => x.Id == i)
-                        .FirstOrDefault();
+                        .FirstOrDefault(x => x.Id == i);
                     selectMode.Stage = _selectMode[(int)i - 1];
                     context.SaveChanges();
                 });

@@ -21,7 +21,7 @@ namespace SmartThermo.Modules.DataViewer.Views.Charts
 
         public TooltipData Data
         {
-            get { return _data; }
+            get => _data;
             set
             {
                 _data = value;
@@ -33,8 +33,7 @@ namespace SmartThermo.Modules.DataViewer.Views.Charts
 
         protected virtual void OnPropertyChanged(string propertyName = null)
         {
-            if (PropertyChanged != null)
-                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

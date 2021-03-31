@@ -20,7 +20,20 @@
             <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
 
-        <ContentControl Margin="0,16,16,0" Content="{Binding PlotControl}" />
+        <ContentControl
+            Grid.Column="0"
+            Margin="0,16,16,0"
+            Content="{Binding PlotControl}" />
+        <Border
+            Grid.Column="0"
+            Width="200"
+            Height="100"
+            Margin="0,48,48,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Background="#F1555555"
+            BorderBrush="#555555"
+            BorderThickness="2" />
 
         <Border
             Grid.Column="1"
@@ -94,7 +107,6 @@
                     </ui:SimpleStackPanel>
                 </GroupBox>
                 <Button
-                    Grid.Column="1"
                     Margin="0,8,0,0"
                     HorizontalAlignment="Right"
                     Command="{Binding GetSensorDataCommand}">
@@ -117,11 +129,15 @@
         </Grid>
 
         <Border
+            Grid.Column="0"
+            Margin="0,16,16,0"
             Background="Black"
             Opacity="0.5"
             Visibility="{Binding ShowLoadIndicator}" />
 
         <ui:SimpleStackPanel
+            Grid.Column="0"
+            Margin="0,16,16,0"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             Spacing="16"

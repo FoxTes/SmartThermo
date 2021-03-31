@@ -12,6 +12,7 @@ using SmartThermo.Services.Notifications;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
@@ -30,7 +31,7 @@ namespace SmartThermo.Modules.Analytics.ViewModels
         private WpfPlot _plotControl;
         private Plot _plot;
         private VLine _vLine;
-        private SignalPlotXYConst<double, double> _signalPlotXYConst;
+        private SignalPlotXYConst<double, double> _signalPlotXyConst;
 
         private int _sensorGroupSelected;
         private ObservableCollection<ItemDescriptor<bool>> _groupCheckItems = new ObservableCollection<ItemDescriptor<bool>>();
@@ -111,7 +112,7 @@ namespace SmartThermo.Modules.Analytics.ViewModels
         private void InitChart()
         {
             PlotControl = new WpfPlot();
-            PlotControl.MouseMove += PlotControl_MouseMove;
+            //PlotControl.MouseMove += PlotControl_MouseMove;
 
             _plot = PlotControl.Plot;
             _plot.Style(
@@ -208,7 +209,7 @@ namespace SmartThermo.Modules.Analytics.ViewModels
 
             _plot.Clear();
             if (GroupCheckItems[0].Value)
-                _signalPlotXYConst = _plot.AddSignalXYConst(dateTime, result.Select(x => (double) x.Value1).ToArray(),
+                _signalPlotXyConst = _plot.AddSignalXYConst(dateTime, result.Select(x => (double) x.Value1).ToArray(),
                     color: Color.FromArgb(0x00, 0x3f, 0x5c), label: "Датчик №1");
             if (GroupCheckItems[1].Value)
                 _plot.AddSignalXYConst(dateTime, result.Select(x => (double) x.Value2).ToArray(),
@@ -322,11 +323,12 @@ namespace SmartThermo.Modules.Analytics.ViewModels
 
         private void PlotControl_MouseMove(object sender, MouseEventArgs e)
         {
+            // TODO: Необходима задержка.
             if (!_isLoadData)
                 return;
 
-            (double mouseCoordX, _) = PlotControl.GetMouseCoordinates();
-            (double pointX, _, _) = _signalPlotXYConst.GetPointNearestX(mouseCoordX);
+            var (mouseCoordsX, _) = PlotControl.GetMouseCoordinates();
+            var (pointX, _, _) = _signalPlotXyConst.GetPointNearestX(mouseCoordsX);
             _vLine.X = pointX;
 
             PlotControl.Render();

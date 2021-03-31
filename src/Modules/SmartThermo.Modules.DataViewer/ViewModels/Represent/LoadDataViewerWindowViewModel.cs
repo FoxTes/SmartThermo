@@ -154,7 +154,7 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
 
                     using var context = new Context();
                     var selectMode = context.SelectModes
-                        .FirstOrDefault(x => x.Id == i);
+                        .First(x => x.Id == i);
                     selectMode.Stage = _selectMode[(int)i - 1];
                     context.SaveChanges();
                 });
@@ -280,8 +280,6 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
         {
             await Task.Delay(1000);
             var now = DateTime.Now;
-            var date = new DateTime(now.Year, now.Month, now.Day,
-                                    now.Hour, now.Minute, now.Second);
             var random = new Random();
 
             DateTime[] myDates = new DateTime[1000_000];

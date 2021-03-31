@@ -21,6 +21,13 @@ namespace SmartThermo.Services.DeviceConnector
 
         #endregion
 
+        #region Const
+
+        private const int TimeStart = 1;
+        private const int TimePeriod = 1;
+
+        #endregion
+
         #region Field
 
         private readonly Random _random;
@@ -100,7 +107,7 @@ namespace SmartThermo.Services.DeviceConnector
 
         private void StartTimer()
         {
-            _timer.Change(TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(3));
+            _timer.Change(TimeSpan.FromSeconds(TimeStart), TimeSpan.FromSeconds(TimePeriod));
         }
 
         private void StopTimer()

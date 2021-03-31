@@ -18,7 +18,6 @@ using ToastNotifications;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Position;
 
-
 namespace SmartThermo
 {
     /// <summary>
@@ -34,9 +33,10 @@ namespace SmartThermo
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            base.OnStartup(e);
             AppCenter.Start("3fb4a695-2ae6-4663-9878-d0fa3ada2d1e",
-                typeof(Analytics), typeof(Crashes));
+                   typeof(Analytics), typeof(Crashes));
+
+            base.OnStartup(e);
         }
 
         protected override Window CreateShell()
@@ -49,7 +49,7 @@ namespace SmartThermo
             var instance = new Notifications(new Notifier(cfg =>
             {
                 cfg.PositionProvider = new WindowPositionProvider(Current.MainWindow,
-                    Corner.BottomRight, 25, 0);
+                    Corner.BottomRight, 16, 16);
 
                 cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
                     TimeSpan.FromSeconds(3),

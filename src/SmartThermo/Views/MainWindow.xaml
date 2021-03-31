@@ -3,7 +3,6 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:core="clr-namespace:SmartThermo.Core;assembly=SmartThermo.Core"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:ui="http://schemas.modernwpf.com/2019"
@@ -12,6 +11,7 @@
     MinHeight="720"
     prism:ViewModelLocator.AutoWireViewModel="True"
     ui:ThemeManager.RequestedTheme="Dark"
+    ui:TitleBar.ExtendViewIntoTitleBar="True"
     ui:WindowHelper.UseModernWindowStyle="True"
     Background="{DynamicResource SystemControlPageBackgroundChromeMediumLowBrush}"
     WindowStartupLocation="CenterScreen"
@@ -19,11 +19,12 @@
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="32" />
             <RowDefinition Height="auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <ui:CommandBar Background="{DynamicResource SystemControlPageBackgroundChromeMediumLowBrush}">
+        <ui:CommandBar Grid.Row="1" Background="{DynamicResource SystemControlPageBackgroundChromeMediumLowBrush}">
             <ui:AppBarButton Command="{Binding ChangeConnectDeviceCommand}" Label="{Binding LabelButton}" />
             <ui:AppBarSeparator />
             <ui:AppBarButton
@@ -37,7 +38,7 @@
 
         </ui:CommandBar>
         <ui:NavigationView
-            Grid.Row="1"
+            Grid.Row="2"
             Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}"
             IsBackButtonVisible="Collapsed"
             IsPaneOpen="False"

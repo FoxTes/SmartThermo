@@ -223,7 +223,7 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
             foreach (var item in ChartValues.Where(item => item.Count > 25))
                 item.RemoveAt(0);
 
-            SaveDataToDatabaseAsync(now, sensorData);
+            //SaveDataToDatabaseAsync(now, sensorData);
         }
 
         private async void SaveDataToDatabaseAsync(DateTime time, IReadOnlyList<SensorInfoEventArgs> sensorData)
@@ -272,6 +272,39 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
             SetAxisXLimits(DateTime.Now);
             SetAxisYLimits();
             SetRelayLimits();
+
+            //LoadTestDataAsync();
+        }
+
+        private async Task LoadTestDataAsync()
+        {
+            await Task.Delay(1000);
+            var now = DateTime.Now;
+            var date = new DateTime(now.Year, now.Month, now.Day,
+                                    now.Hour, now.Minute, now.Second);
+            var random = new Random();
+
+            DateTime[] myDates = new DateTime[1000_000];
+            for (int i = 0; i < 1000_000; i++)
+                myDates[i] = DateTime.Now.AddSeconds(i);
+
+            await using var context = new Context();
+            var result = Enumerable.Range(0, 1000_000)
+                .Select((x, index) => new SensorInformation
+                {
+                    Id = index + 1,
+                    Value1 = (int)(120 + 5 * Math.Cos(index * 0.0001d) + random.Next(0, 1)),
+                    Value2 = (int)(100 + 5 * Math.Sin(index * 0.001d) + random.Next(0, 3)),
+                    Value3 = (int)(80 + 5 * Math.Cos(index * 0.001d) + random.Next(0, 4)),
+                    Value4 = (int)(60 + 5 * Math.Cos(index * 0.0003d) + random.Next(0, 2)),
+                    Value5 = (int)(40 + 5 * Math.Asin(index * 0.00001d) + random.Next(0, 1)),
+                    Value6 = (int)(20 + 5 * Math.Acos(index * 0.0001d) + random.Next(0, 2)),
+                    DataTime = myDates[index].Round(TimeSpan.FromSeconds(1)),
+                    SensorGroupId = _groupSensorId[0]
+                }).ToList();
+
+            await context.SensorInformations.AddRangeAsync(result);
+            await context.SaveChangesAsync();
         }
 
         private void GetSelectMode()

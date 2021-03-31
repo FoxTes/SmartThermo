@@ -2,6 +2,7 @@
 using Prism.Regions;
 using Prism.Services.Dialogs;
 using ScottPlot;
+using ScottPlot.Plottable;
 using SmartThermo.Core.Extensions;
 using SmartThermo.Core.Models;
 using SmartThermo.Core.Mvvm;
@@ -16,6 +17,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace SmartThermo.Modules.Analytics.ViewModels
 {
@@ -27,12 +29,16 @@ namespace SmartThermo.Modules.Analytics.ViewModels
 
         private WpfPlot _plotControl;
         private Plot _plot;
+        private VLine _vLine;
+        private SignalPlotXYConst<double, double> _signalPlotXYConst;
+
         private int _sensorGroupSelected;
         private ObservableCollection<ItemDescriptor<bool>> _groupCheckItems = new ObservableCollection<ItemDescriptor<bool>>();
         private string _dateCreateSession;
         private Visibility _showLoadIndicator = Visibility.Hidden;
         private int _currentSessionId;
         private bool _isLoadCurrentSession = true;
+        private bool _isLoadData;
 
         #endregion
 
@@ -105,6 +111,7 @@ namespace SmartThermo.Modules.Analytics.ViewModels
         private void InitChart()
         {
             PlotControl = new WpfPlot();
+            PlotControl.MouseMove += PlotControl_MouseMove;
 
             _plot = PlotControl.Plot;
             _plot.Style(
@@ -167,8 +174,6 @@ namespace SmartThermo.Modules.Analytics.ViewModels
 
         private async Task GetSensorDataAsync()
         {
-            _plot.Clear();
-
             var task = Task.Run(() =>
             {
                 using var context = new Context();
@@ -181,6 +186,9 @@ namespace SmartThermo.Modules.Analytics.ViewModels
             if (countItem < 2)
             {
                 Notifications.ShowInformation("Нет данных для анализа.");
+
+                _plot.Clear();
+                _isLoadData = false;
                 return;
             }
             ShowLoadIndicator = Visibility.Visible;
@@ -198,8 +206,9 @@ namespace SmartThermo.Modules.Analytics.ViewModels
 
             var dateTime = result.Select(x => x.DataTime.ToOADate()).ToArray();
 
+            _plot.Clear();
             if (GroupCheckItems[0].Value)
-                _plot.AddSignalXYConst(dateTime, result.Select(x => (double) x.Value1).ToArray(),
+                _signalPlotXYConst = _plot.AddSignalXYConst(dateTime, result.Select(x => (double) x.Value1).ToArray(),
                     color: Color.FromArgb(0x00, 0x3f, 0x5c), label: "Датчик №1");
             if (GroupCheckItems[1].Value)
                 _plot.AddSignalXYConst(dateTime, result.Select(x => (double) x.Value2).ToArray(),
@@ -216,11 +225,13 @@ namespace SmartThermo.Modules.Analytics.ViewModels
             if (GroupCheckItems[5].Value)
                 _plot.AddSignalXYConst(dateTime, result.Select(x => (double) x.Value6).ToArray(),
                     color: Color.FromArgb(0xff, 0xa6, 0x00), label: "Датчик №6");
+            _vLine = _plot.AddVerticalLine(dateTime[0], color: Color.Red, style: LineStyle.Dash);
 
             _plot.AxisAutoX();
-            _plot.SetAxisLimitsY(0, 165);
+            _plot.SetAxisLimitsY(0, 165);        
             PlotControl.Render();
 
+            _isLoadData = true;
             ShowLoadIndicator = Visibility.Hidden;
         }
 
@@ -308,6 +319,18 @@ namespace SmartThermo.Modules.Analytics.ViewModels
         }
 
         private async void GetSensorDataExecute() => await GetSensorDataAsync();
+
+        private void PlotControl_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (!_isLoadData)
+                return;
+
+            (double mouseCoordX, _) = PlotControl.GetMouseCoordinates();
+            (double pointX, _, _) = _signalPlotXYConst.GetPointNearestX(mouseCoordX);
+            _vLine.X = pointX;
+
+            PlotControl.Render();
+        }
 
         #endregion
     }

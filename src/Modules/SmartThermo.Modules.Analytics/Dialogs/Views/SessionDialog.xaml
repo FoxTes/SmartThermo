@@ -11,12 +11,6 @@
     Background="{DynamicResource SystemControlPageBackgroundChromeMediumLowBrush}"
     mc:Ignorable="d">
 
-    <UserControl.Resources>
-        <ControlTemplate x:Key="EmptyListBoxTemplate">
-            <TextBlock Text="Items count == 0" />
-        </ControlTemplate>
-    </UserControl.Resources>
-
     <prism:Dialog.WindowStyle>
         <Style TargetType="Window">
             <Setter Property="WindowStyle" Value="None" />

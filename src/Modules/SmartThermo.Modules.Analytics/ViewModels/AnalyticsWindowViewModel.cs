@@ -29,8 +29,7 @@ namespace SmartThermo.Modules.Analytics.ViewModels
         private readonly List<SignalPlotXYConst<double, double>> _signalPlotXyConst = new List<SignalPlotXYConst<double, double>>();
         private readonly List<int> _groupSensorId = new List<int>();
         private readonly Timer _timer;
-
-        private List<Color> _colors = new List<Color>()
+        private readonly List<Color> _colors = new List<Color>()
         {
             Color.FromArgb(0x00, 0x3f, 0x5c),
             Color.FromArgb(0x44, 0x4e, 0x86),
@@ -39,6 +38,7 @@ namespace SmartThermo.Modules.Analytics.ViewModels
             Color.FromArgb(0xff, 0x6e, 0x54),
             Color.FromArgb(0xff, 0xa6, 0x00)
         };
+        
         private WpfPlot _plotControl;
         private Plot _plot;
         private VLine _vLine;
@@ -237,7 +237,7 @@ namespace SmartThermo.Modules.Analytics.ViewModels
             var result = getItemsTask.Result;
 
             var dateTime = result.Select(x => x.DataTime.ToOADate()).ToArray();
-            DateLegend = result[0].DataTime.ToString();
+            DateLegend = result[0].DataTime.ToString(CultureInfo.CurrentCulture);
 
             LegendItems.Clear();
             LegendValueItems.Clear();
@@ -396,7 +396,7 @@ namespace SmartThermo.Modules.Analytics.ViewModels
 
             var (mouseCoordsX, _) = PlotControl.GetMouseCoordinates();
             _legendValueItems.Clear();
-            for (int i = 0; i < LegendItems.Count; i++)
+            for (var i = 0; i < LegendItems.Count; i++)
             {
                 var data = _signalPlotXyConst[i].GetPointNearestX(mouseCoordsX).y;
                 _legendValueItems.Add((int)data);
@@ -404,7 +404,7 @@ namespace SmartThermo.Modules.Analytics.ViewModels
 
             var result = _signalPlotXyConst[0].GetPointNearestX(mouseCoordsX).x;
             _vLine.X = result;
-            DateLegend = DateTime.FromOADate(result).ToString();
+            DateLegend = DateTime.FromOADate(result).ToString(CultureInfo.CurrentCulture);
 
             _isUpdateChart = true;
             PlotControl.Render();

@@ -223,7 +223,7 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
             foreach (var item in ChartValues.Where(item => item.Count > 25))
                 item.RemoveAt(0);
 
-            //SaveDataToDatabaseAsync(now, sensorData);
+            SaveDataToDatabaseAsync(now, sensorData);
         }
 
         private async void SaveDataToDatabaseAsync(DateTime time, IReadOnlyList<SensorInfoEventArgs> sensorData)

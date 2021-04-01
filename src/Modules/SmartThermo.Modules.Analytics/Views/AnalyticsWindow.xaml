@@ -13,33 +13,133 @@
     Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}"
     mc:Ignorable="d">
 
+    <UserControl.Resources>
+        <DataTemplate x:Key="LoadSession">
+            <ContentControl Margin="0,16,16,0" Content="{Binding PlotControl}" />
+        </DataTemplate>
+        <DataTemplate x:Key="NoLoadSession">
+            <TextBlock
+                Margin="0,16,16,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Style="{DynamicResource SubtitleTextBlockStyle}"
+                Text="Отсутсвуют данные о сессии" />
+        </DataTemplate>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition Width="1" />
             <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
-
-        <ContentControl
-            Grid.Column="0"
-            Margin="0,16,16,0"
-            Content="{Binding PlotControl}" />
+        <ContentControl Grid.Column="0" Content="{Binding}">
+            <ContentControl.Style>
+                <Style TargetType="ContentControl">
+                    <Setter Property="ContentTemplate" Value="{StaticResource LoadSession}" />
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding LegendItems.Count}" Value="0" />
+                                <Condition Binding="{Binding ShowLoadIndicator}" Value="Hidden" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="ContentTemplate" Value="{StaticResource NoLoadSession}" />
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ContentControl.Style>
+        </ContentControl>
         <Border
             Grid.Column="0"
-            Width="200"
-            Height="100"
+            Height="auto"
             Margin="0,48,48,0"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
             Background="#F1555555"
             BorderBrush="#555555"
-            BorderThickness="2" />
+            BorderThickness="2">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Visible" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding LegendValueItems.Count}" Value="0">
+                            <Setter Property="Visibility" Value="Hidden" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
 
+            <StackPanel Margin="8">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    Style="{DynamicResource BodyTextBlockStyle}"
+                    Text="{Binding DateLegend}" />
+                <Separator Margin="0,8" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <ItemsControl
+                        HorizontalAlignment="Center"
+                        Grid.IsSharedSizeScope="True"
+                        ItemsSource="{Binding LegendItems}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" SharedSizeGroup="Title" />
+                                    </Grid.ColumnDefinitions>
+                                    <Ellipse
+                                        Grid.Column="0"
+                                        Width="10"
+                                        Height="10"
+                                        Fill="{Binding Value}"
+                                        Stroke="{Binding Value}" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        Margin="8,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Foreground="White"
+                                        Style="{DynamicResource BodyTextBlockStyle}"
+                                        Text="{Binding Name, StringFormat={}{0} -}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <ItemsControl
+                        Grid.Column="1"
+                        Width="42"
+                        HorizontalAlignment="Center"
+                        ItemsSource="{Binding LegendValueItems}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        Margin="0,2"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Foreground="White"
+                                        Style="{DynamicResource BodyTextBlockStyle}"
+                                        Text="{Binding ., StringFormat={} {0}°C}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Vertical" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </Grid>
+            </StackPanel>
+        </Border>
         <Border
             Grid.Column="1"
             Margin="0,16,0,0"
             Background="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}" />
-
         <Grid Grid.Column="2" Margin="16,8,0,8">
             <ui:SimpleStackPanel Spacing="16">
                 <GroupBox Padding="0,-8,0,0" Header="Сессии">
@@ -127,14 +227,12 @@
                 </Button>
             </ui:SimpleStackPanel>
         </Grid>
-
         <Border
             Grid.Column="0"
             Margin="0,16,16,0"
             Background="Black"
             Opacity="0.5"
             Visibility="{Binding ShowLoadIndicator}" />
-
         <ui:SimpleStackPanel
             Grid.Column="0"
             Margin="0,16,16,0"
@@ -151,6 +249,5 @@
                 Style="{DynamicResource TitleTextBlockStyle}"
                 Text="Загружаются данные..." />
         </ui:SimpleStackPanel>
-
     </Grid>
 </UserControl>

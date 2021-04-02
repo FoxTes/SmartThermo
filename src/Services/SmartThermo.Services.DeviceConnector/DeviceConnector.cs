@@ -10,7 +10,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using SmartThermo.Services.DeviceConnector.Extensions;
-using ToastNotifications.Core;
 
 namespace SmartThermo.Services.DeviceConnector
 {
@@ -171,12 +170,12 @@ namespace SmartThermo.Services.DeviceConnector
             catch (TimeoutException)
             {
                 Close();
-                _notifications.ShowWarning("Устройство не отвечает на чтение регистров.", new MessageOptions());
+                _notifications.ShowWarning("Устройство не отвечает на чтение регистров.");
             }
             catch (Exception ex)
             {
                 Close();
-                _notifications.ShowWarning("Не удалось прочитать регистры.\n" + ex.Message, new MessageOptions());
+                _notifications.ShowWarning("Не удалось прочитать регистры.\n" + ex.Message);
             }
 
             var result = dataRead.Select((x, index) => new SensorInfoEventArgs

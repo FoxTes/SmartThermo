@@ -9,7 +9,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO.Ports;
-using ToastNotifications.Core;
 
 namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
 {
@@ -129,13 +128,12 @@ namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
             }
             catch (TimeoutException)
             {
-                _notifications.ShowWarning("Не удалось считать настройки устройства. Устройство не отвечает.",
-                    new MessageOptions());
+                _notifications.ShowWarning("Не удалось считать настройки устройства. Устройство не отвечает.");
                 _deviceConnector.Close(false);
             }
             catch (Exception ex)
             {
-                _notifications.ShowWarning("Не удалось открыть соединение.\n" + ex.Message, new MessageOptions());
+                _notifications.ShowWarning("Не удалось открыть соединение.\n" + ex.Message);
                 _deviceConnector.Close(false);
             }
             finally

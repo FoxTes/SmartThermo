@@ -279,11 +279,10 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
         private async Task LoadTestDataAsync()
         {
             await Task.Delay(1000);
-            var now = DateTime.Now;
             var random = new Random();
 
-            DateTime[] myDates = new DateTime[1000_000];
-            for (int i = 0; i < 1000_000; i++)
+            var myDates = new DateTime[1000_000];
+            for (var i = 0; i < 1000_000; i++)
                 myDates[i] = DateTime.Now.AddSeconds(i);
 
             await using var context = new Context();

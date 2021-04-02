@@ -13,4 +13,12 @@
     <ProjectReference Include="..\..\DataAccess\SmartThermo.DataAccess.Sqlite\SmartThermo.DataAccess.Sqlite.csproj" />
     <ProjectReference Include="..\..\SmartThermo.Core\SmartThermo.Core.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="ToastNotifications, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\Services\SmartThermo.Services.Notifications\dll\ToastNotifications.dll</HintPath>
+    </Reference>
+    <Reference Include="ToastNotifications.Messages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>..\..\Services\SmartThermo.Services.Notifications\dll\ToastNotifications.Messages.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>

@@ -15,11 +15,6 @@ namespace SmartThermo.Services.Notifications
             _notifier.ClearMessages(new ClearAll());
         }
         
-        public void OnUnloaded()
-        {
-            _notifier.Dispose();
-        }
-
         public void ShowInformation(string message)
         {
             _notifier.ShowInformation(message);
@@ -40,11 +35,11 @@ namespace SmartThermo.Services.Notifications
             _notifier.ShowSuccess(message, opts);
         }
 
-        public void ClearMessages(string msg)
+        public void ShowWarning(string message)
         {
-            _notifier.ClearMessages(new ClearByMessage(msg));
+            _notifier.ShowWarning(message);
         }
-
+        
         public void ShowWarning(string message, MessageOptions opts)
         {
             _notifier.ShowWarning(message, opts);
@@ -58,6 +53,11 @@ namespace SmartThermo.Services.Notifications
         public void ShowError(string message, MessageOptions opts)
         {
             _notifier.ShowError(message, opts);
+        }
+        
+        public void ClearMessages(string msg)
+        {
+            _notifier.ClearMessages(new ClearByMessage(msg));
         }
         
         public void ClearAll()

@@ -16,7 +16,6 @@ using System.Collections.Generic;
 using System.IO.Ports;
 using System.Threading.Tasks;
 using System.Windows;
-using ToastNotifications.Core;
 
 namespace SmartThermo.ViewModels
 {
@@ -144,7 +143,7 @@ namespace SmartThermo.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    Notifications.ShowWarning("Не удалось закрыть соединение.\n" + ex.Message, new MessageOptions());
+                    Notifications.ShowWarning("Не удалось закрыть соединение.\n" + ex.Message);
                 }
             else
             {

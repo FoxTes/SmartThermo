@@ -7,15 +7,22 @@ using SmartThermo.Services.Notifications;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using SmartThermo.Core.Extensions;
 
 namespace SmartThermo.Modules.Analytics.Dialogs.ViewModels
 {
     public class SessionDialogViewModel : DialogViewModelBase
     {
+        #region Field
+
         private readonly INotifications _notifications;
         private ObservableCollection<SessionInfo> _sessionItems = new ObservableCollection<SessionInfo>();
         private bool _checkCurrentSession;
         private int _sessionItemsSelected;
+
+        #endregion
+
+        #region Property
 
         public bool CheckCurrentSession
         {
@@ -43,19 +50,29 @@ namespace SmartThermo.Modules.Analytics.Dialogs.ViewModels
 
         public DelegateCommand CancelCommand { get; }
 
+        #endregion
+        
+        #region Constructor
+
         public SessionDialogViewModel(INotifications notifications)
         {
             _notifications = notifications;
 
-            GetSessionInfo();
+            GetSessionInfo().AwaitEx(() => { },
+                exception => _notifications.ShowWarning("Не удалось прочитать данные о сессиях"));
 
             SelectCommand = new DelegateCommand(SelectExecute);
             DeleteSelectCommand = new DelegateCommand(DeleteExecute);
             DeleteAllCommand = new DelegateCommand(DeleteAllExecute);
             CancelCommand = new DelegateCommand(CancelExecute);
         }
+        
+        #endregion
 
-        public override void OnDialogOpened(IDialogParameters parameters) => CheckCurrentSession = parameters.GetValue<bool>("CheckCurrentSession");
+        #region Method
+        
+        public override void OnDialogOpened(IDialogParameters parameters) 
+            => CheckCurrentSession = parameters.GetValue<bool>("CheckCurrentSession");
 
         private void SelectExecute()
         {
@@ -88,7 +105,7 @@ namespace SmartThermo.Modules.Analytics.Dialogs.ViewModels
             await Task.WhenAll(sessionDeleteTask);
             
             _notifications.ShowSuccess($"Запись от {_sessionItems[_sessionItemsSelected].DateCreate} была удалена.");
-            GetSessionInfo();
+            await GetSessionInfo();
         }
         
         private async void DeleteAllExecute()
@@ -109,7 +126,7 @@ namespace SmartThermo.Modules.Analytics.Dialogs.ViewModels
             await Task.WhenAll(sessionDeleteTask);
 
             _notifications.ShowSuccess("Все записи были успешно удалены.");
-            GetSessionInfo();        
+            await GetSessionInfo();        
         }
         
         private bool CheckSessionItemsForZero()
@@ -123,7 +140,7 @@ namespace SmartThermo.Modules.Analytics.Dialogs.ViewModels
 
         private void CancelExecute() => RaiseRequestClose(new DialogResult(ButtonResult.Cancel));
 
-        private async void GetSessionInfo()
+        private async Task GetSessionInfo()
         {
             var sessionInfoTask = Task.Run(() =>
             {
@@ -147,5 +164,7 @@ namespace SmartThermo.Modules.Analytics.Dialogs.ViewModels
             SessionItems.AddRange(sessionInfoTask.Result);
             SessionItemSelected = 0;
         }
+        
+        #endregion
     }
 }

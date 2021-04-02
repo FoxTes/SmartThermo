@@ -14,7 +14,6 @@ using System.Collections.ObjectModel;
 using System.IO.Ports;
 using System.Linq;
 using SmartThermo.Core.Models;
-using ToastNotifications.Core;
 
 namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
 {
@@ -245,25 +244,21 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
             }
             catch (TimeoutException)
             {
-                _notifications.ShowWarning("Не удалось записать настройки устройства. Устройство не отвечает.",
-                    new MessageOptions());
+                _notifications.ShowWarning("Не удалось записать настройки устройства. Устройство не отвечает.");
                 _deviceConnector.Close();
             }
             catch (NotImplementedException)
             {
-                _notifications.ShowWarning("Не удалось записать настройки устройства. Данный функционал еще не реализован.",
-                    new MessageOptions());
+                _notifications.ShowWarning("Не удалось записать настройки устройства. Данный функционал еще не реализован.");
                 _deviceConnector.Close();
             }
             catch (NullReferenceException)
             {
-                _notifications.ShowWarning("Отсутствует соединение с устройством.",
-                    new MessageOptions());
+                _notifications.ShowWarning("Отсутствует соединение с устройством.");
             }
             catch (Exception ex)
             {
-                _notifications.ShowWarning("Не удалось записать настройки устройства.\n" + ex.Message,
-                    new MessageOptions());
+                _notifications.ShowWarning("Не удалось записать настройки устройства.\n" + ex.Message);
                 _deviceConnector.Close();
             }
             finally

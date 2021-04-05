@@ -135,10 +135,7 @@
                     ItemsSource="{Binding Source={StaticResource ParityValues}}"
                     SelectedItem="{Binding ParitySelected}" />
             </Grid>
-            <Expander
-                Margin="16,16,16,0"
-                Header="Расширенные параметры"
-                IsEnabled="False">
+            <Expander Margin="16,16,16,0" Header="Расширенные параметры">
                 <StackPanel Orientation="Vertical">
                     <Grid Margin="0,16,0,8">
                         <Grid.ColumnDefinitions>
@@ -148,9 +145,17 @@
                         <Label
                             Width="140"
                             VerticalAlignment="Center"
-                            Content="Время приема"
+                            Content="Время приема, мс"
                             ContentStringFormat="{}{0}:" />
-                        <ComboBox Grid.Column="1" Width="150" />
+                        <ui:NumberBox
+                            Grid.Column="1"
+                            Width="150"
+                            LargeChange="100"
+                            Maximum="2000"
+                            Minimum="100"
+                            SmallChange="10"
+                            SpinButtonPlacementMode="Inline"
+                            Value="{Binding ReadTimeout, Mode=TwoWay}" />
                     </Grid>
 
                     <Grid Margin="0,8,0,0">
@@ -161,9 +166,17 @@
                         <Label
                             Width="140"
                             VerticalAlignment="Center"
-                            Content="Время ответа"
+                            Content="Время ответа, мс"
                             ContentStringFormat="{}{0}:" />
-                        <ComboBox Grid.Column="1" Width="150" />
+                        <ui:NumberBox
+                            Grid.Column="1"
+                            Width="150"
+                            LargeChange="100"
+                            Maximum="2000"
+                            Minimum="100"
+                            SmallChange="10"
+                            SpinButtonPlacementMode="Inline"
+                            Value="{Binding WriteTimeout, Mode=TwoWay}" />
                     </Grid>
                 </StackPanel>
             </Expander>
@@ -179,12 +192,12 @@
                     Command="{Binding ConnectCommand}"
                     Content="Подключиться" />
                 <Button
-                    Style="{DynamicResource AccentButtonStyle}"
                     Grid.Column="1"
                     Margin="8,0,16,0"
                     HorizontalAlignment="Stretch"
                     Command="{Binding CancelCommand}"
-                    Content="Отмена" />
+                    Content="Отмена"
+                    Style="{DynamicResource AccentButtonStyle}" />
             </Grid>
         </StackPanel>
     </Grid>

@@ -12,6 +12,7 @@ using SmartThermo.Services.Notifications;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
@@ -202,6 +203,7 @@ namespace SmartThermo.Modules.Analytics.ViewModels
             _groupSensorId.AddRange(groupIdTask.Result);
         }
 
+        [SuppressMessage("ReSharper.DPA", "DPA0001: Memory allocation issues")]
         private async Task GetSensorDataAsync()
         {
             var task = Task.Run(() =>
@@ -241,8 +243,12 @@ namespace SmartThermo.Modules.Analytics.ViewModels
 
             LegendItems.Clear();
             LegendValueItems.Clear();
-            foreach (var item in GroupCheckItems.Where(x => x.Value))
-                LegendItems.Add(new ItemDescriptor<System.Windows.Media.Brush>($"Датчик №{item.Id + 1}", _colors[item.Id].ToBrush()));
+            foreach (var item in GroupCheckItems)
+            {
+                if (item.Value)
+                    LegendItems.Add(new ItemDescriptor<System.Windows.Media.Brush>($"Датчик №{item.Id + 1}",
+                        _colors[item.Id].ToBrush()));
+            }
 
             _plot.Clear();
             _signalPlotXyConst.Clear();

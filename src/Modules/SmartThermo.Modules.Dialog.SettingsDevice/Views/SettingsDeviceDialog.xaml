@@ -82,9 +82,12 @@
                                 <StackPanel x:Name="Panel">
                                     <ui:NumberBox
                                         Header="Адрес прибора в сети"
+                                        LargeChange="10"
                                         Maximum="247"
                                         Minimum="0"
                                         PlaceholderText="[0-247]"
+                                        SmallChange="1"
+                                        SpinButtonPlacementMode="Inline"
                                         Value="{Binding AddressDeviceInModbus}" />
 
                                     <TextBlock Margin="0,8,0,4" Text="Скорость обмена" />
@@ -110,16 +113,22 @@
                                 <StackPanel>
                                     <ui:NumberBox
                                         Header="Частотный канал модема"
+                                        LargeChange="10"
                                         Maximum="126"
                                         Minimum="1"
                                         PlaceholderText="[1-126]"
+                                        SmallChange="1"
+                                        SpinButtonPlacementMode="Inline"
                                         Value="{Binding ModemFrequencyChannelNumber}" />
                                     <ui:NumberBox
                                         Margin="0,8,0,0"
                                         Header="Идентификатор для привязки"
+                                        LargeChange="10"
                                         Maximum="255"
                                         Minimum="0"
                                         PlaceholderText="[0-255]"
+                                        SmallChange="1"
+                                        SpinButtonPlacementMode="Inline"
                                         Value="{Binding CommunicationChanelNumber}" />
 
                                 </StackPanel>
@@ -155,16 +164,22 @@
                                 <StackPanel>
                                     <ui:NumberBox
                                         Header="Порог №1"
+                                        LargeChange="10"
                                         Maximum="155"
                                         Minimum="0"
                                         PlaceholderText="0 грС, [0-155]"
+                                        SmallChange="1"
+                                        SpinButtonPlacementMode="Inline"
                                         Value="{Binding TemperatureThreshold[0]}" />
                                     <ui:NumberBox
                                         Margin="0,8,0,0"
                                         Header="Порог №2"
+                                        LargeChange="10"
                                         Maximum="155"
                                         Minimum="0"
                                         PlaceholderText="0 грС, [0-155]"
+                                        SmallChange="1"
+                                        SpinButtonPlacementMode="Inline"
                                         Value="{Binding TemperatureThreshold[1]}" />
                                 </StackPanel>
                             </GroupBox>
@@ -172,16 +187,22 @@
                                 <StackPanel>
                                     <ui:NumberBox
                                         Header="Зона №1"
+                                        LargeChange="10"
                                         Maximum="100"
                                         Minimum="0"
                                         PlaceholderText="0 грС, [0-100]"
+                                        SmallChange="1"
+                                        SpinButtonPlacementMode="Inline"
                                         Value="{Binding TemperatureHysteresis[0]}" />
                                     <ui:NumberBox
                                         Margin="0,8,0,0"
                                         Header="Зона №2"
+                                        LargeChange="10"
                                         Maximum="100"
                                         Minimum="0"
                                         PlaceholderText="0 грС, [0-100]"
+                                        SmallChange="1"
+                                        SpinButtonPlacementMode="Inline"
                                         Value="{Binding TemperatureHysteresis[1]}" />
                                 </StackPanel>
                             </GroupBox>
@@ -191,16 +212,22 @@
                                 <StackPanel>
                                     <ui:NumberBox
                                         Header="Включение"
+                                        LargeChange="10"
                                         Maximum="255"
                                         Minimum="0"
                                         PlaceholderText="0 сек, [0-255]"
+                                        SmallChange="1"
+                                        SpinButtonPlacementMode="Inline"
                                         Value="{Binding DelaySignalRelays[0]}" />
                                     <ui:NumberBox
                                         Margin="0,8,0,0"
                                         Header="Выключение"
+                                        LargeChange="10"
                                         Maximum="255"
                                         Minimum="0"
                                         PlaceholderText="0 сек, [0-255]"
+                                        SmallChange="1"
+                                        SpinButtonPlacementMode="Inline"
                                         Value="{Binding DelaySignalRelays[1]}" />
                                 </StackPanel>
                             </GroupBox>

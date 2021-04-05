@@ -28,6 +28,8 @@ namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
         private BaudRate _baudRateSelected;
         private StopBits _stopBitsSelected;
         private Parity _paritySelected;
+        private double _readTimeout;
+        private double _writeTimeout;
 
         private bool _isEnable = true;
 
@@ -83,6 +85,18 @@ namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
             set => SetProperty(ref _paritySelected, value);
         }
 
+        public double ReadTimeout
+        {
+            get => _readTimeout;
+            set => SetProperty(ref _readTimeout, value);
+        }
+
+        public double WriteTimeout
+        {
+            get => _writeTimeout;
+            set => SetProperty(ref _writeTimeout, value);
+        }
+
         public DelegateCommand ConnectCommand { get; }
 
         public DelegateCommand CancelCommand { get; }
@@ -119,8 +133,8 @@ namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
                 DataBits = 8,
                 StopBits = StopBitsSelected,
                 Parity = ParitySelected,
-                ReadTimeout = 500,
-                WriteTimeout = 500
+                ReadTimeout = ReadTimeout.Equals(double.NaN) ? 100 : (int)ReadTimeout,
+                WriteTimeout = WriteTimeout.Equals(double.NaN) ? 100 : (int)WriteTimeout
             };
             try
             {
@@ -162,6 +176,8 @@ namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
             BaudRateSelected = BaudRate.S9600;
             StopBitsSelected = StopBits.One;
             ParitySelected = Parity.None;
+            ReadTimeout = 250;
+            WriteTimeout = 250;
         }
 
         #endregion

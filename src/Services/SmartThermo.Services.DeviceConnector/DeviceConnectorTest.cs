@@ -14,9 +14,7 @@ namespace SmartThermo.Services.DeviceConnector
         #region Event
 
         public event EventHandler<StatusConnect> StatusConnectChanged;
-        
-        public event EventHandler<List<SensorInfoEventArgs>> RegistersRequested;
-        
+        public event EventHandler<List<SensorInfoEventArgs>> RegistersRequested;  
         public event EventHandler<SettingDeviceEventArgs> SettingDeviceChanged;
 
         #endregion

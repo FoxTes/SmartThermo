@@ -47,7 +47,7 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
         private List<double> _axisYMax = new List<double>();
         private List<double> _axisYMin = new List<double>();
         private List<bool> _selectMode = new List<bool>();
-        private List<int> _temperature = new List<int>();
+        private List<int?> _temperature = new List<int?>();
 
         #endregion
 
@@ -105,7 +105,7 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
             set => SetProperty(ref _selectMode, value);
         }
 
-        public List<int> Temperature
+        public List<int?> Temperature
         {
             get => _temperature;
             set => SetProperty(ref _temperature, value);
@@ -203,8 +203,10 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
                     Time = x.TimeLastBroadcast
                 }).ToList());
 
-            Temperature.Clear();
-            Temperature.AddRange(sensorData.Select(x => (int)x.Temperature).ToList());
+            _temperature.Clear();
+            _temperature.AddRange(sensorData
+                .Select(x => x.IsAir ? (int?)x.Temperature : null)
+                .ToList());
             RaisePropertyChanged(nameof(Temperature));
 
             var now = DateTime.Now.Round(TimeSpan.FromSeconds(1));
@@ -212,11 +214,14 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
             Application.Current?.Dispatcher?.InvokeAsync(() =>
             {
                 for (var i = 0; i < 36; i++)
+                {
+                    var sensorItem = sensorData[i];
                     ChartValues[i].Add(new MeasureData
                     {
                         DateTime = now,
-                        Value = sensorData[i].Temperature
+                        Value = sensorData[i].IsAir ? sensorData[i].Temperature : double.NaN
                     });
+                }
             }, DispatcherPriority.Background);
 
             SetAxisXLimits(now);
@@ -258,7 +263,7 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
                 .Select(x => new ChartValues<MeasureData>())
                 .ToList());
             Temperature.AddRange(Enumerable.Range(0,36)
-                .Select(x => 0)
+                .Select(x => default(int?))
                 .ToList());
             LimitRelayItems.AddRange(Enumerable.Range(0, 6)
                 .Select(x => new LimitRelay())

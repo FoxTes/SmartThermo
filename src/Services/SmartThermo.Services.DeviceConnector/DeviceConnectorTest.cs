@@ -79,7 +79,7 @@ namespace SmartThermo.Services.DeviceConnector
                 },
                 TimeLastBroadcast = (byte) ((data[index] & 0b0011_1111_0000_0000) >> 8),
                 IsEmergencyDescent = data[index].IsBitSet(14),
-                IsAir = data[index].IsBitSet(15)
+                IsAir = _random.Next(0, 10) < 9
             }).ToList();
             RegistersRequested?.Invoke(this, result);
         }

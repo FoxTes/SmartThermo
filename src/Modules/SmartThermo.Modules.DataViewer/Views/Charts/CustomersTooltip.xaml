@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:charts="clr-namespace:SmartThermo.Modules.DataViewer.Views.Charts"
+    xmlns:converters="clr-namespace:SmartThermo.Core.Converters;assembly=SmartThermo.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:wpf="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
@@ -14,6 +15,10 @@
     BorderBrush="#555555"
     BorderThickness="2"
     mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <converters:NanToStringConverter x:Key="NanToStringConverter" />
+    </UserControl.Resources>
 
     <StackPanel>
         <TextBlock
@@ -34,10 +39,8 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" SharedSizeGroup="Title" />
                             <ColumnDefinition Width="Auto" SharedSizeGroup="Value" />
-                            <ColumnDefinition Width="Auto" SharedSizeGroup="Percent" />
                         </Grid.ColumnDefinitions>
                         <Ellipse
-                            Grid.Column="0"
                             Width="10"
                             Height="10"
                             Fill="{Binding Series.Stroke}"
@@ -54,8 +57,7 @@
                             Margin="8,0,0,0"
                             VerticalAlignment="Center"
                             Foreground="White"
-                            Style="{DynamicResource CaptionTextBlockStyle}"
-                            Text="{Binding ChartPoint.Instance.Value, StringFormat={}{0}°C}" />
+                            Text="{Binding ChartPoint.Instance.Value, Converter={StaticResource NanToStringConverter}}" />
                     </Grid>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

@@ -181,7 +181,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[0], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[0], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -196,7 +196,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[1], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[1], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -211,7 +211,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[2], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[2], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -235,7 +235,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[3], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[3], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -250,7 +250,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[4], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[4], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -265,7 +265,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[5], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[5], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -452,7 +452,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[6], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[6], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -467,7 +467,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[7], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[7], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -482,7 +482,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[8], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[8], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -506,7 +506,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[9], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[9], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -521,7 +521,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[10], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[10], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -536,7 +536,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[11], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[11], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -723,7 +723,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[12], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[12], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -738,7 +738,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[13], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[13], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -753,7 +753,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[14], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[14], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -777,7 +777,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[15], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[15], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -792,7 +792,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[16], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[16], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -807,7 +807,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[11], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[17], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -994,7 +994,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[18], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[18], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -1009,7 +1009,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[19], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[19], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -1024,7 +1024,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[20], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[20], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -1048,7 +1048,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[21], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[21], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -1063,7 +1063,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[22], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[22], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -1078,7 +1078,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[23], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[23], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -1265,7 +1265,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[24], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[24], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -1280,7 +1280,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[25], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[25], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -1295,7 +1295,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[26], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[26], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -1319,7 +1319,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[27], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[27], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -1334,7 +1334,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[28], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[28], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -1349,7 +1349,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[29], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[29], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -1536,7 +1536,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[30], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[30], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -1551,7 +1551,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[31], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[31], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -1566,7 +1566,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[32], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[32], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -1590,7 +1590,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[33], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[33], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -1605,7 +1605,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[34], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[34], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -1620,7 +1620,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[35], StringFormat={}{0}°C}"
+                            Text="{Binding Temperature[35], StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>

@@ -203,7 +203,6 @@ namespace SmartThermo.Modules.Analytics.ViewModels
             _groupSensorId.AddRange(groupIdTask.Result);
         }
 
-        [SuppressMessage("ReSharper.DPA", "DPA0001: Memory allocation issues")]
         private async Task GetSensorDataAsync()
         {
             var task = Task.Run(() =>
@@ -258,42 +257,42 @@ namespace SmartThermo.Modules.Analytics.ViewModels
                 _signalPlotXyConst.Add(_plot.AddSignalXYConst(dateTime,
                     result.Select(x => (double)x.Value1).ToArray(),
                     _colors[0]));
-                LegendValueItems.Add((int)result[0].Value1);
+                LegendValueItems.Add(result[0].Value1);
             }
             if (GroupCheckItems[1].Value)
             {
                 _signalPlotXyConst.Add(_plot.AddSignalXYConst(dateTime,
                     result.Select(x => (double)x.Value2).ToArray(),
                     _colors[1]));
-                LegendValueItems.Add((int)result[0].Value2);
+                LegendValueItems.Add(result[0].Value2);
             }
             if (GroupCheckItems[2].Value)
             {
                 _signalPlotXyConst.Add(_plot.AddSignalXYConst(dateTime,
                     result.Select(x => (double)x.Value3).ToArray(),
                     _colors[2]));
-                LegendValueItems.Add((int)result[0].Value3);
+                LegendValueItems.Add(result[0].Value3);
             }
             if (GroupCheckItems[3].Value)
             {
                 _signalPlotXyConst.Add(_plot.AddSignalXYConst(dateTime,
                     result.Select(x => (double)x.Value4).ToArray(),
                     _colors[3]));
-                LegendValueItems.Add((int)result[0].Value4);
+                LegendValueItems.Add(result[0].Value4);
             }
             if (GroupCheckItems[4].Value)
             {
                 _signalPlotXyConst.Add(_plot.AddSignalXYConst(dateTime,
                     result.Select(x => (double)x.Value5).ToArray(),
                     _colors[4]));
-                LegendValueItems.Add((int)result[0].Value5);
+                LegendValueItems.Add(result[0].Value5);
             }
             if (GroupCheckItems[5].Value)
             {
                 _signalPlotXyConst.Add(_plot.AddSignalXYConst(dateTime,
                     result.Select(x => (double)x.Value6).ToArray(),
                     _colors[5]));
-                LegendValueItems.Add((int)result[0].Value6);
+                LegendValueItems.Add(result[0].Value6);
             }
             _vLine = _plot.AddVerticalLine(dateTime[0], color: Color.Red, 2, style: LineStyle.Dash);
    

@@ -22,11 +22,12 @@
 
     <prism:Dialog.WindowStyle>
         <Style TargetType="Window">
-            <Setter Property="WindowStyle" Value="None" />
             <Setter Property="prism:Dialog.WindowStartupLocation" Value="CenterScreen" />
-            <Setter Property="ResizeMode" Value="NoResize" />
+            <Setter Property="WindowStyle" Value="None" />
             <Setter Property="ShowInTaskbar" Value="False" />
             <Setter Property="SizeToContent" Value="WidthAndHeight" />
+            <Setter Property="BorderBrush" Value="Red" />
+            <Setter Property="BorderThickness" Value="2" />
         </Style>
     </prism:Dialog.WindowStyle>
 
@@ -62,286 +63,257 @@
                 Header="Прибор"
                 KeyboardNavigation.IsTabStop="False"
                 KeyboardNavigation.TabNavigation="None">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition SharedSizeGroup="Height" />
-                    </Grid.RowDefinitions>
+                <Grid KeyboardNavigation.IsTabStop="False" KeyboardNavigation.TabNavigation="None">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition SharedSizeGroup="Width" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="24" />
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
 
-                    <Grid KeyboardNavigation.IsTabStop="False" KeyboardNavigation.TabNavigation="None">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition Width="24" />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
+                    <StackPanel Width="255">
+                        <GroupBox Header="Порт">
+                            <StackPanel x:Name="Panel">
+                                <ui:NumberBox
+                                    Header="Адрес прибора в сети"
+                                    LargeChange="10"
+                                    Maximum="247"
+                                    Minimum="0"
+                                    PlaceholderText="[0-247]"
+                                    SmallChange="1"
+                                    SpinButtonPlacementMode="Inline"
+                                    Value="{Binding AddressDeviceInModbus}" />
 
-                        <StackPanel Width="255">
-                            <GroupBox Header="Порт">
-                                <StackPanel x:Name="Panel">
-                                    <ui:NumberBox
-                                        Header="Адрес прибора в сети"
-                                        LargeChange="10"
-                                        Maximum="247"
-                                        Minimum="0"
-                                        PlaceholderText="[0-247]"
-                                        SmallChange="1"
-                                        SpinButtonPlacementMode="Inline"
-                                        Value="{Binding AddressDeviceInModbus}" />
+                                <TextBlock Margin="0,8,0,4" Text="Скорость обмена" />
+                                <ComboBox
+                                    Width="{Binding Path=ActualWidth, ElementName=Panel}"
+                                    ItemsSource="{Binding Source={StaticResource BaudRateValues}}"
+                                    SelectedItem="{Binding BaudRateSelected}" />
 
-                                    <TextBlock Margin="0,8,0,4" Text="Скорость обмена" />
-                                    <ComboBox
-                                        Width="{Binding Path=ActualWidth, ElementName=Panel}"
-                                        ItemsSource="{Binding Source={StaticResource BaudRateValues}}"
-                                        SelectedItem="{Binding BaudRateSelected}" />
+                                <TextBlock Margin="0,8,0,4" Text="Паритет" />
+                                <ComboBox
+                                    Width="{Binding Path=ActualWidth, ElementName=Panel}"
+                                    ItemsSource="{Binding Source={StaticResource ParityValues}}"
+                                    SelectedItem="{Binding ParitySelected}" />
+                                <TextBlock
+                                    Margin="0,8,0,0"
+                                    Text="* Настройки вступят в силу после перезапуска прибора."
+                                    TextWrapping="Wrap" />
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Width="255">
+                        <GroupBox Header="Номер">
+                            <StackPanel>
+                                <ui:NumberBox
+                                    Header="Частотный канал модема"
+                                    LargeChange="10"
+                                    Maximum="126"
+                                    Minimum="1"
+                                    PlaceholderText="[1-126]"
+                                    SmallChange="1"
+                                    SpinButtonPlacementMode="Inline"
+                                    Value="{Binding ModemFrequencyChannelNumber}" />
+                                <ui:NumberBox
+                                    Margin="0,8,0,0"
+                                    Header="Идентификатор для привязки"
+                                    LargeChange="10"
+                                    Maximum="255"
+                                    Minimum="0"
+                                    PlaceholderText="[0-255]"
+                                    SmallChange="1"
+                                    SpinButtonPlacementMode="Inline"
+                                    Value="{Binding CommunicationChanelNumber}" />
 
-                                    <TextBlock Margin="0,8,0,4" Text="Паритет" />
-                                    <ComboBox
-                                        Width="{Binding Path=ActualWidth, ElementName=Panel}"
-                                        ItemsSource="{Binding Source={StaticResource ParityValues}}"
-                                        SelectedItem="{Binding ParitySelected}" />
-                                    <TextBlock
-                                        Margin="0,8,0,0"
-                                        Text="* Настройки вступят в силу после перезапуска прибора."
-                                        TextWrapping="Wrap" />
-                                </StackPanel>
-                            </GroupBox>
-                        </StackPanel>
-                        <StackPanel Grid.Column="2" Width="255">
-                            <GroupBox Header="Номер">
-                                <StackPanel>
-                                    <ui:NumberBox
-                                        Header="Частотный канал модема"
-                                        LargeChange="10"
-                                        Maximum="126"
-                                        Minimum="1"
-                                        PlaceholderText="[1-126]"
-                                        SmallChange="1"
-                                        SpinButtonPlacementMode="Inline"
-                                        Value="{Binding ModemFrequencyChannelNumber}" />
-                                    <ui:NumberBox
-                                        Margin="0,8,0,0"
-                                        Header="Идентификатор для привязки"
-                                        LargeChange="10"
-                                        Maximum="255"
-                                        Minimum="0"
-                                        PlaceholderText="[0-255]"
-                                        SmallChange="1"
-                                        SpinButtonPlacementMode="Inline"
-                                        Value="{Binding CommunicationChanelNumber}" />
-
-                                </StackPanel>
-                            </GroupBox>
-
-                        </StackPanel>
-
-
-                    </Grid>
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
                 </Grid>
             </TabItem>
             <TabItem
                 Header="Температура"
                 KeyboardNavigation.IsTabStop="False"
                 KeyboardNavigation.TabNavigation="None">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition SharedSizeGroup="Height" />
-                    </Grid.RowDefinitions>
+                <Grid KeyboardNavigation.IsTabStop="False" KeyboardNavigation.TabNavigation="None">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition SharedSizeGroup="Width" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="24" />
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
 
-                    <Grid KeyboardNavigation.IsTabStop="False" KeyboardNavigation.TabNavigation="None">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition Width="24" />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
-
-                        <StackPanel Width="255">
-                            <GroupBox Header="Температурный порог">
-                                <StackPanel>
-                                    <ui:NumberBox
-                                        Header="Порог №1"
-                                        LargeChange="10"
-                                        Maximum="155"
-                                        Minimum="0"
-                                        PlaceholderText="0 грС, [0-155]"
-                                        SmallChange="1"
-                                        SpinButtonPlacementMode="Inline"
-                                        Value="{Binding TemperatureThreshold[0]}" />
-                                    <ui:NumberBox
-                                        Margin="0,8,0,0"
-                                        Header="Порог №2"
-                                        LargeChange="10"
-                                        Maximum="155"
-                                        Minimum="0"
-                                        PlaceholderText="0 грС, [0-155]"
-                                        SmallChange="1"
-                                        SpinButtonPlacementMode="Inline"
-                                        Value="{Binding TemperatureThreshold[1]}" />
-                                </StackPanel>
-                            </GroupBox>
-                            <GroupBox Header="Температурный гистерезис">
-                                <StackPanel>
-                                    <ui:NumberBox
-                                        Header="Зона №1"
-                                        LargeChange="10"
-                                        Maximum="100"
-                                        Minimum="0"
-                                        PlaceholderText="0 грС, [0-100]"
-                                        SmallChange="1"
-                                        SpinButtonPlacementMode="Inline"
-                                        Value="{Binding TemperatureHysteresis[0]}" />
-                                    <ui:NumberBox
-                                        Margin="0,8,0,0"
-                                        Header="Зона №2"
-                                        LargeChange="10"
-                                        Maximum="100"
-                                        Minimum="0"
-                                        PlaceholderText="0 грС, [0-100]"
-                                        SmallChange="1"
-                                        SpinButtonPlacementMode="Inline"
-                                        Value="{Binding TemperatureHysteresis[1]}" />
-                                </StackPanel>
-                            </GroupBox>
-                        </StackPanel>
-                        <StackPanel Grid.Column="2" Width="255">
-                            <GroupBox Header="Задержка сигнальных реле">
-                                <StackPanel>
-                                    <ui:NumberBox
-                                        Header="Включение"
-                                        LargeChange="10"
-                                        Maximum="255"
-                                        Minimum="0"
-                                        PlaceholderText="0 сек, [0-255]"
-                                        SmallChange="1"
-                                        SpinButtonPlacementMode="Inline"
-                                        Value="{Binding DelaySignalRelays[0]}" />
-                                    <ui:NumberBox
-                                        Margin="0,8,0,0"
-                                        Header="Выключение"
-                                        LargeChange="10"
-                                        Maximum="255"
-                                        Minimum="0"
-                                        PlaceholderText="0 сек, [0-255]"
-                                        SmallChange="1"
-                                        SpinButtonPlacementMode="Inline"
-                                        Value="{Binding DelaySignalRelays[1]}" />
-                                </StackPanel>
-                            </GroupBox>
-                            <GroupBox Header="Статус сигнальных реле">
-                                <StackPanel>
-                                    <StackPanel Orientation="Horizontal">
-                                        <ui:ToggleSwitch
-                                            MaxWidth="100"
-                                            Header="Реле №1"
-                                            IsOn="{Binding StatusAlarmRelay[0]}"
-                                            OffContent="Выкл"
-                                            OnContent="Вкл" />
-                                        <ui:ToggleSwitch
-                                            MaxWidth="100"
-                                            Margin="16,0,0,0"
-                                            Header="Реле №2"
-                                            IsOn="{Binding StatusAlarmRelay[1]}"
-                                            OffContent="Выкл"
-                                            OnContent="Вкл" />
-                                    </StackPanel>
+                    <StackPanel Width="255">
+                        <GroupBox Header="Температурный порог">
+                            <StackPanel>
+                                <ui:NumberBox
+                                    Header="Порог №1"
+                                    LargeChange="10"
+                                    Maximum="155"
+                                    Minimum="0"
+                                    PlaceholderText="0 грС, [0-155]"
+                                    SmallChange="1"
+                                    SpinButtonPlacementMode="Inline"
+                                    Value="{Binding TemperatureThreshold[0]}" />
+                                <ui:NumberBox
+                                    Margin="0,8,0,0"
+                                    Header="Порог №2"
+                                    LargeChange="10"
+                                    Maximum="155"
+                                    Minimum="0"
+                                    PlaceholderText="0 грС, [0-155]"
+                                    SmallChange="1"
+                                    SpinButtonPlacementMode="Inline"
+                                    Value="{Binding TemperatureThreshold[1]}" />
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Header="Температурный гистерезис">
+                            <StackPanel>
+                                <ui:NumberBox
+                                    Header="Зона №1"
+                                    LargeChange="10"
+                                    Maximum="100"
+                                    Minimum="0"
+                                    PlaceholderText="0 грС, [0-100]"
+                                    SmallChange="1"
+                                    SpinButtonPlacementMode="Inline"
+                                    Value="{Binding TemperatureHysteresis[0]}" />
+                                <ui:NumberBox
+                                    Margin="0,8,0,0"
+                                    Header="Зона №2"
+                                    LargeChange="10"
+                                    Maximum="100"
+                                    Minimum="0"
+                                    PlaceholderText="0 грС, [0-100]"
+                                    SmallChange="1"
+                                    SpinButtonPlacementMode="Inline"
+                                    Value="{Binding TemperatureHysteresis[1]}" />
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Width="255">
+                        <GroupBox Header="Задержка сигнальных реле">
+                            <StackPanel>
+                                <ui:NumberBox
+                                    Header="Включение"
+                                    LargeChange="10"
+                                    Maximum="255"
+                                    Minimum="0"
+                                    PlaceholderText="0 сек, [0-255]"
+                                    SmallChange="1"
+                                    SpinButtonPlacementMode="Inline"
+                                    Value="{Binding DelaySignalRelays[0]}" />
+                                <ui:NumberBox
+                                    Margin="0,8,0,0"
+                                    Header="Выключение"
+                                    LargeChange="10"
+                                    Maximum="255"
+                                    Minimum="0"
+                                    PlaceholderText="0 сек, [0-255]"
+                                    SmallChange="1"
+                                    SpinButtonPlacementMode="Inline"
+                                    Value="{Binding DelaySignalRelays[1]}" />
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Header="Статус сигнальных реле">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
                                     <ui:ToggleSwitch
-                                        Margin="0,16,0,0"
-                                        Header="Реле №3"
-                                        IsOn="{Binding StatusAlarmRelay[2]}"
+                                        MaxWidth="100"
+                                        Header="Реле №1"
+                                        IsOn="{Binding StatusAlarmRelay[0]}"
+                                        OffContent="Выкл"
+                                        OnContent="Вкл" />
+                                    <ui:ToggleSwitch
+                                        MaxWidth="100"
+                                        Margin="16,0,0,0"
+                                        Header="Реле №2"
+                                        IsOn="{Binding StatusAlarmRelay[1]}"
                                         OffContent="Выкл"
                                         OnContent="Вкл" />
                                 </StackPanel>
-                            </GroupBox>
-                        </StackPanel>
-                    </Grid>
+                                <ui:ToggleSwitch
+                                    Margin="0,16,0,0"
+                                    Header="Реле №3"
+                                    IsOn="{Binding StatusAlarmRelay[2]}"
+                                    OffContent="Выкл"
+                                    OnContent="Вкл" />
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
                 </Grid>
             </TabItem>
             <TabItem
                 Header="Датчик"
                 KeyboardNavigation.IsTabStop="False"
                 KeyboardNavigation.TabNavigation="None">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition SharedSizeGroup="Height" />
-                    </Grid.RowDefinitions>
+
+                <Grid KeyboardNavigation.IsTabStop="False" KeyboardNavigation.TabNavigation="None">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition SharedSizeGroup="Width" />
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="24" />
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
 
-                    <Grid KeyboardNavigation.IsTabStop="False" KeyboardNavigation.TabNavigation="None">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition Width="24" />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
+                    <StackPanel Width="255">
+                        <GroupBox Header="Реле">
+                            <StackPanel>
+                                <TextBlock Margin="0,0,0,4" Text="Номер реле" />
+                                <ComboBox
+                                    Width="{Binding Path=ActualWidth, ElementName=Panel}"
+                                    DisplayMemberPath="Name"
+                                    ItemsSource="{Binding RelayNumber}"
+                                    SelectedValue="{Binding RelayNumberSelected}"
+                                    SelectedValuePath="Value" />
 
-                        <StackPanel Width="255">
-                            <GroupBox Header="Реле">
-                                <StackPanel>
-                                    <TextBlock Margin="0,0,0,4" Text="Номер реле" />
-                                    <ComboBox
-                                        Width="{Binding Path=ActualWidth, ElementName=Panel}"
-                                        DisplayMemberPath="Name"
-                                        ItemsSource="{Binding RelayNumber}"
-                                        SelectedValue="{Binding RelayNumberSelected}"
-                                        SelectedValuePath="Value" />
+                                <TextBlock Margin="0,8,0,4" Text="Группа" />
+                                <Border
+                                    BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="2">
+                                    <ListView ItemsSource="{Binding GroupCheckItems, Mode=TwoWay}">
+                                        <ListBox.ItemContainerStyle>
+                                            <Style TargetType="{x:Type ListBoxItem}">
+                                                <Setter Property="Focusable" Value="False" />
+                                            </Style>
+                                        </ListBox.ItemContainerStyle>
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <CheckBox
+                                                    Margin="8,0,0,0"
+                                                    Content="{Binding Name}"
+                                                    IsChecked="{Binding Enable}" />
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
 
-                                    <TextBlock Margin="0,8,0,4" Text="Группа" />
-                                    <Border
-                                        BorderBrush="{DynamicResource SystemControlForegroundBaseMediumBrush}"
-                                        BorderThickness="1"
-                                        CornerRadius="2">
-                                        <ListView ItemsSource="{Binding GroupCheckItems, Mode=TwoWay}">
-                                            <ListBox.ItemContainerStyle>
-                                                <Style TargetType="{x:Type ListBoxItem}">
-                                                    <Setter Property="Focusable" Value="False" />
-                                                </Style>
-                                            </ListBox.ItemContainerStyle>
-                                            <ListBox.ItemTemplate>
-                                                <DataTemplate>
-                                                    <CheckBox
-                                                        Margin="8,0,0,0"
-                                                        Content="{Binding Name}"
-                                                        IsChecked="{Binding Enable}" />
-                                                </DataTemplate>
-                                            </ListBox.ItemTemplate>
-
-                                        </ListView>
-                                    </Border>
-                                </StackPanel>
-                            </GroupBox>
-                        </StackPanel>
-                        <StackPanel Grid.Column="2" Width="255">
-                            <GroupBox Header="Настройки">
-                                <StackPanel>
-                                    <TextBlock Margin="0,0,0,4" Text="Логика работы" />
-                                    <ui:ToggleSwitch
-                                        IsOn="{Binding WorkLogic, Mode=TwoWay}"
-                                        OffContent="Негативная"
-                                        OnContent="Позитивная" />
-                                    <ui:RadioButtons Margin="0,10,0,0" Header="Привязка">
-                                        <RadioButton Content="Реле не используется" IsChecked="{Binding Path=BindingRelayMode, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static enums:BindingRelay.NotUsed}}" />
-                                        <RadioButton
-                                            Content="Сигнализация исправности канала связи"
-                                            IsChecked="{Binding Path=BindingRelayMode, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static enums:BindingRelay.СommunicationChanelFailure}}"
-                                            IsEnabled="{Binding EnableRelayMode[0]}" />
-                                        <RadioButton
-                                            Content="Температурный порог 1"
-                                            IsChecked="{Binding Path=BindingRelayMode, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static enums:BindingRelay.TemperatureThreshold1}}"
-                                            IsEnabled="{Binding EnableRelayMode[1]}" />
-                                        <RadioButton
-                                            Content="Температурный порог 2"
-                                            IsChecked="{Binding Path=BindingRelayMode, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static enums:BindingRelay.TemperatureThreshold2}}"
-                                            IsEnabled="{Binding EnableRelayMode[2]}" />
-                                    </ui:RadioButtons>
-                                </StackPanel>
-                            </GroupBox>
-                        </StackPanel>
-                    </Grid>
+                                    </ListView>
+                                </Border>
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Width="255">
+                        <GroupBox Header="Настройки">
+                            <StackPanel>
+                                <TextBlock Margin="0,0,0,4" Text="Логика работы" />
+                                <ui:ToggleSwitch
+                                    IsOn="{Binding WorkLogic, Mode=TwoWay}"
+                                    OffContent="Негативная"
+                                    OnContent="Позитивная" />
+                                <ui:RadioButtons Margin="0,10,0,0" Header="Привязка">
+                                    <RadioButton Content="Реле не используется" IsChecked="{Binding Path=BindingRelayMode, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static enums:BindingRelay.NotUsed}}" />
+                                    <RadioButton
+                                        Content="Сигнализация исправности канала связи"
+                                        IsChecked="{Binding Path=BindingRelayMode, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static enums:BindingRelay.СommunicationChanelFailure}}"
+                                        IsEnabled="{Binding EnableRelayMode[0]}" />
+                                    <RadioButton
+                                        Content="Температурный порог 1"
+                                        IsChecked="{Binding Path=BindingRelayMode, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static enums:BindingRelay.TemperatureThreshold1}}"
+                                        IsEnabled="{Binding EnableRelayMode[1]}" />
+                                    <RadioButton
+                                        Content="Температурный порог 2"
+                                        IsChecked="{Binding Path=BindingRelayMode, Converter={StaticResource ComparisonConverter}, ConverterParameter={x:Static enums:BindingRelay.TemperatureThreshold2}}"
+                                        IsEnabled="{Binding EnableRelayMode[2]}" />
+                                </ui:RadioButtons>
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
                 </Grid>
             </TabItem>
 

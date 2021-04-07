@@ -11,16 +11,6 @@
     Background="{DynamicResource SystemControlPageBackgroundChromeMediumLowBrush}"
     mc:Ignorable="d">
 
-    <prism:Dialog.WindowStyle>
-        <Style TargetType="Window">
-            <Setter Property="WindowStyle" Value="None" />
-            <Setter Property="prism:Dialog.WindowStartupLocation" Value="CenterScreen" />
-            <Setter Property="ResizeMode" Value="NoResize" />
-            <Setter Property="ShowInTaskbar" Value="False" />
-            <Setter Property="SizeToContent" Value="WidthAndHeight" />
-        </Style>
-    </prism:Dialog.WindowStyle>
-
     <Grid Margin="16,16,16,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="320" />

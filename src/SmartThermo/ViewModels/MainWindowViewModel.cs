@@ -156,7 +156,7 @@ namespace SmartThermo.ViewModels
                 {
                     if (r.Result == ButtonResult.Cancel)
                         Notifications.ShowInformation("Операция прервана пользователем.");
-                });
+                }, windowName: "NotificationWindow");
             }
 
         }
@@ -167,7 +167,7 @@ namespace SmartThermo.ViewModels
             {
                 if (r.Result == ButtonResult.Cancel)
                     Notifications.ShowInformation("Операция прервана пользователем.");
-            });
+            }, windowName: "NotificationWindow");
         }
 
         private static void AboutExecute()

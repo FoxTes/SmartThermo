@@ -3,6 +3,7 @@ using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Prism.Ioc;
 using Prism.Modularity;
+using SmartThermo.Dialogs.Views;
 using SmartThermo.Modules.Analytics;
 using SmartThermo.Modules.DataViewer;
 using SmartThermo.Modules.Dialog.SettingsDevice.ViewModels;
@@ -68,6 +69,7 @@ namespace SmartThermo
 #endif
             containerRegistry.RegisterDialog<SettingsPortDialog, SettingsPortDialogViewModel>();
             containerRegistry.RegisterDialog<SettingsDeviceDialog, SettingsDeviceDialogViewModel>();
+            containerRegistry.RegisterDialogWindow<NotificationWindow>("NotificationWindow");
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

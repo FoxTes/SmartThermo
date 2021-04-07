@@ -219,7 +219,7 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
                     ChartValues[i].Add(new MeasureData
                     {
                         DateTime = now,
-                        Value = sensorData[i].IsAir ? sensorData[i].Temperature : double.NaN
+                        Value =  sensorItem.IsAir ? sensorItem.Temperature : double.NaN
                     });
                 }
             }, DispatcherPriority.Background);

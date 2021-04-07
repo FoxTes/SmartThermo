@@ -43,19 +43,9 @@
         </ObjectDataProvider>
     </UserControl.Resources>
 
-    <prism:Dialog.WindowStyle>
-        <Style TargetType="Window">
-            <Setter Property="WindowStyle" Value="None" />
-            <Setter Property="prism:Dialog.WindowStartupLocation" Value="CenterScreen" />
-            <Setter Property="ResizeMode" Value="NoResize" />
-            <Setter Property="ShowInTaskbar" Value="False" />
-            <Setter Property="SizeToContent" Value="WidthAndHeight" />
-        </Style>
-    </prism:Dialog.WindowStyle>
-
     <Grid IsEnabled="{Binding IsEnable}">
         <StackPanel Orientation="Vertical">
-            <Grid Margin="16,24,16,8">
+            <Grid Margin="16,40,16,8">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition Width="auto" />

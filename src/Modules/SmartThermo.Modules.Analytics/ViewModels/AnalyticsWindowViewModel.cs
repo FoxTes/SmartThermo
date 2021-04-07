@@ -386,7 +386,7 @@ namespace SmartThermo.Modules.Analytics.ViewModels
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
-            }, parameters);
+            }, parameters, "NotificationWindow");
         }
 
         private async void GetSensorDataExecute() => await GetSensorDataAsync();

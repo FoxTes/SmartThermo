@@ -152,9 +152,9 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="8" />
                     <RowDefinition Height="32" />
-                    <RowDefinition />
+                    <RowDefinition Height="*" />
                     <RowDefinition Height="32" />
-                    <RowDefinition />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -176,7 +176,7 @@
                     Margin="8,8,4,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -191,7 +191,7 @@
                     Margin="4,8,4,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -206,7 +206,7 @@
                     Margin="4,8,8,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -230,7 +230,7 @@
                     Margin="8,8,4,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -245,7 +245,7 @@
                     Margin="4,8,4,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -260,7 +260,7 @@
                     Margin="4,8,8,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -423,9 +423,9 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="8" />
                     <RowDefinition Height="32" />
-                    <RowDefinition />
+                    <RowDefinition Height="*" />
                     <RowDefinition Height="32" />
-                    <RowDefinition />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -447,7 +447,7 @@
                     Margin="8,8,4,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -462,7 +462,7 @@
                     Margin="4,8,4,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -477,7 +477,7 @@
                     Margin="4,8,8,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -501,7 +501,7 @@
                     Margin="8,8,4,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -516,7 +516,7 @@
                     Margin="4,8,4,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -531,7 +531,7 @@
                     Margin="4,8,8,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -694,9 +694,9 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="8" />
                     <RowDefinition Height="32" />
-                    <RowDefinition />
+                    <RowDefinition Height="*" />
                     <RowDefinition Height="32" />
-                    <RowDefinition />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -718,7 +718,7 @@
                     Margin="8,8,4,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -733,7 +733,7 @@
                     Margin="4,8,4,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -748,7 +748,7 @@
                     Margin="4,8,8,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -772,7 +772,7 @@
                     Margin="8,8,4,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -787,7 +787,7 @@
                     Margin="4,8,4,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -802,7 +802,7 @@
                     Margin="4,8,8,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -965,9 +965,9 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="8" />
                     <RowDefinition Height="32" />
-                    <RowDefinition />
+                    <RowDefinition Height="*" />
                     <RowDefinition Height="32" />
-                    <RowDefinition />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -989,7 +989,7 @@
                     Margin="8,8,4,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -1004,7 +1004,7 @@
                     Margin="4,8,4,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -1019,7 +1019,7 @@
                     Margin="4,8,8,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -1043,7 +1043,7 @@
                     Margin="8,8,4,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -1058,7 +1058,7 @@
                     Margin="4,8,4,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -1073,7 +1073,7 @@
                     Margin="4,8,8,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -1236,9 +1236,9 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="8" />
                     <RowDefinition Height="32" />
-                    <RowDefinition />
+                    <RowDefinition Height="*" />
                     <RowDefinition Height="32" />
-                    <RowDefinition />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -1260,7 +1260,7 @@
                     Margin="8,8,4,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -1275,7 +1275,7 @@
                     Margin="4,8,4,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -1290,7 +1290,7 @@
                     Margin="4,8,8,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -1314,7 +1314,7 @@
                     Margin="8,8,4,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -1329,7 +1329,7 @@
                     Margin="4,8,4,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -1344,7 +1344,7 @@
                     Margin="4,8,8,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -1507,9 +1507,9 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="8" />
                     <RowDefinition Height="32" />
-                    <RowDefinition />
+                    <RowDefinition Height="*" />
                     <RowDefinition Height="32" />
-                    <RowDefinition />
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -1531,7 +1531,7 @@
                     Margin="8,8,4,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -1546,7 +1546,7 @@
                     Margin="4,8,4,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -1561,7 +1561,7 @@
                     Margin="4,8,8,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -1585,7 +1585,7 @@
                     Margin="8,8,4,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -1600,7 +1600,7 @@
                     Margin="4,8,4,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -1615,7 +1615,7 @@
                     Margin="4,8,8,8"
                     Background="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"
                     CornerRadius="2">
-                    <Viewbox>
+                    <Viewbox MaxHeight="128">
                         <TextBlock
                             Margin="8"
                             HorizontalAlignment="Center"
@@ -1658,8 +1658,8 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition />
-                <RowDefinition />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
             <ContentControl Grid.Column="0" Content="{Binding}">

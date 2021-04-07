@@ -45,7 +45,7 @@
 
     <Grid IsEnabled="{Binding IsEnable}">
         <StackPanel Orientation="Vertical">
-            <Grid Margin="16,40,16,8">
+            <Grid Margin="16,32,16,8">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition Width="auto" />

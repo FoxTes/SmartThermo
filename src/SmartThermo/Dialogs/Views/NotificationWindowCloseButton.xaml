@@ -1,0 +1,22 @@
+﻿<Window
+    x:Class="SmartThermo.Dialogs.Views.NotificationWindowCloseButton"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:SmartThermo.Dialogs.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.modernwpf.com/2019"
+    Width="800"
+    Height="450"
+    d:DesignHeight="300"
+    d:DesignWidth="300"
+    ui:ThemeManager.RequestedTheme="Dark"
+    ui:TitleBar.ExtendViewIntoTitleBar="True"
+    ui:WindowHelper.UseModernWindowStyle="True"
+    ContentRendered="Window_OnContentRendered"
+    ResizeMode="NoResize"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="CenterOwner"
+    mc:Ignorable="d">
+    <Grid />
+</Window>

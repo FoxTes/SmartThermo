@@ -33,6 +33,7 @@
                 Label="Настроить прибор" />
             <ui:AppBarSeparator />
             <ui:CommandBar.SecondaryCommands>
+                <ui:AppBarButton Command="{Binding SettingSensorCommand}" Label="Настройка датчиков" />
                 <ui:AppBarButton Command="{Binding AboutCommand}" Label="О программе" />
             </ui:CommandBar.SecondaryCommands>
 

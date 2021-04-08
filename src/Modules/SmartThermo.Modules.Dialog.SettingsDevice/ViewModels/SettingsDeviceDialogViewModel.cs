@@ -4,7 +4,6 @@ using SmartThermo.Core.Extensions;
 using SmartThermo.Core.Mvvm;
 using SmartThermo.Modules.Dialog.SettingsDevice.Enums;
 using SmartThermo.Modules.Dialog.SettingsDevice.Models;
-using SmartThermo.Modules.Dialog.SettingsPort.Enums;
 using SmartThermo.Services.DeviceConnector;
 using SmartThermo.Services.DeviceConnector.Models;
 using SmartThermo.Services.Notifications;
@@ -13,6 +12,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO.Ports;
 using System.Linq;
+using SmartThermo.Core.Enums;
 using SmartThermo.Core.Models;
 
 namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels

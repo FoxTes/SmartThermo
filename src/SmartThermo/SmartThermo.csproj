@@ -23,11 +23,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Modules\SmartThermo.Modules.Dialog.SettingsSensor\SmartThermo.Modules.Dialog.SettingsSensor.csproj" />
     <ProjectReference Include="..\DataAccess\SmartThermo.DataAccess.Sqlite\SmartThermo.DataAccess.Sqlite.csproj" />
     <ProjectReference Include="..\Modules\SmartThermo.Modules.Analytics\SmartThermo.Modules.Analytics.csproj" />
     <ProjectReference Include="..\Modules\SmartThermo.Modules.DataViewer\SmartThermo.Modules.DataViewer.csproj" />
     <ProjectReference Include="..\Modules\SmartThermo.Modules.Dialog.SettingsDevice\SmartThermo.Modules.Dialog.SettingsDevice.csproj" />
     <ProjectReference Include="..\Modules\SmartThermo.Modules.Dialog.SettingsPort\SmartThermo.Modules.Dialog.SettingsPort.csproj" />
+    <ProjectReference Include="..\Modules\SmartThermo.Modules.Dialog.SettingsSensor\SmartThermo.Modules.Dialog.SettingsSensor.csproj" />
     <ProjectReference Include="..\Services\SmartThermo.Services.DeviceConnector\SmartThermo.Services.DeviceConnector.csproj" />
     <ProjectReference Include="..\Services\SmartThermo.Services.Notifications\SmartThermo.Services.Notifications.csproj" />
     <ProjectReference Include="..\SmartThermo.Core\SmartThermo.Core.csproj" />

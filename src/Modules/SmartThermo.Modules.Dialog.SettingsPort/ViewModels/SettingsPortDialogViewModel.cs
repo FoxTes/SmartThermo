@@ -1,7 +1,6 @@
 ﻿using Prism.Commands;
 using Prism.Services.Dialogs;
 using SmartThermo.Core.Mvvm;
-using SmartThermo.Modules.Dialog.SettingsPort.Enums;
 using SmartThermo.Services.DeviceConnector;
 using SmartThermo.Services.DeviceConnector.Models;
 using SmartThermo.Services.Notifications;
@@ -9,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO.Ports;
+using SmartThermo.Core.Enums;
 
 namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
 {

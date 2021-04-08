@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:bh="clr-namespace:SmartThermo.Modules.Dialog.SettingsDevice.Behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:enum="clr-namespace:SmartThermo.Modules.Dialog.SettingsPort.Enums;assembly=SmartThermo.Modules.Dialog.SettingsPort"
     xmlns:enums="clr-namespace:SmartThermo.Modules.Dialog.SettingsDevice.Enums"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:io="clr-namespace:System.IO.Ports;assembly=System.IO.Ports"
@@ -13,6 +12,7 @@
     xmlns:prism="http://prismlibrary.com/"
     xmlns:sys="clr-namespace:System;assembly=System.Runtime"
     xmlns:ui="http://schemas.modernwpf.com/2019"
+    xmlns:enum="clr-namespace:SmartThermo.Core.Enums;assembly=SmartThermo.Core"
     Width="auto"
     Height="auto"
     prism:ViewModelLocator.AutoWireViewModel="True"
@@ -125,8 +125,6 @@
                             </GroupBox>
 
                         </StackPanel>
-
-
                     </Grid>
                 </Grid>
             </TabItem>

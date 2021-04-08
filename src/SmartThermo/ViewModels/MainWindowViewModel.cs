@@ -55,6 +55,8 @@ namespace SmartThermo.ViewModels
 
         public DelegateCommand<NavigationViewItemInvokedEventArgs> NavigationViewInvokedCommand { get; }
 
+        public DelegateCommand SettingSensorCommand { get; }
+
         public DelegateCommand AboutCommand { get; }
 
         #endregion
@@ -87,6 +89,7 @@ namespace SmartThermo.ViewModels
             ChangeConnectDeviceCommand = new DelegateCommand(ChangeConnectDeviceExecute);
             SettingDeviceCommand = new DelegateCommand(SettingDeviceExecute);
             NavigationViewInvokedCommand = new DelegateCommand<NavigationViewItemInvokedEventArgs>(NavigationViewInvokedExecute);
+            SettingSensorCommand = new DelegateCommand(SettingSensorExecute);
             AboutCommand = new DelegateCommand(AboutExecute);
 
             CreateSession();
@@ -158,7 +161,6 @@ namespace SmartThermo.ViewModels
                         Notifications.ShowInformation("Операция прервана пользователем.");
                 }, windowName: "NotificationWindow");
             }
-
         }
 
         private void SettingDeviceExecute()
@@ -167,8 +169,10 @@ namespace SmartThermo.ViewModels
             {
                 if (r.Result == ButtonResult.Cancel)
                     Notifications.ShowInformation("Операция прервана пользователем.");
-            }, windowName: "NotificationWindow");
+            }, windowName: "NotificationWindowCloseButton");
         }
+
+        private void SettingSensorExecute() => DialogService.ShowNotification("SettingsSensorDialog", r => { }, windowName: "NotificationWindowCloseButton");
 
         private static void AboutExecute()
         {

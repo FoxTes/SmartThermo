@@ -1,4 +1,4 @@
-﻿namespace SmartThermo.Modules.Dialog.SettingsPort.Enums
+﻿namespace SmartThermo.Core.Enums
 {
     public enum BaudRate
     {

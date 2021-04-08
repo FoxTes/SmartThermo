@@ -3,7 +3,7 @@
 namespace SmartThermo.Modules.Dialog.SettingsPort.Views
 {
     /// <summary>
-    /// Interaction logic for ViewA.xaml
+    /// Interaction logic for SettingsPortDialog.xaml
     /// </summary>
     public partial class SettingsPortDialog : UserControl
     {

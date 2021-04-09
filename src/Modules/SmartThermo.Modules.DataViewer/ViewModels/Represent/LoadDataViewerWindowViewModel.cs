@@ -17,10 +17,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Threading;
-using System.Threading.Tasks;
 
 namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
 {
@@ -184,11 +184,8 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
 
         private void DeviceConnector_StatusConnectChanged(object sender, StatusConnect e)
         {
-            if (e != StatusConnect.Disconnected) 
-                return;
-            
-            ChartValues.Clear();
-            SensorsEtherItems.Clear();
+            if (e == StatusConnect.Disconnected)
+                SensorsEtherItems.Clear();
         }
 
         private void DeviceConnector_SettingDeviceChanged(object sender, SettingDeviceEventArgs e)

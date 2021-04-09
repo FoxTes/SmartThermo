@@ -2,7 +2,9 @@
     x:Class="SmartThermo.Modules.Dialog.SettingsSensor.Views.SettingsSensorDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:beh="clr-namespace:SmartThermo.Modules.Dialog.SettingsSensor.Behaviors"
     xmlns:enum="clr-namespace:SmartThermo.Core.Enums;assembly=SmartThermo.Core"
+    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:io="clr-namespace:System.IO.Ports;assembly=System.IO.Ports"
     xmlns:prism="http://prismlibrary.com/"
     xmlns:sys="clr-namespace:System;assembly=System.Runtime"
@@ -23,14 +25,6 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
         <ObjectDataProvider
-            x:Key="ParityValues"
-            MethodName="GetValues"
-            ObjectType="{x:Type sys:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="io:Parity" />
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-        <ObjectDataProvider
             x:Key="StopBitsValues"
             MethodName="GetValues"
             ObjectType="{x:Type sys:Enum}">
@@ -48,18 +42,65 @@
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="*" />
             <ColumnDefinition Width="24" />
-            <ColumnDefinition Width="5*" />
+            <ColumnDefinition Width="200" />
         </Grid.ColumnDefinitions>
 
-        <GroupBox Header="Настройки порта">
+        <GroupBox Header="Операции">
+            <StackPanel x:Name="PanelTwo">
+                <TextBlock Margin="0,0,0,4" Text="Команда" />
+                <ComboBox
+                    Width="{Binding Path=ActualWidth, ElementName=PanelTwo}"
+                    DisplayMemberPath="Name"
+                    ItemsSource="{Binding Path=Command}"
+                    SelectedItem="{Binding CommandSelected}" />
+
+                <TextBlock Margin="0,8,0,4" Text="Значение" />
+                <ui:NumberBox
+                    Width="{Binding Path=ActualWidth, ElementName=PanelTwo}"
+                    LargeChange="10"
+                    Maximum="{Binding MaxSetValue}"
+                    Minimum="0"
+                    SmallChange="1"
+                    SpinButtonPlacementMode="Inline"
+                    Text="{Binding InputValue}"
+                    ValidationMode="InvalidInputOverwritten" />
+
+                <StackPanel
+                    Margin="0,28,0,0"
+                    HorizontalAlignment="Right"
+                    IsEnabled="{Binding IsEnable}"
+                    Orientation="Horizontal">
+
+                    <Button
+                        Width="120"
+                        HorizontalAlignment="Right"
+                        Command="{Binding WakeUpCommand}"
+                        Content="Пробудить"
+                        IsEnabled="{Binding IsEnable}" />
+
+                    <Button
+                        Width="120"
+                        Margin="16,0,0,0"
+                        HorizontalAlignment="Right"
+                        Command="{Binding ExecuteCommand}"
+                        Content="Выполнить"
+                        IsEnabled="{Binding IsEnable}" />
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox
+            Grid.Row="0"
+            Grid.Column="2"
+            Header="Настройки порта">
             <StackPanel x:Name="Panel">
                 <TextBlock Margin="0,0,0,4" Text="Имя порта" />
                 <ComboBox
                     Width="{Binding Path=ActualWidth, ElementName=Panel}"
-                    ItemsSource="{Binding Source={StaticResource BaudRateValues}}"
-                    SelectedItem="{Binding BaudRateSelected}" />
+                    ItemsSource="{Binding PortName}"
+                    SelectedItem="{Binding PortNameSelected}" />
 
                 <TextBlock Margin="0,8,0,4" Text="Скорость обмена" />
                 <ComboBox
@@ -70,171 +111,61 @@
                 <TextBlock Margin="0,8,0,4" Text="Стоп бит" />
                 <ComboBox
                     Width="{Binding Path=ActualWidth, ElementName=Panel}"
-                    ItemsSource="{Binding Source={StaticResource ParityValues}}"
-                    SelectedItem="{Binding ParitySelected}" />
-            </StackPanel>
-        </GroupBox>
-
-        <GroupBox Grid.Column="2" Header="Операции">
-            <StackPanel x:Name="PanelTwo">
-                <TextBlock Margin="0,0,0,4" Text="Команда" />
-                <ComboBox
-                    Width="{Binding Path=ActualWidth, ElementName=PanelTwo}"
-                    ItemsSource="{Binding Source={StaticResource BaudRateValues}}"
-                    SelectedItem="{Binding BaudRateSelected}" />
-
-                <TextBlock Margin="0,8,0,4" Text="Значение" />
-                <ui:NumberBox
-                    Width="{Binding Path=ActualWidth, ElementName=PanelTwo}"
-                    LargeChange="10"
-                    Maximum="{Binding MaxValue}"
-                    Minimum="0"
-                    SmallChange="1"
-                    SpinButtonPlacementMode="Inline"
-                    Text="{Binding InputValue}"
-                    ValidationMode="InvalidInputOverwritten" />
-
-                <StackPanel
-                    Grid.Row="2"
-                    Margin="0,28,0,0"
-                    HorizontalAlignment="Right"
-                    Orientation="Horizontal">
-
-                    <ui:ProgressRing
-                        x:Name="Progress1"
-                        Width="32"
-                        Height="32"
-                        Margin="0,0,16,0"
-                        IsActive="{Binding IsActiveProgress}" />
-
-                    <Button
-                        Width="120"
-                        HorizontalAlignment="Right"
-                        Command="{Binding WakeUpCommand}"
-                        Content="{Binding StatusWakeUpButton, FallbackValue='Пробудить'}"
-                        IsEnabled="{Binding IsEnableWakeUp}" />
-
-                    <Button
-                        Width="120"
-                        Margin="32,0,0,0"
-                        HorizontalAlignment="Right"
-                        Command="{Binding ExecuteCommand}"
-                        Content="Выполнить"
-                        IsEnabled="{Binding IsEnable}" />
-                </StackPanel>
+                    ItemsSource="{Binding Source={StaticResource StopBitsValues}}"
+                    SelectedItem="{Binding StopBitsSelected}" />
             </StackPanel>
         </GroupBox>
 
         <ListView
             Grid.Row="1"
+            Grid.Column="0"
             Grid.ColumnSpan="3"
-            Height="320"
+            Height="285"
             BorderBrush="Gray"
             BorderThickness="1"
-            ItemsSource="{Binding Logging}">
+            ItemsSource="{Binding Logger}">
 
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Foreground="{Binding Path=Color}" Text="{Binding Path=Message}" />
                 </DataTemplate>
             </ListBox.ItemTemplate>
+
+            <i:Interaction.Behaviors>
+                <beh:ListBoxBehavior />
+            </i:Interaction.Behaviors>
         </ListView>
+
+        <Border
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Background="Black"
+            Opacity="0.75"
+            Visibility="{Binding ShowWakeUpIndicator}" />
+        <ui:SimpleStackPanel
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Spacing="16"
+            Visibility="{Binding ShowWakeUpIndicator}">
+            <ui:ProgressRing
+                Width="120"
+                Height="120"
+                IsActive="True" />
+            <TextBlock
+                VerticalAlignment="Center"
+                Style="{DynamicResource TitleTextBlockStyle}"
+                Text="Пробуждаем датчик..." />
+            <Button
+                Width="120"
+                HorizontalAlignment="Center"
+                Command="{Binding CancelWakeUpCommand}"
+                Content="Отменить" />
+        </ui:SimpleStackPanel>
     </Grid>
 
-
-
-    <!--<Grid>
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-
-            <StackPanel
-                Grid.Row="0"
-                Margin="32,16,16,0"
-                HorizontalAlignment="Right"
-                Orientation="Horizontal">
-                <TextBlock
-                    Margin="0,0,16,0"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
-                    Text="Команда:" />
-
-                <ComboBox
-                    Width="250"
-                    DisplayMemberPath="Name"
-                    ItemsSource="{Binding Path=Commands}"
-                    SelectedItem="{Binding CommandSelected}" />
-            </StackPanel>
-
-            <StackPanel
-                Grid.Row="1"
-                Margin="0,16,16,0"
-                HorizontalAlignment="Right"
-                Orientation="Horizontal">
-                <TextBlock
-                    Margin="0,0,16,0"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Center"
-                    Text="Значение:" />
-                <ui:NumberBox
-                    Width="250"
-                    LargeChange="10"
-                    Maximum="{Binding MaxValue}"
-                    Minimum="0"
-                    SmallChange="1"
-                    SpinButtonPlacementMode="Inline"
-                    Text="{Binding InputValue}"
-                    ValidationMode="InvalidInputOverwritten" />
-            </StackPanel>
-
-
-            <StackPanel
-                Grid.Row="2"
-                Margin="0,16,16,0"
-                HorizontalAlignment="Right"
-                Orientation="Horizontal">
-                <Button
-                    Width="140"
-                    MinHeight="30"
-                    Margin="0,0,16,0"
-                    HorizontalAlignment="Right"
-                    Command="{Binding WakeUpCommand}"
-                    Content="{Binding StatusWakeUpButton, FallbackValue='Пробудить'}"
-                    IsEnabled="{Binding IsEnableWakeUp}" />
-
-                <ui:ProgressRing
-                    x:Name="Progress1"
-                    Width="32"
-                    Height="32"
-                    Margin="0,0,48,0"
-                    IsActive="{Binding IsActiveProgress}" />
-
-                <Button
-                    Width="140"
-                    Margin="0,0,0,0"
-                    HorizontalAlignment="Right"
-                    Command="{Binding ExecuteCommand}"
-                    Content="Выполнить"
-                    IsEnabled="{Binding IsEnable}" />
-            </StackPanel>
-
-            <ListView
-                Grid.Row="3"
-                Margin="0,16,169,16"
-                BorderBrush="Gray"
-                BorderThickness="1"
-                ItemsSource="{Binding Logging}">
-
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Foreground="{Binding Path=Color}" Text="{Binding Path=Message}" />
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListView>
-        </Grid>
-    </Grid>-->
 </UserControl>
+

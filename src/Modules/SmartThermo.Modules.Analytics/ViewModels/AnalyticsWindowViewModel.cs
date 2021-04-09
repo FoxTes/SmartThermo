@@ -293,7 +293,7 @@ namespace SmartThermo.Modules.Analytics.ViewModels
                     _colors[5]));
                 LegendValueItems.Add(result[0].Value6);
             }
-            _vLine = _plot.AddVerticalLine(dateTime[0], color: Color.Red, 2, style: LineStyle.Dash);
+            _vLine = _plot.AddVerticalLine(dateTime[0], Color.Red, 2, LineStyle.Dash);
    
             _plot.AxisAutoX();
             _plot.SetAxisLimitsY(0, 165);

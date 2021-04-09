@@ -184,8 +184,11 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
 
         private void DeviceConnector_StatusConnectChanged(object sender, StatusConnect e)
         {
-            if (e == StatusConnect.Disconnected)
-                SensorsEtherItems.Clear();
+            if (e != StatusConnect.Disconnected) 
+                return;
+            
+            ChartValues.Clear();
+            SensorsEtherItems.Clear();
         }
 
         private void DeviceConnector_SettingDeviceChanged(object sender, SettingDeviceEventArgs e)
@@ -281,33 +284,33 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
             //LoadTestDataAsync();
         }
 
-        private async Task LoadTestDataAsync()
-        {
-            await Task.Delay(1000);
-            var random = new Random();
+        //private async Task LoadTestDataAsync()
+        //{
+        //    await Task.Delay(1000);
+        //    var random = new Random();
 
-            var myDates = new DateTime[1000_000];
-            for (var i = 0; i < 1000_000; i++)
-                myDates[i] = DateTime.Now.AddSeconds(i);
+        //    var myDates = new DateTime[1000_000];
+        //    for (var i = 0; i < 1000_000; i++)
+        //        myDates[i] = DateTime.Now.AddSeconds(i);
 
-            await using var context = new Context();
-            var result = Enumerable.Range(0, 1000_000)
-                .Select((x, index) => new SensorInformation
-                {
-                    Id = index + 1,
-                    Value1 = (int)(120 + 5 * Math.Cos(index * 0.0001d) + random.Next(0, 1)),
-                    Value2 = (int)(100 + 5 * Math.Sin(index * 0.001d) + random.Next(0, 3)),
-                    Value3 = (int)(80 + 5 * Math.Cos(index * 0.001d) + random.Next(0, 4)),
-                    Value4 = (int)(60 + 5 * Math.Cos(index * 0.0003d) + random.Next(0, 2)),
-                    Value5 = (int)(40 + 5 * Math.Asin(index * 0.00001d) + random.Next(0, 1)),
-                    Value6 = (int)(20 + 5 * Math.Acos(index * 0.0001d) + random.Next(0, 2)),
-                    DataTime = myDates[index].Round(TimeSpan.FromSeconds(1)),
-                    SensorGroupId = _groupSensorId[0]
-                }).ToList();
+        //    await using var context = new Context();
+        //    var result = Enumerable.Range(0, 1000_000)
+        //        .Select((x, index) => new SensorInformation
+        //        {
+        //            Id = index + 1,
+        //            Value1 = (int)(120 + 5 * Math.Cos(index * 0.0001d) + random.Next(0, 1)),
+        //            Value2 = (int)(100 + 5 * Math.Sin(index * 0.001d) + random.Next(0, 3)),
+        //            Value3 = (int)(80 + 5 * Math.Cos(index * 0.001d) + random.Next(0, 4)),
+        //            Value4 = (int)(60 + 5 * Math.Cos(index * 0.0003d) + random.Next(0, 2)),
+        //            Value5 = (int)(40 + 5 * Math.Asin(index * 0.00001d) + random.Next(0, 1)),
+        //            Value6 = (int)(20 + 5 * Math.Acos(index * 0.0001d) + random.Next(0, 2)),
+        //            DataTime = myDates[index].Round(TimeSpan.FromSeconds(1)),
+        //            SensorGroupId = _groupSensorId[0]
+        //        }).ToList();
 
-            await context.SensorInformations.AddRangeAsync(result);
-            await context.SaveChangesAsync();
-        }
+        //    await context.SensorInformations.AddRangeAsync(result);
+        //    await context.SaveChangesAsync();
+        //}
 
         private void GetSelectMode()
         {

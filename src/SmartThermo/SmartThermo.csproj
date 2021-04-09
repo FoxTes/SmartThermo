@@ -23,7 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Modules\SmartThermo.Modules.Dialog.SettingsSensor\SmartThermo.Modules.Dialog.SettingsSensor.csproj" />
     <ProjectReference Include="..\DataAccess\SmartThermo.DataAccess.Sqlite\SmartThermo.DataAccess.Sqlite.csproj" />
     <ProjectReference Include="..\Modules\SmartThermo.Modules.Analytics\SmartThermo.Modules.Analytics.csproj" />
     <ProjectReference Include="..\Modules\SmartThermo.Modules.DataViewer\SmartThermo.Modules.DataViewer.csproj" />

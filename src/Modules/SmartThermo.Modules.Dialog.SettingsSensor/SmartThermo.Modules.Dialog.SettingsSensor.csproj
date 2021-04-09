@@ -6,10 +6,10 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="ModernWpfUI" Version="0.9.4" />
+    <PackageReference Include="NPOI" Version="2.5.2" />
     <PackageReference Include="Prism.Wpf" Version="8.0.0.1909" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\SmartThermo.Core\SmartThermo.Core.csproj" />
-    <ProjectReference Include="..\src\SmartThermo.Core\SmartThermo.Core.csproj" />
   </ItemGroup>
 </Project>

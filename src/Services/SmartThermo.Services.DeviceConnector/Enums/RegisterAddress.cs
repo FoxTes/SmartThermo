@@ -6,7 +6,7 @@
     public enum RegisterAddress
     {
         /// <summary>
-        /// Адерсс устройства в сети Modbus.
+        /// Адрес устройства в сети Modbus.
         /// </summary>
         AddressDevice = 0,
 

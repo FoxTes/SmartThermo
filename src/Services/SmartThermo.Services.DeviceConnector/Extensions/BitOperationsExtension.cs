@@ -13,7 +13,7 @@ namespace SmartThermo.Services.DeviceConnector.Extensions
         /// <param name="pos">
         /// The position of the bit to check, 0 refers to the least significant bit.
         /// </param>
-        /// <returns>true if the specified bit is on, otherwise false.</returns>
+        /// <returns>True if the specified bit is on, otherwise false.</returns>
         public static bool IsBitSet<T>(this T t, int pos) where T : struct, IConvertible
         {
             var value = t.ToInt64(CultureInfo.CurrentCulture);

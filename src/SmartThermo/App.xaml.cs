@@ -16,6 +16,7 @@ using SmartThermo.Services.DeviceConnector;
 using SmartThermo.Services.Notifications;
 using SmartThermo.Views;
 using System;
+using System.Globalization;
 using System.Windows;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
@@ -36,10 +37,17 @@ namespace SmartThermo
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            AppCenter.Start("3fb4a695-2ae6-4663-9878-d0fa3ada2d1e",
-                   typeof(Analytics), typeof(Crashes));
-
             base.OnStartup(e);
+
+            SetCountryCode();
+            AppCenter.Start("3fb4a695-2ae6-4663-9878-d0fa3ada2d1e",
+               typeof(Analytics), typeof(Crashes));
+        }
+
+        private static void SetCountryCode()
+        {
+            var countryCode = RegionInfo.CurrentRegion.TwoLetterISORegionName;
+            AppCenter.SetCountryCode(countryCode);
         }
 
         protected override Window CreateShell()
@@ -64,16 +72,16 @@ namespace SmartThermo
             }));
 
             containerRegistry.RegisterInstance<INotifications>(instance);
-            #if DEBUG
-                containerRegistry.RegisterSingleton<IDeviceConnector, DeviceConnectorTest>();
+#if DEBUG
+            containerRegistry.RegisterSingleton<IDeviceConnector, DeviceConnectorTest>();
 #else
                 containerRegistry.RegisterSingleton<IDeviceConnector, DeviceConnector>();
 #endif
             containerRegistry.RegisterDialog<SettingsPortDialog, SettingsPortDialogViewModel>();
-            containerRegistry.RegisterDialog<SettingsDeviceDialog, SettingsDeviceDialogViewModel>(); 
+            containerRegistry.RegisterDialog<SettingsDeviceDialog, SettingsDeviceDialogViewModel>();
             containerRegistry.RegisterDialog<SettingsSensorDialog, SettingsSensorDialogViewModel>();
             containerRegistry.RegisterDialogWindow<NotificationWindow>("NotificationWindow");
-            containerRegistry.RegisterDialogWindow<NotificationWindowCloseButton>("NotificationWindowCloseButton");        
+            containerRegistry.RegisterDialogWindow<NotificationWindowCloseButton>("NotificationWindowCloseButton");
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

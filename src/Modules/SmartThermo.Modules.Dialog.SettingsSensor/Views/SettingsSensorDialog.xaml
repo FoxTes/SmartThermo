@@ -68,7 +68,7 @@
                     ValidationMode="InvalidInputOverwritten" />
 
                 <StackPanel
-                    Margin="0,28,0,0"
+                    Margin="0,31,0,0"
                     HorizontalAlignment="Right"
                     IsEnabled="{Binding IsEnable}"
                     Orientation="Horizontal">

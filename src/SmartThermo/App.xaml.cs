@@ -18,6 +18,10 @@ using SmartThermo.Views;
 using System;
 using System.Globalization;
 using System.Windows;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Prism.Unity;
+using SmartThermo.DataAccess.Sqlite;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Position;
@@ -82,8 +86,14 @@ namespace SmartThermo
             containerRegistry.RegisterDialog<SettingsSensorDialog, SettingsSensorDialogViewModel>();
             containerRegistry.RegisterDialogWindow<NotificationWindow>("NotificationWindow");
             containerRegistry.RegisterDialogWindow<NotificationWindowCloseButton>("NotificationWindowCloseButton");
-        }
 
+            PrismContainerExtension.Current.RegisterServices(s =>
+            {
+                s.AddDbContextPool<Context>(options 
+                    => options.UseSqlite(@"Data Source=app.db"));
+            });
+        }
+        
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
             moduleCatalog.AddModule<DataViewerModule>();

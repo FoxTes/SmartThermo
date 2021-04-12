@@ -103,7 +103,7 @@ namespace SmartThermo
             PrismContainerExtension.Current.RegisterServices(s =>
             {
                 s.AddDbContext<Context>(options
-                    => options.UseSqlite(@"Data Source=app.db"),ServiceLifetime.Transient);
+                    => options.UseSqlite(@"Data Source=app.db"), ServiceLifetime.Transient);
             });
         }
 

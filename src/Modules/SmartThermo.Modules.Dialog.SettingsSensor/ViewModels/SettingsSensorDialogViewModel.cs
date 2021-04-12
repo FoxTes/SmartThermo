@@ -104,7 +104,7 @@ namespace SmartThermo.Modules.Dialog.SettingsSensor.ViewModels
             set => SetProperty(ref _showWakeUpIndicator, value);
         }
 
-        public bool IsEnable
+        private bool IsEnable
         {
             get => _isEnable;
             set => SetProperty(ref _isEnable, value);
@@ -127,8 +127,8 @@ namespace SmartThermo.Modules.Dialog.SettingsSensor.ViewModels
             UploadingDataSources();
             SetDefaultSettings();
 
-            ExecuteCommand = new DelegateCommand(ExecuteSumbitAsync);
-            WakeUpCommand = new DelegateCommand(WakeUpSumbitAsync);
+            ExecuteCommand = new DelegateCommand(ExecuteSumbitAsync).ObservesCanExecute(() => IsEnable);
+            WakeUpCommand = new DelegateCommand(WakeUpSumbitAsync).ObservesCanExecute(() => IsEnable);
             CancelWakeUpCommand = new DelegateCommand(CancelWakeUpSumbit);
 
             LoggerWrite($"Старт - {DateTime.Now.ToLongTimeString()}");

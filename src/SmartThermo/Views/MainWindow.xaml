@@ -27,10 +27,8 @@
         <ui:CommandBar Grid.Row="1" Background="{DynamicResource SystemControlPageBackgroundChromeMediumLowBrush}">
             <ui:AppBarButton Command="{Binding ChangeConnectDeviceCommand}" Label="{Binding LabelButton}" />
             <ui:AppBarSeparator />
-            <ui:AppBarButton
-                Command="{Binding SettingDeviceCommand}"
-                IsEnabled="{Binding IsEnableSettings}"
-                Label="Настроить прибор" />
+            <ui:AppBarButton Command="{Binding SettingDeviceCommand}" 
+                             Label="Настроить прибор" />
             <ui:AppBarSeparator />
             <ui:CommandBar.SecondaryCommands>
                 <ui:AppBarButton Command="{Binding SettingSensorCommand}" Label="Настройка датчиков" />

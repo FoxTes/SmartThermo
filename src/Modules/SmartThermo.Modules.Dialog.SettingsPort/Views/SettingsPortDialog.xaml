@@ -43,7 +43,7 @@
         </ObjectDataProvider>
     </UserControl.Resources>
 
-    <Grid IsEnabled="{Binding IsEnable}">
+    <Grid>
         <StackPanel Orientation="Vertical">
             <Grid Margin="16,32,16,8">
                 <Grid.ColumnDefinitions>

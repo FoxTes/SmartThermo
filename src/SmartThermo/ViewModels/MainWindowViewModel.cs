@@ -31,7 +31,7 @@ namespace SmartThermo.ViewModels
 
         #region Property
 
-        public bool IsEnableSettings
+        private bool IsEnableSettings
         {
             get => _isEnableSettings;
             set => SetProperty(ref _isEnableSettings, value);
@@ -88,7 +88,7 @@ namespace SmartThermo.ViewModels
             };
 
             ChangeConnectDeviceCommand = new DelegateCommand(ChangeConnectDeviceExecute);
-            SettingDeviceCommand = new DelegateCommand(SettingDeviceExecute);
+            SettingDeviceCommand = new DelegateCommand(SettingDeviceExecute).ObservesCanExecute(() => IsEnableSettings);
             NavigationViewInvokedCommand = new DelegateCommand<NavigationViewItemInvokedEventArgs>(NavigationViewInvokedExecute);
             SettingSensorCommand = new DelegateCommand(SettingSensorExecute);
             AboutCommand = new DelegateCommand(AboutExecute);

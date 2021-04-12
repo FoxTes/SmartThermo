@@ -70,23 +70,20 @@
                 <StackPanel
                     Margin="0,31,0,0"
                     HorizontalAlignment="Right"
-                    IsEnabled="{Binding IsEnable}"
                     Orientation="Horizontal">
 
                     <Button
                         Width="120"
                         HorizontalAlignment="Right"
                         Command="{Binding WakeUpCommand}"
-                        Content="Пробудить"
-                        IsEnabled="{Binding IsEnable}" />
+                        Content="Пробудить" />
 
                     <Button
                         Width="120"
                         Margin="16,0,0,0"
                         HorizontalAlignment="Right"
                         Command="{Binding ExecuteCommand}"
-                        Content="Выполнить"
-                        IsEnabled="{Binding IsEnable}" />
+                        Content="Выполнить" />
                 </StackPanel>
             </StackPanel>
         </GroupBox>

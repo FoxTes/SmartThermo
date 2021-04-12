@@ -37,7 +37,7 @@ namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
 
         #region Propetry
 
-        public bool IsEnable
+        private bool IsEnable
         {
             get => _isEnable;
             set => SetProperty(ref _isEnable, value);
@@ -113,8 +113,8 @@ namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
             UploadingDataSources();
             SetDefaultSettings();
 
-            ConnectCommand = new DelegateCommand(ConnectExecute);
-            CancelCommand = new DelegateCommand(CancelExecute);
+            ConnectCommand = new DelegateCommand(ConnectExecute).ObservesCanExecute(() => IsEnable);
+            CancelCommand = new DelegateCommand(CancelExecute).ObservesCanExecute(() => IsEnable);
         }
 
         #endregion

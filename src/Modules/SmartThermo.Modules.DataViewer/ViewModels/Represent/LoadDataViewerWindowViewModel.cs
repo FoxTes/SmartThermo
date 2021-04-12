@@ -37,6 +37,7 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
 
         private static readonly object Lock = new object();
 
+        private readonly Context _context;
         private readonly IDeviceConnector _deviceConnector;
         private readonly List<int> _groupSensorId = new List<int>();
         private ObservableCollection<LimitRelay> _limitRelayItems = new ObservableCollection<LimitRelay>();
@@ -121,8 +122,9 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
 
         #region Constructor
 
-        public LoadDataViewerWindowViewModel(IDeviceConnector deviceConnector, INotifications notifications)
+        public LoadDataViewerWindowViewModel(IDeviceConnector deviceConnector, INotifications notifications, Context context)
         {
+            _context = context;
             _deviceConnector = deviceConnector;
             _deviceConnector.SettingDeviceChanged += DeviceConnector_SettingDeviceChanged;
             _deviceConnector.StatusConnectChanged += DeviceConnector_StatusConnectChanged;
@@ -152,8 +154,7 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
                     SelectMode[(int)i - 1] = !SelectMode[(int)i - 1];
                     RaisePropertyChanged(nameof(SelectMode));
 
-                    using var context = new Context();
-                    var selectMode = context.SelectModes
+                    var selectMode = _context.SelectModes
                         .First(x => x.Id == i);
                     selectMode.Stage = _selectMode[(int)i - 1];
                     context.SaveChanges();
@@ -164,16 +165,15 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
         {
             var groupIdTask = Task.Run(() =>
             {
-                using var context = new Context();
-                var sessionId = context.Sessions
+                var sessionId = _context.Sessions
                     .Max(p => p.Id);
-                return context.GroupSensors
+                return _context.GroupSensors
                     .Where(x => x.SessionId == sessionId)
                     .Select(x => x.Id)
                     .ToList();
             });
-            await Task.WhenAll(groupIdTask);
-            _groupSensorId.AddRange(groupIdTask.Result);
+            await Task.WhenAll(groupIdTask); 
+            _groupSensorId.AddRange(groupIdTask.Result); 
 
             _deviceConnector.RegistersRequested += DeviceConnector_RegistersRequested;
         }
@@ -233,22 +233,25 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
 
         private async void SaveDataToDatabaseAsync(DateTime time, IReadOnlyList<SensorInfoEventArgs> sensorData)
         {
-            await using var context = new Context();
-            var result = Enumerable.Range(0, 6)
-                .Select((x, index) => new SensorInformation
-                {
-                    Value1 = sensorData[0 + index * 6].Temperature,
-                    Value2 = sensorData[1 + index * 6].Temperature,
-                    Value3 = sensorData[2 + index * 6].Temperature,
-                    Value4 = sensorData[3 + index * 6].Temperature,
-                    Value5 = sensorData[4 + index * 6].Temperature,
-                    Value6 = sensorData[5 + index * 6].Temperature,
-                    DataTime = time,
-                    SensorGroupId = _groupSensorId[index]
-                }).ToList();
+            var saveDataTask = Task.Run(() =>
+            {
+                var result = Enumerable.Range(0, 6)
+                    .Select((x, index) => new SensorInformation
+                    {
+                        Value1 = sensorData[0 + index * 6].Temperature,
+                        Value2 = sensorData[1 + index * 6].Temperature,
+                        Value3 = sensorData[2 + index * 6].Temperature,
+                        Value4 = sensorData[3 + index * 6].Temperature,
+                        Value5 = sensorData[4 + index * 6].Temperature,
+                        Value6 = sensorData[5 + index * 6].Temperature,
+                        DataTime = time,
+                        SensorGroupId = _groupSensorId[index]
+                    }).ToList();
 
-            await context.SensorInformations.AddRangeAsync(result);
-            await context.SaveChangesAsync();
+                _context.SensorInformations.AddRange(result);
+                return _context.SaveChanges();
+            });
+            await Task.WhenAll(saveDataTask);
         }
 
         private void InitCharts()
@@ -311,8 +314,7 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
 
         private void GetSelectMode()
         {
-            using var context = new Context();
-            SelectMode.AddRange(context.SelectModes.Select(x => x.Stage).ToList());
+            SelectMode.AddRange(_context.SelectModes.Select(x => x.Stage).ToList());
         }
 
         private void SetRelayLimits()

@@ -1,8 +1,15 @@
 ﻿using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Prism.Ioc;
 using Prism.Modularity;
+using Prism.Unity;
+using Serilog;
+using Serilog.Events;
+using Serilog.Extensions.Logging;
+using SmartThermo.DataAccess.Sqlite;
 using SmartThermo.Dialogs.Views;
 using SmartThermo.Modules.Analytics;
 using SmartThermo.Modules.DataViewer;
@@ -17,11 +24,8 @@ using SmartThermo.Services.Notifications;
 using SmartThermo.Views;
 using System;
 using System.Globalization;
+using System.Text;
 using System.Windows;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Prism.Unity;
-using SmartThermo.DataAccess.Sqlite;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Position;
@@ -61,6 +65,15 @@ namespace SmartThermo
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            var serilogLogger = Log.Logger = new LoggerConfiguration()
+                .WriteTo.File("log\\log.log", encoding: Encoding.UTF8,
+                    restrictedToMinimumLevel: LogEventLevel.Debug)
+                .WriteTo.File("log\\logError.log", encoding: Encoding.UTF8,
+                    restrictedToMinimumLevel: LogEventLevel.Error)
+                .CreateLogger();
+            var appLogger = new SerilogLoggerProvider(serilogLogger).CreateLogger("App");
+            containerRegistry.RegisterInstance(appLogger);
+
             var instance = new Notifications(new Notifier(cfg =>
             {
                 cfg.PositionProvider = new WindowPositionProvider(Current.MainWindow,
@@ -89,22 +102,15 @@ namespace SmartThermo
 
             PrismContainerExtension.Current.RegisterServices(s =>
             {
-                s.AddDbContextPool<Context>(options 
-                    => options.UseSqlite(@"Data Source=app.db"));
+                s.AddDbContext<Context>(options
+                    => options.UseSqlite(@"Data Source=app.db"),ServiceLifetime.Transient);
             });
         }
-        
+
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
             moduleCatalog.AddModule<DataViewerModule>();
             moduleCatalog.AddModule<AnalyticsModule>();
         }
-
-        // Альтернативное представление для отображения данных.
-        // Tooltip доработать. 
-        // -Tooltip и легенда для аналитики.
-        // -Запись null значений.
-        // -About изменить.
-        // -Refactoring имен для всех модулей.
     }
 }

@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DataAccess\SmartThermo.DataAccess.Sqlite\SmartThermo.DataAccess.Sqlite.csproj" />
     <ProjectReference Include="..\Services\SmartThermo.Services.DeviceConnector\SmartThermo.Services.DeviceConnector.csproj" />
     <ProjectReference Include="..\Services\SmartThermo.Services.Notifications\SmartThermo.Services.Notifications.csproj" />
   </ItemGroup>

@@ -1,23 +1,19 @@
 ﻿using Prism.Regions;
-using Prism.Services.Dialogs;
 using SmartThermo.Core;
 using SmartThermo.Core.Mvvm;
 using SmartThermo.Services.DeviceConnector;
 using SmartThermo.Services.DeviceConnector.Enums;
-using SmartThermo.Services.Notifications;
 
 namespace SmartThermo.Modules.DataViewer.ViewModels
 {
-    public class DataViewerWindowViewModel : RegionViewModelBase
+    public class DataViewerWindowViewModel : ViewModelBase
     {
-        public DataViewerWindowViewModel(IRegionManager regionManager, IDeviceConnector deviceConnector,
-            INotifications notifications, IDialogService dialogService)
-            : base(regionManager, deviceConnector, notifications, dialogService)
+        public DataViewerWindowViewModel(IDeviceConnector deviceConnector, IRegionManager regionManager)
         {
-            DeviceConnector.StatusConnectChanged += (_, connect) =>
+            deviceConnector.StatusConnectChanged += (_, connect) =>
             {
                 regionManager.RequestNavigate(RegionNames.DataViewerContent,
-                    DeviceConnector.StatusConnect == StatusConnect.Connected
+                    deviceConnector.StatusConnect == StatusConnect.Connected
                         ? "LoadDataViewerWindow"
                         : "NoLoadDataViewerWindow");
             };

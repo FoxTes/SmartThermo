@@ -54,7 +54,7 @@ namespace SmartThermo.Modules.Dialog.SettingsSensor.Helpers
                 throw new Exception("Операция прервана пользователем.");
 
             using var fs = new FileStream(saveFileDialog.FileName, FileMode.Create, FileAccess.Write);
-            IWorkbook workbook = new XSSFWorkbook();
+            var workbook = new XSSFWorkbook();
             var sheet = workbook.CreateSheet("Sheet1");
 
             var temperature = 0;

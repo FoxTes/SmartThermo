@@ -1,5 +1,6 @@
 ﻿using Prism.Regions;
 using Prism.Services.Dialogs;
+using SmartThermo.DataAccess.Sqlite;
 using SmartThermo.Services.DeviceConnector;
 using SmartThermo.Services.Notifications;
 using System;
@@ -12,14 +13,16 @@ namespace SmartThermo.Core.Mvvm
         protected IDialogService DialogService { get; }
         protected IDeviceConnector DeviceConnector { get; }
         protected INotifications Notifications { get; }
+        protected Context Context { get; }
 
         protected RegionViewModelBase(IRegionManager regionManager, IDeviceConnector deviceConnector, 
-            INotifications notifications, IDialogService dialogService)
+            INotifications notifications, IDialogService dialogService, Context context)
         {
             RegionManager = regionManager;
             DeviceConnector = deviceConnector;
             Notifications = notifications;
             DialogService = dialogService;
+            Context = context;
         }
 
         public virtual void ConfirmNavigationRequest(NavigationContext navigationContext, Action<bool> continuationCallback)

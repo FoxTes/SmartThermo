@@ -63,8 +63,9 @@ namespace SmartThermo.ViewModels
 
         #region Constructor
 
-        public MainWindowViewModel(IRegionManager regionManager, IDeviceConnector deviceConnector, INotifications notifications, IDialogService dialogService)
-            : base(regionManager, deviceConnector, notifications, dialogService)
+        public MainWindowViewModel(IRegionManager regionManager, IDeviceConnector deviceConnector, 
+            INotifications notifications, IDialogService dialogService, Context context)
+            : base(regionManager, deviceConnector, notifications, dialogService, context)
         {
             DeviceConnector.StatusConnectChanged += async (_, connect) =>
             {
@@ -103,10 +104,9 @@ namespace SmartThermo.ViewModels
         {
             CheckDatabaseCreate();
 
-            await using var context = new Context();
             try
             {
-                context.Add(new Session
+                Context.Add(new Session
                 {
                     DateCreate = DateTime.Now,
                     SensorGroups = new List<SensorGroup>
@@ -119,7 +119,7 @@ namespace SmartThermo.ViewModels
                         new SensorGroup { Name = "Шестая группа"},
                     }
                 });
-                await context.SaveChangesAsync().ConfigureAwait(false);
+                await Context.SaveChangesAsync().ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -131,10 +131,9 @@ namespace SmartThermo.ViewModels
             }
         }
 
-        private static void CheckDatabaseCreate()
+        private void CheckDatabaseCreate()
         {
-            using var context = new Context();
-            context.Database.EnsureCreated();
+            Context.Database.EnsureCreated();
         }
 
         private void ChangeConnectDeviceExecute()
@@ -172,7 +171,16 @@ namespace SmartThermo.ViewModels
             }, windowName: "NotificationWindowCloseButton");
         }
 
-        private void SettingSensorExecute() => DialogService.ShowNotification("SettingsSensorDialog", r => { }, windowName: "NotificationWindowCloseButton");
+        private void SettingSensorExecute()
+        {
+            if (SerialPort.GetPortNames().Length == 0)
+            {
+                Notifications.ShowError("В компьютере найдены активные COM порты.");
+                return;
+            }
+            DialogService.ShowNotification("SettingsSensorDialog", r => { }, 
+                windowName: "NotificationWindowCloseButton");
+        }
 
         private static void AboutExecute()
         {

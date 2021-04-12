@@ -20,6 +20,9 @@
     <PackageReference Include="Prism.Core" Version="8.0.0.1909" />
     <PackageReference Include="Prism.DryIoc" Version="8.0.0.1909" />
     <PackageReference Include="Prism.Unity.Extensions" Version="8.0.62" />
+    <PackageReference Include="Serilog" Version="2.10.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="3.0.1" />
+    <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
     <PackageReference Include="System.IO.Ports" Version="5.0.1" />
   </ItemGroup>
 
@@ -42,6 +45,34 @@
     <Reference Include="ToastNotifications.Messages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>..\Services\SmartThermo.Services.Notifications\dll\ToastNotifications.Messages.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="C:\Users\GLevchenko\.nuget\packages\prism.unity.extensions\8.0.62\buildTransitive\PreserveContainerExtension.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="C:\Users\GLevchenko\.nuget\packages\prism.unity.extensions\8.0.62\buildTransitive\PreserveContainerExtension.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="C:\Users\GLevchenko\.nuget\packages\prism.unity.extensions\8.0.62\buildTransitive\PreserveContainerExtension.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="C:\Users\GLevchenko\.nuget\packages\prism.unity.extensions\8.0.62\buildTransitive\PreserveContainerExtension.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="C:\Users\GLevchenko\.nuget\packages\prism.unity.extensions\8.0.62\buildTransitive\PreserveContainerExtension.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="C:\Users\GLevchenko\.nuget\packages\prism.unity.extensions\8.0.62\buildTransitive\PreserveContainerExtension.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="C:\Users\GLevchenko\.nuget\packages\prism.unity.extensions\8.0.62\buildTransitive\PreserveContainerExtension.cs" />
   </ItemGroup>
 
 </Project>

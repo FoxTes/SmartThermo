@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D7FE162C-D6BC-4F89-8DF9-1AEF427FA63B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartThermo.Modules.ModuleName.Tests", "tests\SmartThermo.Modules.ModuleName.Tests\SmartThermo.Modules.ModuleName.Tests.csproj", "{2287A522-9115-4AA4-BAD2-FCE701E6C2F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartThermo.SmartThermo.Core.Tests", "tests\SmartThermo.Modules.ModuleName.Tests\SmartThermo.SmartThermo.Core.Tests.csproj", "{2287A522-9115-4AA4-BAD2-FCE701E6C2F8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5F42908A-3D8C-44CB-BAA2-928DE22AAB17}"
 EndProject
@@ -33,7 +33,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartThermo.DataAccess.Sqli
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartThermo.Modules.Analytics", "src\Modules\SmartThermo.Modules.Analytics\SmartThermo.Modules.Analytics.csproj", "{707F9F26-F30A-4EE6-B80C-FB4D94428467}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartThermo.Modules.Dialog.SettingsSensor", "src\Modules\SmartThermo.Modules.Dialog.SettingsSensor\SmartThermo.Modules.Dialog.SettingsSensor.csproj", "{E8C8E4FD-80F0-4443-904A-4BF78DCA74DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartThermo.Modules.Dialog.SettingsSensor", "src\Modules\SmartThermo.Modules.Dialog.SettingsSensor\SmartThermo.Modules.Dialog.SettingsSensor.csproj", "{E8C8E4FD-80F0-4443-904A-4BF78DCA74DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

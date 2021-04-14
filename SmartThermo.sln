@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D7FE162C-D6BC-4F89-8DF9-1AEF427FA63B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartThermo.SmartThermo.Core.Tests", "tests\SmartThermo.Modules.ModuleName.Tests\SmartThermo.SmartThermo.Core.Tests.csproj", "{2287A522-9115-4AA4-BAD2-FCE701E6C2F8}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5F42908A-3D8C-44CB-BAA2-928DE22AAB17}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartThermo", "src\SmartThermo\SmartThermo.csproj", "{79CC3348-9C1A-4399-A552-933148DCC102}"
@@ -35,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartThermo.Modules.Analyti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartThermo.Modules.Dialog.SettingsSensor", "src\Modules\SmartThermo.Modules.Dialog.SettingsSensor\SmartThermo.Modules.Dialog.SettingsSensor.csproj", "{E8C8E4FD-80F0-4443-904A-4BF78DCA74DE}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartThermo.SmartThermo.Core.Tests", "tests\SmartThermo.SmartThermo.Core.Tests\SmartThermo.SmartThermo.Core.Tests.csproj", "{A80C5CCC-2D81-42E9-ABAE-F179035B814B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,18 +45,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2287A522-9115-4AA4-BAD2-FCE701E6C2F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2287A522-9115-4AA4-BAD2-FCE701E6C2F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2287A522-9115-4AA4-BAD2-FCE701E6C2F8}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{2287A522-9115-4AA4-BAD2-FCE701E6C2F8}.Debug|x64.Build.0 = Debug|Any CPU
-		{2287A522-9115-4AA4-BAD2-FCE701E6C2F8}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{2287A522-9115-4AA4-BAD2-FCE701E6C2F8}.Debug|x86.Build.0 = Debug|Any CPU
-		{2287A522-9115-4AA4-BAD2-FCE701E6C2F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2287A522-9115-4AA4-BAD2-FCE701E6C2F8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2287A522-9115-4AA4-BAD2-FCE701E6C2F8}.Release|x64.ActiveCfg = Release|Any CPU
-		{2287A522-9115-4AA4-BAD2-FCE701E6C2F8}.Release|x64.Build.0 = Release|Any CPU
-		{2287A522-9115-4AA4-BAD2-FCE701E6C2F8}.Release|x86.ActiveCfg = Release|Any CPU
-		{2287A522-9115-4AA4-BAD2-FCE701E6C2F8}.Release|x86.Build.0 = Release|Any CPU
 		{79CC3348-9C1A-4399-A552-933148DCC102}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{79CC3348-9C1A-4399-A552-933148DCC102}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79CC3348-9C1A-4399-A552-933148DCC102}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -177,12 +165,23 @@ Global
 		{E8C8E4FD-80F0-4443-904A-4BF78DCA74DE}.Release|x64.Build.0 = Release|Any CPU
 		{E8C8E4FD-80F0-4443-904A-4BF78DCA74DE}.Release|x86.ActiveCfg = Release|Any CPU
 		{E8C8E4FD-80F0-4443-904A-4BF78DCA74DE}.Release|x86.Build.0 = Release|Any CPU
+		{A80C5CCC-2D81-42E9-ABAE-F179035B814B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A80C5CCC-2D81-42E9-ABAE-F179035B814B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A80C5CCC-2D81-42E9-ABAE-F179035B814B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A80C5CCC-2D81-42E9-ABAE-F179035B814B}.Debug|x64.Build.0 = Debug|Any CPU
+		{A80C5CCC-2D81-42E9-ABAE-F179035B814B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A80C5CCC-2D81-42E9-ABAE-F179035B814B}.Debug|x86.Build.0 = Debug|Any CPU
+		{A80C5CCC-2D81-42E9-ABAE-F179035B814B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A80C5CCC-2D81-42E9-ABAE-F179035B814B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A80C5CCC-2D81-42E9-ABAE-F179035B814B}.Release|x64.ActiveCfg = Release|Any CPU
+		{A80C5CCC-2D81-42E9-ABAE-F179035B814B}.Release|x64.Build.0 = Release|Any CPU
+		{A80C5CCC-2D81-42E9-ABAE-F179035B814B}.Release|x86.ActiveCfg = Release|Any CPU
+		{A80C5CCC-2D81-42E9-ABAE-F179035B814B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{2287A522-9115-4AA4-BAD2-FCE701E6C2F8} = {D7FE162C-D6BC-4F89-8DF9-1AEF427FA63B}
 		{79CC3348-9C1A-4399-A552-933148DCC102} = {5F42908A-3D8C-44CB-BAA2-928DE22AAB17}
 		{B08BF00D-B1E0-489A-BFC4-CBC34625858D} = {5F42908A-3D8C-44CB-BAA2-928DE22AAB17}
 		{87BD6B81-EF1B-478E-BBB4-A0A40B1B6119} = {5F42908A-3D8C-44CB-BAA2-928DE22AAB17}
@@ -196,6 +195,7 @@ Global
 		{D3E8A304-418C-4640-8B75-98C4BFE584D5} = {981AC072-074C-400A-983B-2EE6A0CDE983}
 		{707F9F26-F30A-4EE6-B80C-FB4D94428467} = {87BD6B81-EF1B-478E-BBB4-A0A40B1B6119}
 		{E8C8E4FD-80F0-4443-904A-4BF78DCA74DE} = {87BD6B81-EF1B-478E-BBB4-A0A40B1B6119}
+		{A80C5CCC-2D81-42E9-ABAE-F179035B814B} = {D7FE162C-D6BC-4F89-8DF9-1AEF427FA63B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B511AF63-B8BD-4505-A278-DA0B0CCAA472}

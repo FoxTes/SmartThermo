@@ -1,7 +1,7 @@
 using SmartThermo.Core.Extensions;
 using Xunit;
 
-namespace SmartThermo.Modules.ModuleName.Tests
+namespace SmartThermo.SmartThermo.Core.Tests
 {
     public class Extensions
     {

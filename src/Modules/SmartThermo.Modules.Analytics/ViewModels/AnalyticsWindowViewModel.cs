@@ -38,11 +38,12 @@ namespace SmartThermo.Modules.Analytics.ViewModels
             Color.FromArgb(0xff, 0x6e, 0x54),
             Color.FromArgb(0xff, 0xa6, 0x00)
         };
-        
+
         private WpfPlot _plotControl;
         private Plot _plot;
         private VLine _vLine;
 
+        private int _selectCountRecordSelected;
         private int _sensorGroupSelected;
         private ObservableCollection<ItemDescriptor<bool>> _groupCheckItems = new ObservableCollection<ItemDescriptor<bool>>();
         private ObservableCollection<ItemDescriptor<System.Windows.Media.Brush>> _legendItems = new ObservableCollection<ItemDescriptor<System.Windows.Media.Brush>>();
@@ -54,7 +55,7 @@ namespace SmartThermo.Modules.Analytics.ViewModels
         private bool _isLoadCurrentSession = true;
         private bool _isLoadData;
         private bool _isUpdateChart;
-        
+
         #endregion
 
         #region Property
@@ -63,6 +64,14 @@ namespace SmartThermo.Modules.Analytics.ViewModels
         {
             get => _plotControl;
             set => SetProperty(ref _plotControl, value);
+        }
+
+        public List<ItemDescriptor<int>> SelectCountRecord { get; }
+
+        public int SelectCountRecordSelected
+        {
+            get => _selectCountRecordSelected;
+            set => SetProperty(ref _selectCountRecordSelected, value);
         }
 
         public List<ItemDescriptor<int>> SensorGroups { get; }
@@ -122,6 +131,11 @@ namespace SmartThermo.Modules.Analytics.ViewModels
             : base(regionManager, deviceConnector, notifications, dialogService, context)
         {
             _timer = new Timer((state) => _isUpdateChart = false, 0, Timeout.Infinite, Timeout.Infinite);
+
+            SelectCountRecord = Enumerable.Range(0, 6)
+                .Select(x => new ItemDescriptor<int>($"{Math.Pow(10, x + 2)} записей", x))
+                .ToList();
+            SelectCountRecordSelected = 0;
 
             SensorGroups = Enumerable.Range(0, 6)
                 .Select(x => new ItemDescriptor<int>($"Группа №{x + 1}", x))
@@ -289,7 +303,7 @@ namespace SmartThermo.Modules.Analytics.ViewModels
                 LegendValueItems.Add(result[0].Value6);
             }
             _vLine = _plot.AddVerticalLine(dateTime[0], Color.Red, 2, LineStyle.Dash);
-   
+
             _plot.AxisAutoX();
             _plot.SetAxisLimitsY(0, 165);
             PlotControl.Render();

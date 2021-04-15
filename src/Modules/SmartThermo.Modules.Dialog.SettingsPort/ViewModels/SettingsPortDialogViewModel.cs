@@ -1,5 +1,7 @@
-﻿using Prism.Commands;
+﻿using Microsoft.Extensions.Logging;
+using Prism.Commands;
 using Prism.Services.Dialogs;
+using SmartThermo.Core.Enums;
 using SmartThermo.Core.Mvvm;
 using SmartThermo.Services.DeviceConnector;
 using SmartThermo.Services.DeviceConnector.Models;
@@ -8,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO.Ports;
-using SmartThermo.Core.Enums;
 
 namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
 {
@@ -16,6 +17,7 @@ namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
     {
         #region Field
 
+        private readonly ILogger _logger;
         private readonly IDeviceConnector _deviceConnector;
         private readonly INotifications _notifications;
 
@@ -105,10 +107,11 @@ namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
 
         #region Constructor
 
-        public SettingsPortDialogViewModel(IDeviceConnector deviceConnector, INotifications notifications)
+        public SettingsPortDialogViewModel(IDeviceConnector deviceConnector, INotifications notifications, ILogger logger)
         {
             _deviceConnector = deviceConnector;
             _notifications = notifications;
+            _logger = logger;
 
             UploadingDataSources();
             SetDefaultSettings();
@@ -140,14 +143,16 @@ namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
             {
                 await _deviceConnector.Open();
             }
-            catch (TimeoutException)
+            catch (TimeoutException ex)
             {
                 _notifications.ShowWarning("Не удалось считать настройки устройства. Устройство не отвечает.");
+                _logger.LogError(ex.ToString() + "\n");
                 _deviceConnector.Close(false);
             }
             catch (Exception ex)
             {
                 _notifications.ShowWarning("Не удалось открыть соединение.\n" + ex.Message);
+                _logger.LogError(ex.ToString() + "\n");
                 _deviceConnector.Close(false);
             }
             finally

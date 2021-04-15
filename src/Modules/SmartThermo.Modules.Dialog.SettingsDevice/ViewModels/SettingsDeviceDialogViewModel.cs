@@ -14,6 +14,7 @@ using System.IO.Ports;
 using System.Linq;
 using SmartThermo.Core.Enums;
 using SmartThermo.Core.Models;
+using Microsoft.Extensions.Logging;
 
 namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
 {
@@ -21,6 +22,7 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
     {
         #region Field
 
+        private readonly ILogger _logger;
         private readonly IDeviceConnector _deviceConnector;
         private readonly INotifications _notifications;
 
@@ -166,10 +168,11 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
 
         #region Constructor
 
-        public SettingsDeviceDialogViewModel(IDeviceConnector deviceConnector, INotifications notifications)
+        public SettingsDeviceDialogViewModel(IDeviceConnector deviceConnector, INotifications notifications, ILogger logger)
         {
             _deviceConnector = deviceConnector;
             _notifications = notifications;
+            _logger = logger;
 
             _dataGroupCheckItems.Add(_deviceConnector.SettingDevice.BindingSensorRelay1);
             _dataGroupCheckItems.Add(_deviceConnector.SettingDevice.BindingSensorRelay2);
@@ -242,9 +245,10 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
                 _notifications.ShowInformation("Настройки успешно записаны.");
                 isSuccessful = true;
             }
-            catch (TimeoutException)
+            catch (TimeoutException ex)
             {
                 _notifications.ShowWarning("Не удалось записать настройки устройства. Устройство не отвечает.");
+                _logger.LogError(ex.ToString() + "\n");
                 _deviceConnector.Close();
             }
             catch (NotImplementedException)
@@ -259,6 +263,7 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
             catch (Exception ex)
             {
                 _notifications.ShowWarning("Не удалось записать настройки устройства.\n" + ex.Message);
+                _logger.LogError(ex.ToString() + "\n");
                 _deviceConnector.Close();
             }
             finally

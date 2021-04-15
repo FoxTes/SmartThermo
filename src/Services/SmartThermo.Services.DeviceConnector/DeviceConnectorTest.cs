@@ -22,7 +22,7 @@ namespace SmartThermo.Services.DeviceConnector
         #region Const
 
         private const int TimeStart = 1;
-        private const int TimePeriod = 1;
+        private const int TimePeriod = 3;
 
         #endregion
 

@@ -2,11 +2,12 @@
 
 Application for data monitoring, analysis of temperature sensors of the 'SmartThermo' system.
 
-Main menu
-![1](https://user-images.githubusercontent.com/55885862/114876767-b5662380-9e0f-11eb-98e6-dcb9a7e530e7.png)
+### Main menu
+![3](https://user-images.githubusercontent.com/55885862/114902383-d25a2100-9e26-11eb-8a1e-629baf8f1e74.gif)
+____
+### Recorded data analytics
+![2](https://user-images.githubusercontent.com/55885862/114901723-231d4a00-9e26-11eb-8106-20bda2900c67.gif)
 
-Recorded data analytics
-![2](https://user-images.githubusercontent.com/55885862/114876778-b8611400-9e0f-11eb-8806-5c04d10c60b6.png)
 
 ## 🚀 Getting Started
 

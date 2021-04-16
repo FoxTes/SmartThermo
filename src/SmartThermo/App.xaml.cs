@@ -66,8 +66,8 @@ namespace SmartThermo
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             var serilogLogger = Log.Logger = new LoggerConfiguration()
-                .WriteTo.File("log\\log.log", encoding: Encoding.UTF8,
-                    restrictedToMinimumLevel: LogEventLevel.Debug)
+                .WriteTo.File("log\\logModbus.log", encoding: Encoding.UTF8,
+                    restrictedToMinimumLevel: LogEventLevel.Information)
                 .WriteTo.File("log\\logError.log", encoding: Encoding.UTF8,
                     restrictedToMinimumLevel: LogEventLevel.Error)
                 .CreateLogger();

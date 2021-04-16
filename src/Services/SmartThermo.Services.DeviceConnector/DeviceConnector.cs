@@ -1,6 +1,10 @@
-﻿using NModbus;
+﻿using Microsoft.Extensions.Logging;
+using NModbus;
+using NModbus.Logging;
 using NModbus.Serial;
 using SmartThermo.Services.DeviceConnector.Enums;
+using SmartThermo.Services.DeviceConnector.Extensions;
+using SmartThermo.Services.DeviceConnector.Helpers;
 using SmartThermo.Services.DeviceConnector.Models;
 using SmartThermo.Services.Notifications;
 using System;
@@ -9,7 +13,6 @@ using System.IO.Ports;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using SmartThermo.Services.DeviceConnector.Extensions;
 
 namespace SmartThermo.Services.DeviceConnector
 {
@@ -54,10 +57,10 @@ namespace SmartThermo.Services.DeviceConnector
 
         #region Constructor
 
-        public DeviceConnector(INotifications notifications)
+        public DeviceConnector(INotifications notifications, ILogger logger)
         {
             _serialPort = new SerialPort();
-            _modbusFactory = new ModbusFactory();
+            _modbusFactory = new ModbusFactory(logger: new ModbusSerilog(LoggingLevel.Trace, logger));
             _timer = new Timer(OnTimer, 0, Timeout.Infinite, Timeout.Infinite);
 
             _notifications = notifications;

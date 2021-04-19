@@ -3,6 +3,7 @@ using Prism.Commands;
 using Prism.Services.Dialogs;
 using SmartThermo.Core.Enums;
 using SmartThermo.Core.Mvvm;
+using SmartThermo.DataAccess.Sqlite;
 using SmartThermo.Services.DeviceConnector;
 using SmartThermo.Services.DeviceConnector.Models;
 using SmartThermo.Services.Notifications;
@@ -10,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO.Ports;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
 {
@@ -20,6 +23,7 @@ namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
         private readonly ILogger _logger;
         private readonly IDeviceConnector _deviceConnector;
         private readonly INotifications _notifications;
+        private readonly Context _context;
 
         private byte _addressDeviceSelected;
         private List<byte> _addressDevice;
@@ -107,11 +111,13 @@ namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
 
         #region Constructor
 
-        public SettingsPortDialogViewModel(IDeviceConnector deviceConnector, INotifications notifications, ILogger logger)
+        public SettingsPortDialogViewModel(IDeviceConnector deviceConnector, INotifications notifications, 
+            ILogger logger, Context context)
         {
             _deviceConnector = deviceConnector;
             _notifications = notifications;
             _logger = logger;
+            _context = context;
 
             UploadingDataSources();
             SetDefaultSettings();
@@ -141,18 +147,19 @@ namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
             };
             try
             {
+                await SetDefaultSettingsToDatabase();
                 await _deviceConnector.Open();
             }
             catch (TimeoutException ex)
             {
                 _notifications.ShowWarning("Не удалось считать настройки устройства. Устройство не отвечает.");
-                _logger.LogError(ex.ToString() + "\n");
+                _logger.LogError("{@Ex}\n", ex);
                 _deviceConnector.Close(false);
             }
             catch (Exception ex)
             {
                 _notifications.ShowWarning("Не удалось открыть соединение.\n" + ex.Message);
-                _logger.LogError(ex.ToString() + "\n");
+                _logger.LogError("{@Ex}\n", ex);
                 _deviceConnector.Close(false);
             }
             finally
@@ -176,13 +183,30 @@ namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
 
         private void SetDefaultSettings()
         {
-            PortNameSelected = PortName[0];
-            AddressDeviceSelected = 3;
-            BaudRateSelected = BaudRate.S9600;
+            var setting = _context.Settings.First();
+
+            PortNameSelected = PortName.FirstOrDefault(x => x == setting.PortNameSelected) ?? PortName[0];
+            AddressDeviceSelected = AddressDevice.FirstOrDefault(x => x == setting.AddressDeviceSelected);
+            BaudRateSelected = (BaudRate)Enum.Parse(typeof(BaudRate), setting.BaudRateSelected ?? "9600");
             StopBitsSelected = StopBits.One;
             ParitySelected = Parity.None;
             ReadTimeout = 250;
             WriteTimeout = 250;
+        }
+
+        private async Task SetDefaultSettingsToDatabase()
+        {
+            var taskChangeSetting = Task.Run(() =>
+            {
+                var setting = _context.Settings.First();
+
+                setting.PortNameSelected = PortNameSelected;
+                setting.AddressDeviceSelected = AddressDeviceSelected;
+                setting.BaudRateSelected = BaudRateSelected.ToString();
+
+                return _context.SaveChanges();
+            });
+            await Task.WhenAll(taskChangeSetting);
         }
 
         #endregion

@@ -239,6 +239,7 @@ namespace SmartThermo.Modules.Analytics.ViewModels
             {
                 return Context.SensorInformations
                     .Where(x => x.SensorGroupId == _groupSensorId[_sensorGroupSelected])
+                    .AsEnumerable()
                     .TakeLastEx(x => x.Id, (int)Math.Pow(10, _selectCountRecordSelected + 2))
                     .ToList();
             });

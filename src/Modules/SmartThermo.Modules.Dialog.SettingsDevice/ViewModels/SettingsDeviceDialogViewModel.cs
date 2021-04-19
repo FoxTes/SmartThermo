@@ -248,7 +248,7 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
             catch (TimeoutException ex)
             {
                 _notifications.ShowWarning("Не удалось записать настройки устройства. Устройство не отвечает.");
-                _logger.LogError(ex.ToString() + "\n");
+                _logger.LogError("{@Ex}\n", ex);
                 _deviceConnector.Close();
             }
             catch (NotImplementedException)
@@ -263,7 +263,7 @@ namespace SmartThermo.Modules.Dialog.SettingsDevice.ViewModels
             catch (Exception ex)
             {
                 _notifications.ShowWarning("Не удалось записать настройки устройства.\n" + ex.Message);
-                _logger.LogError(ex.ToString() + "\n");
+                _logger.LogError("{@Ex}\n", ex);
                 _deviceConnector.Close();
             }
             finally

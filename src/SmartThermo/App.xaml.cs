@@ -15,7 +15,6 @@ using SmartThermo.Modules.Dialog.SettingsPort.ViewModels;
 using SmartThermo.Modules.Dialog.SettingsPort.Views;
 using SmartThermo.Modules.Dialog.SettingsSensor.ViewModels;
 using SmartThermo.Modules.Dialog.SettingsSensor.Views;
-using SmartThermo.Modules.Settings;
 using SmartThermo.Services.DeviceConnector;
 using SmartThermo.Services.Notifications;
 using SmartThermo.Views;
@@ -94,6 +93,7 @@ namespace SmartThermo
             containerRegistry.RegisterDialog<SettingsPortDialog, SettingsPortDialogViewModel>();
             containerRegistry.RegisterDialog<SettingsDeviceDialog, SettingsDeviceDialogViewModel>();
             containerRegistry.RegisterDialog<SettingsSensorDialog, SettingsSensorDialogViewModel>();
+
             containerRegistry.RegisterDialogWindow<NotificationWindow>("NotificationWindow");
             containerRegistry.RegisterDialogWindow<NotificationWindowCloseButton>("NotificationWindowCloseButton");
         }
@@ -102,7 +102,6 @@ namespace SmartThermo
         {
             moduleCatalog.AddModule<DataViewerModule>();
             moduleCatalog.AddModule<AnalyticsModule>();
-            moduleCatalog.AddModule<SettingsModule>();
         }
     }
 }

@@ -192,18 +192,11 @@ namespace SmartThermo.ViewModels
 
         private void NavigationViewInvokedExecute(NavigationViewItemInvokedEventArgs obj)
         {
-            if (obj.IsSettingsInvoked)
-            {
-                LabelView = "Настройки";
-                RegionManager.RequestNavigate(RegionNames.MainContent, "SettingsWindow");
-            }
-            else
-            {
-                LabelView = obj.InvokedItem.ToString();
+            LabelView = obj.InvokedItem.ToString();
 
-                var nameRegion = obj.InvokedItemContainer.Tag.ToString();
-                RegionManager.RequestNavigate(RegionNames.MainContent, nameRegion);
-            }
+            var nameRegion = obj.InvokedItemContainer.Tag.ToString();
+            RegionManager.RequestNavigate(RegionNames.MainContent, nameRegion);
+
         }
 
         #endregion

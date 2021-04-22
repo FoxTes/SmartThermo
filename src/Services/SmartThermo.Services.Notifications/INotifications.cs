@@ -1,9 +1,12 @@
-﻿using ToastNotifications.Core;
+﻿using ToastNotifications;
+using ToastNotifications.Core;
 
 namespace SmartThermo.Services.Notifications
 {
     public interface INotifications
     {
+        public void SetNewInstanceNotifier(Notifier notifier);
+
         /// <summary>
         /// Показывает уведомление со статусом информации.
         /// </summary>

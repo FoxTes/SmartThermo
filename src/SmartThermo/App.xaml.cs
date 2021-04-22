@@ -1,15 +1,11 @@
 ﻿using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Prism.Ioc;
 using Prism.Modularity;
-using Prism.Unity;
 using Serilog;
 using Serilog.Events;
 using Serilog.Extensions.Logging;
-using SmartThermo.DataAccess.Sqlite;
 using SmartThermo.Dialogs.Views;
 using SmartThermo.Modules.Analytics;
 using SmartThermo.Modules.DataViewer;
@@ -19,6 +15,7 @@ using SmartThermo.Modules.Dialog.SettingsPort.ViewModels;
 using SmartThermo.Modules.Dialog.SettingsPort.Views;
 using SmartThermo.Modules.Dialog.SettingsSensor.ViewModels;
 using SmartThermo.Modules.Dialog.SettingsSensor.Views;
+using SmartThermo.Modules.Settings;
 using SmartThermo.Services.DeviceConnector;
 using SmartThermo.Services.Notifications;
 using SmartThermo.Views;
@@ -99,18 +96,13 @@ namespace SmartThermo
             containerRegistry.RegisterDialog<SettingsSensorDialog, SettingsSensorDialogViewModel>();
             containerRegistry.RegisterDialogWindow<NotificationWindow>("NotificationWindow");
             containerRegistry.RegisterDialogWindow<NotificationWindowCloseButton>("NotificationWindowCloseButton");
-
-            PrismContainerExtension.Current.RegisterServices(s =>
-            {
-                s.AddDbContext<Context>(options
-                    => options.UseSqlite(@"Data Source=app.db"), ServiceLifetime.Transient);
-            });
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
             moduleCatalog.AddModule<DataViewerModule>();
             moduleCatalog.AddModule<AnalyticsModule>();
+            moduleCatalog.AddModule<SettingsModule>();
         }
     }
 }

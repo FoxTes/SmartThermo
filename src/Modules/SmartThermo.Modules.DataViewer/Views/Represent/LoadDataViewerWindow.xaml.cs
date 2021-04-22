@@ -3,7 +3,7 @@
 namespace SmartThermo.Modules.DataViewer.Views.Represent
 {
     /// <summary>
-    /// Interaction logic for ViewA.xaml
+    /// Interaction logic for LoadDataViewerWindow.xaml
     /// </summary>
     public partial class LoadDataViewerWindow : UserControl
     {

@@ -7,14 +7,20 @@ namespace SmartThermo.Services.Notifications
 {
     public class Notifications : INotifications
     {
-        private readonly Notifier _notifier;
+        private Notifier _notifier;
         
         public Notifications(Notifier notifier)
         {
             _notifier = notifier;
             _notifier.ClearMessages(new ClearAll());
         }
-        
+
+        public void SetNewInstanceNotifier(Notifier notifier)
+        {
+            _notifier?.ClearMessages(new ClearAll());
+            _notifier = notifier;
+        }
+
         public void ShowInformation(string message)
         {
             _notifier.ShowInformation(message);

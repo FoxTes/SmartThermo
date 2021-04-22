@@ -4,7 +4,7 @@ using NModbus.Logging;
 
 namespace SmartThermo.Services.DeviceConnector.Helpers
 {
-    public class ModbusSerilog : ModbusLogger, IModbusLogger
+    public class ModbusSerilog : ModbusLogger
     {
         private readonly ILogger _logger;
 
@@ -15,7 +15,7 @@ namespace SmartThermo.Services.DeviceConnector.Helpers
 
         protected override void LogCore(LoggingLevel level, string message)
         {
-            _logger.LogInformation(message + "\n");
+            _logger.LogInformation("{@Message}\n", message);
         }
     }
 }

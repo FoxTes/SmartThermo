@@ -15,7 +15,6 @@ namespace SmartThermo.Modules.Analytics.Dialogs.ViewModels
     {
         #region Field
 
-        private readonly Context _context;
         private readonly INotifications _notifications;
         private ObservableCollection<SessionInfo> _sessionItems = new ObservableCollection<SessionInfo>();
         private bool _checkCurrentSession;
@@ -55,9 +54,8 @@ namespace SmartThermo.Modules.Analytics.Dialogs.ViewModels
         
         #region Constructor
 
-        public SessionDialogViewModel(INotifications notifications, Context context)
+        public SessionDialogViewModel(INotifications notifications)
         {
-            _context = context;
             _notifications = notifications;
 
             GetSessionInfo().AwaitEx(() => { },
@@ -99,9 +97,10 @@ namespace SmartThermo.Modules.Analytics.Dialogs.ViewModels
             
             var sessionDeleteTask = Task.Run(() =>
             {
-                var session = _context.Sessions.First(x => x.Id == _sessionItems[_sessionItemsSelected].Id);
-                _context.Remove(session);
-                _context.SaveChanges();
+                using var context = new Context();
+                var session = context.Sessions.First(x => x.Id == _sessionItems[_sessionItemsSelected].Id);
+                context.Remove(session);
+                context.SaveChanges();
             });
             await Task.WhenAll(sessionDeleteTask);
             
@@ -116,12 +115,13 @@ namespace SmartThermo.Modules.Analytics.Dialogs.ViewModels
 
             var sessionDeleteTask = Task.Run(() =>
             {
-                var sessions = _context.Sessions
+                using var context = new Context();
+                var sessions = context.Sessions
                     .OrderByDescending(x => x.DateCreate)
                     .Skip(1)
                     .ToList();
-                _context.RemoveRange(sessions);
-                _context.SaveChanges();
+                context.RemoveRange(sessions);
+                context.SaveChanges();
             });
             await Task.WhenAll(sessionDeleteTask);
 
@@ -144,13 +144,14 @@ namespace SmartThermo.Modules.Analytics.Dialogs.ViewModels
         {
             var sessionInfoTask = Task.Run(() =>
             {
-                return _context.Sessions
+                using var context = new Context();
+                return context.Sessions
                     .OrderByDescending(x => x.DateCreate)
                     .Select(x => new SessionInfo
                     {
                         Id = x.Id,
                         DateCreate = x.DateCreate,
-                        CountRecord = _context.SensorInformations
+                        CountRecord = context.SensorInformations
                             .Count(y => y.SensorGroup.SessionId == x.Id 
                                      && y.SensorGroup.Name == "Первая группа")
                     })

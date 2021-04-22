@@ -23,7 +23,6 @@ namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
         private readonly ILogger _logger;
         private readonly IDeviceConnector _deviceConnector;
         private readonly INotifications _notifications;
-        private readonly Context _context;
 
         private byte _addressDeviceSelected;
         private List<byte> _addressDevice;
@@ -117,7 +116,6 @@ namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
             _deviceConnector = deviceConnector;
             _notifications = notifications;
             _logger = logger;
-            _context = context;
 
             UploadingDataSources();
             SetDefaultSettings();
@@ -183,7 +181,8 @@ namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
 
         private void SetDefaultSettings()
         {
-            var setting = _context.Settings.First();
+            using var context = new Context();
+            var setting = context.Settings.First();
 
             PortNameSelected = PortName.FirstOrDefault(x => x == setting.PortNameSelected) ?? PortName[0];
             AddressDeviceSelected = AddressDevice.FirstOrDefault(x => x == setting.AddressDeviceSelected);
@@ -198,13 +197,14 @@ namespace SmartThermo.Modules.Dialog.SettingsPort.ViewModels
         {
             var taskChangeSetting = Task.Run(() =>
             {
-                var setting = _context.Settings.First();
+                using var context = new Context();
+                var setting = context.Settings.First();
 
                 setting.PortNameSelected = PortNameSelected;
                 setting.AddressDeviceSelected = AddressDeviceSelected;
                 setting.BaudRateSelected = BaudRateSelected.ToString();
 
-                return _context.SaveChanges();
+                return context.SaveChanges();
             });
             await Task.WhenAll(taskChangeSetting);
         }

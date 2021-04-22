@@ -63,9 +63,9 @@ namespace SmartThermo.ViewModels
 
         #region Constructor
 
-        public MainWindowViewModel(IRegionManager regionManager, IDeviceConnector deviceConnector, 
-            INotifications notifications, IDialogService dialogService, Context context)
-            : base(regionManager, deviceConnector, notifications, dialogService, context)
+        public MainWindowViewModel(IRegionManager regionManager, IDeviceConnector deviceConnector,
+            INotifications notifications, IDialogService dialogService)
+            : base(regionManager, deviceConnector, notifications, dialogService)
         {
             DeviceConnector.StatusConnectChanged += async (_, connect) =>
             {
@@ -106,7 +106,8 @@ namespace SmartThermo.ViewModels
 
             try
             {
-                Context.Add(new Session
+                using var context = new Context();
+                context.Add(new Session
                 {
                     DateCreate = DateTime.Now,
                     SensorGroups = new List<SensorGroup>
@@ -119,7 +120,7 @@ namespace SmartThermo.ViewModels
                         new SensorGroup { Name = "Шестая группа"},
                     }
                 });
-                await Context.SaveChangesAsync().ConfigureAwait(false);
+                await context.SaveChangesAsync().ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -133,7 +134,8 @@ namespace SmartThermo.ViewModels
 
         private void CheckDatabaseCreate()
         {
-            Context.Database.EnsureCreated();
+            using var context = new Context();
+            context.Database.EnsureCreated();
         }
 
         private void ChangeConnectDeviceExecute()
@@ -178,7 +180,7 @@ namespace SmartThermo.ViewModels
                 Notifications.ShowError("В компьютере найдены активные COM порты.");
                 return;
             }
-            DialogService.ShowNotification("SettingsSensorDialog", r => { }, 
+            DialogService.ShowNotification("SettingsSensorDialog", r => { },
                 windowName: "NotificationWindowCloseButton");
         }
 
@@ -190,10 +192,18 @@ namespace SmartThermo.ViewModels
 
         private void NavigationViewInvokedExecute(NavigationViewItemInvokedEventArgs obj)
         {
-            LabelView = obj.InvokedItem.ToString();
+            if (obj.IsSettingsInvoked)
+            {
+                LabelView = "Настройки";
+                RegionManager.RequestNavigate(RegionNames.MainContent, "SettingsWindow");
+            }
+            else
+            {
+                LabelView = obj.InvokedItem.ToString();
 
-            var nameRegion = obj.InvokedItemContainer.Tag.ToString();
-            RegionManager.RequestNavigate(RegionNames.MainContent, nameRegion);
+                var nameRegion = obj.InvokedItemContainer.Tag.ToString();
+                RegionManager.RequestNavigate(RegionNames.MainContent, nameRegion);
+            }
         }
 
         #endregion

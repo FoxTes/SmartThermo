@@ -127,8 +127,8 @@ namespace SmartThermo.Modules.Analytics.ViewModels
         #region Constuctor
 
         public AnalyticsWindowViewModel(IRegionManager regionManager, IDeviceConnector deviceConnector,
-            INotifications notifications, IDialogService dialogService, Context context)
-            : base(regionManager, deviceConnector, notifications, dialogService, context)
+            INotifications notifications, IDialogService dialogService)
+            : base(regionManager, deviceConnector, notifications, dialogService)
         {
             _timer = new Timer((state) => _isUpdateChart = false, 0, Timeout.Infinite, Timeout.Infinite);
 
@@ -182,7 +182,8 @@ namespace SmartThermo.Modules.Analytics.ViewModels
         {
             var idTask = Task.Run(() =>
             {
-                return Context.Sessions
+                using var context = new Context();
+                return context.Sessions
                     .Max(p => p.Id);
             });
             await Task.WhenAll(idTask);
@@ -190,7 +191,8 @@ namespace SmartThermo.Modules.Analytics.ViewModels
 
             var dataCreateTask = Task.Run(() =>
             {
-                return Context.Sessions
+                using var context = new Context();
+                return context.Sessions
                     .Where(x => x.Id == sessionId)
                     .Select(x => x.DateCreate)
                     .FirstOrDefault();
@@ -202,7 +204,8 @@ namespace SmartThermo.Modules.Analytics.ViewModels
 
             var groupIdTask = Task.Run(() =>
             {
-                return Context.GroupSensors
+                using var context = new Context();
+                return context.GroupSensors
                     .Where(x => x.SessionId == sessionId)
                     .Select(x => x.Id)
                     .ToList();
@@ -217,7 +220,8 @@ namespace SmartThermo.Modules.Analytics.ViewModels
         {
             var task = Task.Run(() =>
             {
-                return Context.SensorInformations
+                using var context = new Context();
+                return context.SensorInformations
                     .Count(x => x.SensorGroupId == _groupSensorId[_sensorGroupSelected]);
             });
             await Task.WhenAll(task);
@@ -237,7 +241,8 @@ namespace SmartThermo.Modules.Analytics.ViewModels
 
             var getItemsTask = Task.Run(() =>
             {
-                return Context.SensorInformations
+                using var context = new Context();
+                return context.SensorInformations
                     .Where(x => x.SensorGroupId == _groupSensorId[_sensorGroupSelected])
                     .AsEnumerable()
                     .TakeLastEx(x => x.Id, (int)Math.Pow(10, _selectCountRecordSelected + 2))
@@ -351,7 +356,8 @@ namespace SmartThermo.Modules.Analytics.ViewModels
                             {
                                 var dataCreateTask = Task.Run(() =>
                                 {
-                                    return Context.Sessions
+                                    using var context = new Context();
+                                    return context.Sessions
                                         .Where(x => x.Id == _currentSessionId)
                                         .Select(x => x.DateCreate)
                                         .FirstOrDefault();
@@ -363,7 +369,8 @@ namespace SmartThermo.Modules.Analytics.ViewModels
 
                                 var groupIdTask = Task.Run(() =>
                                 {
-                                    return Context.GroupSensors
+                                    using var context = new Context();
+                                    return context.GroupSensors
                                         .Where(x => x.SessionId == _currentSessionId)
                                         .Select(x => x.Id)
                                         .ToList();

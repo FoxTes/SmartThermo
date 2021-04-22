@@ -15,9 +15,6 @@ namespace SmartThermo.DataAccess.Sqlite
 
         public DbSet<SelectMode> SelectModes { get; set; }
 
-        public Context(DbContextOptions<Context> options)
-            : base(options) { }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Setting>().HasData(new Setting { Id = 1 });
@@ -30,5 +27,8 @@ namespace SmartThermo.DataAccess.Sqlite
                 new SelectMode { Id = 5, SettingId = 1, Stage = false },
                 new SelectMode { Id = 6, SettingId = 1, Stage = false });
         }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder options)
+            => options.UseSqlite(@"Data Source=app.db");
     }
 }

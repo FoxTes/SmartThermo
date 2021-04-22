@@ -1,0 +1,33 @@
+﻿<UserControl
+    x:Class="SmartThermo.Modules.Settings.Views.SettingsWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:ui="http://schemas.modernwpf.com/2019"
+    d:DesignHeight="768"
+    d:DesignWidth="1366"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    ui:ThemeManager.RequestedTheme="Dark"
+    mc:Ignorable="d">
+
+    <Grid Margin="0,16,0,0">
+        <ui:NavigationView
+            x:Name="nvSample"
+            IsSettingsVisible="False"
+            PaneDisplayMode="Top">
+
+            <ui:NavigationView.MenuItems>
+                <ui:NavigationViewItem Content="Общие" FontSize="16" />
+                <ui:NavigationViewItem Content="Прибор" FontSize="16" />
+                <ui:NavigationViewItem Content="Уведомления" FontSize="16" />
+
+            </ui:NavigationView.MenuItems>
+
+            <ui:NavigationView.Resources>
+                <SolidColorBrush x:Key="NavigationViewTopPaneBackground" Color="Transparent" />
+            </ui:NavigationView.Resources>
+        </ui:NavigationView>
+    </Grid>
+</UserControl>

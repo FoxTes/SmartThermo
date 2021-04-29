@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using NModbus;
-using NModbus.Logging;
 using NModbus.Serial;
 using SmartThermo.Services.DeviceConnector.Enums;
 using SmartThermo.Services.DeviceConnector.Extensions;
@@ -28,8 +27,8 @@ namespace SmartThermo.Services.DeviceConnector
 
         #region Const
 
-        private const int TimeStart = 3;
-        private const int TimePeriod = 3;
+        private const int TimeStart = 1;
+        private const int TimePeriod = 10;
 
         #endregion
 
@@ -193,15 +192,11 @@ namespace SmartThermo.Services.DeviceConnector
             RegistersRequested?.Invoke(this, result);
         }
 
-        private void StartTimer()
-        {
-            _timer.Change(TimeSpan.FromSeconds(TimeStart), TimeSpan.FromSeconds(TimePeriod));
-        }
+        private void StartTimer() 
+            => _timer.Change(TimeSpan.FromSeconds(TimeStart), TimeSpan.FromSeconds(TimePeriod));
 
-        private void StopTimer()
-        {
-            _timer.Change(Timeout.Infinite, Timeout.Infinite);
-        }
+        private void StopTimer() 
+            => _timer.Change(Timeout.Infinite, Timeout.Infinite);
 
         #endregion
     }

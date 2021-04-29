@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using SmartThermo.DataAccess.Sqlite.Models.Base;
+using System.Collections.Generic;
 
 namespace SmartThermo.DataAccess.Sqlite.Models
 {
-    public class Setting
+    public class Setting : BaseModel
     {
-        public int Id { get; set; }
-
         public List<SelectMode> SelectModes { get; set; }
 
         public byte AddressDeviceSelected { get; set; }

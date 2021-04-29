@@ -195,13 +195,15 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
 
         private void DeviceConnector_RegistersRequested(object sender, List<SensorInfoEventArgs> sensorData)
         {
-            SensorsEtherItems.Clear();
-            SensorsEtherItems.AddRange(sensorData.Where(x => x.IsAir)
+            var sensorEhterItems = sensorData.Where(x => x.IsAir)
                 .Select(x => new SensorsEther
                 {
                     Id = x.Number,
                     Time = x.TimeLastBroadcast
-                }).ToList());
+                })
+                .ToList();
+            SensorsEtherItems.Clear();
+            SensorsEtherItems.AddRange(sensorEhterItems);
 
             _temperature.Clear();
             _temperature.AddRange(sensorData

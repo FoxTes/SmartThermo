@@ -1,11 +1,10 @@
-﻿using System;
+﻿using SmartThermo.DataAccess.Sqlite.Models.Base;
+using System;
 
 namespace SmartThermo.DataAccess.Sqlite.Models
 {
-    public class SensorInformation
+    public class SensorInformation : BaseModel
     {
-        public int Id { get; set; }
-
         public int Value1 { get; set; }
 
         public int Value2 { get; set; }

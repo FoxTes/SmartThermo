@@ -1,9 +1,9 @@
-﻿namespace SmartThermo.DataAccess.Sqlite.Models
-{
-    public class SelectMode
-    {
-        public int Id { get; set; }
+﻿using SmartThermo.DataAccess.Sqlite.Models.Base;
 
+namespace SmartThermo.DataAccess.Sqlite.Models
+{
+    public class SelectMode : BaseModel
+    {
         public bool Stage { get; set; }
 
         public int SettingId { get; set; }

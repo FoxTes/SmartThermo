@@ -23,6 +23,11 @@ namespace SmartThermo.ViewModels
     {
         #region Field
 
+        private readonly IDeviceConnector _deviceConnector;
+        private readonly IDialogService _dialogService;
+        private readonly IRegionManager _regionManager;
+        private readonly INotifications _notifications;
+        
         private bool _isEnableSettings;
         private string _labelButton = "Подключить прибор";
         private string _labelView = "Измерительный участок";
@@ -65,27 +70,13 @@ namespace SmartThermo.ViewModels
 
         public MainWindowViewModel(IRegionManager regionManager, IDeviceConnector deviceConnector,
             INotifications notifications, IDialogService dialogService)
-            : base(regionManager, deviceConnector, notifications, dialogService)
         {
-            DeviceConnector.StatusConnectChanged += async (_, connect) =>
-            {
-                if (DeviceConnector.StatusConnect == StatusConnect.Connected)
-                {
-                    IsEnableSettings = true;
-                    LabelButton = "Отключить прибор";
-
-                    await Task.Delay(250);
-                    Notifications.ShowSuccess("Осуществлено подключение к прибору.");
-                }
-                else
-                {
-                    IsEnableSettings = false;
-                    LabelButton = "Подключить прибор";
-
-                    await Task.Delay(250);
-                    Notifications.ShowInformation("Осуществлено отключение от прибора.");
-                }
-            };
+            _deviceConnector = deviceConnector;
+            _dialogService = dialogService;
+            _notifications = notifications;
+            _regionManager = regionManager;
+            
+            _deviceConnector.StatusConnectChanged += OnDeviceConnectorOnStatusConnectChanged;
 
             ChangeConnectDeviceCommand = new DelegateCommand(ChangeConnectDeviceExecute);
             SettingDeviceCommand = new DelegateCommand(SettingDeviceExecute).ObservesCanExecute(() => IsEnableSettings);
@@ -95,10 +86,30 @@ namespace SmartThermo.ViewModels
 
             CreateSession();
         }
-
+        
         #endregion
 
         #region Method
+        
+        private async void OnDeviceConnectorOnStatusConnectChanged(object _, StatusConnect connect)
+        {
+            if (_deviceConnector.StatusConnect == StatusConnect.Connected)
+            {
+                IsEnableSettings = true;
+                LabelButton = "Отключить прибор";
+
+                await Task.Delay(250);
+                _notifications.ShowSuccess("Осуществлено подключение к прибору.");
+            }
+            else
+            {
+                IsEnableSettings = false;
+                LabelButton = "Подключить прибор";
+
+                await Task.Delay(250);
+                _notifications.ShowInformation("Осуществлено отключение от прибора.");
+            }
+        }
 
         private async void CreateSession()
         {
@@ -106,7 +117,7 @@ namespace SmartThermo.ViewModels
 
             try
             {
-                using var context = new Context();
+                await using var context = new Context();
                 context.Add(new Session
                 {
                     DateCreate = DateTime.Now,
@@ -125,14 +136,14 @@ namespace SmartThermo.ViewModels
             catch (Exception)
             {
                 await Task.Delay(1000);
-                Notifications.ShowError("Внимание! Ошибка работы с БД. Приложение будет закрыто через 3 секунды.");
+                _notifications.ShowError("Внимание! Ошибка работы с БД. Приложение будет закрыто через 3 секунды.");
                 await Task.Delay(3000);
 
                 Application.Current.Shutdown();
             }
         }
 
-        private void CheckDatabaseCreate()
+        private static void CheckDatabaseCreate()
         {
             using var context = new Context();
             context.Database.EnsureCreated();
@@ -140,36 +151,36 @@ namespace SmartThermo.ViewModels
 
         private void ChangeConnectDeviceExecute()
         {
-            if (DeviceConnector.StatusConnect == StatusConnect.Connected)
+            if (_deviceConnector.StatusConnect == StatusConnect.Connected)
                 try
                 {
-                    DeviceConnector.Close();
+                    _deviceConnector.Close();
                 }
                 catch (Exception ex)
                 {
-                    Notifications.ShowWarning("Не удалось закрыть соединение.\n" + ex.Message);
+                    _notifications.ShowWarning("Не удалось закрыть соединение.\n" + ex.Message);
                 }
             else
             {
                 if (SerialPort.GetPortNames().Length == 0)
                 {
-                    Notifications.ShowError("В компьютере найдены активные COM порты.");
+                    _notifications.ShowError("В компьютере не найдены активные COM порты.");
                     return;
                 }
-                DialogService.ShowNotification("SettingsPortDialog", r =>
+                _dialogService.ShowNotification("SettingsPortDialog", r =>
                 {
                     if (r.Result == ButtonResult.Cancel)
-                        Notifications.ShowInformation("Операция прервана пользователем.");
+                        _notifications.ShowInformation("Операция прервана пользователем.");
                 }, windowName: "NotificationWindow");
             }
         }
 
         private void SettingDeviceExecute()
         {
-            DialogService.ShowNotification("SettingsDeviceDialog", r =>
+            _dialogService.ShowNotification("SettingsDeviceDialog", r =>
             {
                 if (r.Result == ButtonResult.Cancel)
-                    Notifications.ShowInformation("Операция прервана пользователем.");
+                    _notifications.ShowInformation("Операция прервана пользователем.");
             }, windowName: "NotificationWindowCloseButton");
         }
 
@@ -177,10 +188,10 @@ namespace SmartThermo.ViewModels
         {
             if (SerialPort.GetPortNames().Length == 0)
             {
-                Notifications.ShowError("В компьютере найдены активные COM порты.");
+                _notifications.ShowError("В компьютере не найдены активные COM порты.");
                 return;
             }
-            DialogService.ShowNotification("SettingsSensorDialog", r => { },
+            _dialogService.ShowNotification("SettingsSensorDialog", r => { },
                 windowName: "NotificationWindowCloseButton");
         }
 
@@ -195,8 +206,7 @@ namespace SmartThermo.ViewModels
             LabelView = obj.InvokedItem.ToString();
 
             var nameRegion = obj.InvokedItemContainer.Tag.ToString();
-            RegionManager.RequestNavigate(RegionNames.MainContent, nameRegion);
-
+            _regionManager.RequestNavigate(RegionNames.MainContent, nameRegion);
         }
 
         #endregion

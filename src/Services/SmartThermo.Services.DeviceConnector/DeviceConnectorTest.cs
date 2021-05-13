@@ -23,6 +23,7 @@ namespace SmartThermo.Services.DeviceConnector
 
         private const int TimeStart = 1;
         private const int TimePeriod = 3;
+        private const int CountRegister = 36;
 
         #endregion
 
@@ -30,6 +31,7 @@ namespace SmartThermo.Services.DeviceConnector
 
         private readonly Random _random;
         private readonly Timer _timer;
+        private readonly ushort[] _sendData;
 
         #endregion
 
@@ -49,6 +51,7 @@ namespace SmartThermo.Services.DeviceConnector
         {
             _random = new Random();
             _timer = new Timer(OnTimer, 0, Timeout.Infinite, Timeout.Infinite);
+            _sendData = new ushort[CountRegister];
 
             StatusConnect = StatusConnect.Disconnected;
         }
@@ -59,11 +62,10 @@ namespace SmartThermo.Services.DeviceConnector
 
         private void OnTimer(object o)
         {
-            var data = new ushort[36];
-            for (var i = 0; i < 36; i++)
-                data[i] = (ushort)(0xAC00 + _random.Next(16128, 32256));
+            for (var i = 0; i < CountRegister; i++)
+                _sendData[i] = (ushort)(0xAC00 + _random.Next(16128, 32256));
 
-            var result = data.Select((x, index) => new SensorInfoEventArgs
+            var result = _sendData.Select((x, index) => new SensorInfoEventArgs
             {
                 Id = index,
                 Number = (index / 6 + 1) * 10 + index + 1 - 6 * (index / 6),
@@ -77,8 +79,8 @@ namespace SmartThermo.Services.DeviceConnector
                     6 => (byte)(_random.Next(145, 159) + Math.Sin(index * 0.05d) * 20),
                     _ => (byte)(_random.Next(5, 9) + Math.Cos(index * 0.03d) * 20),
                 },
-                TimeLastBroadcast = (byte) ((data[index] & 0b0011_1111_0000_0000) >> 8),
-                IsEmergencyDescent = data[index].IsBitSet(14),
+                TimeLastBroadcast = (byte) ((_sendData[index] & 0b0011_1111_0000_0000) >> 8),
+                IsEmergencyDescent = _sendData[index].IsBitSet(14),
                 IsAir = _random.Next(0, 10) < 9
             }).ToList();
             RegistersRequested?.Invoke(this, result);

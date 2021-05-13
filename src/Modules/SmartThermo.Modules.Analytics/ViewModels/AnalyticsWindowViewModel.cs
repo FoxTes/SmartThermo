@@ -1,5 +1,4 @@
 ﻿using Prism.Commands;
-using Prism.Regions;
 using Prism.Services.Dialogs;
 using ScottPlot;
 using ScottPlot.Plottable;
@@ -7,7 +6,6 @@ using SmartThermo.Core.Extensions;
 using SmartThermo.Core.Models;
 using SmartThermo.Core.Mvvm;
 using SmartThermo.DataAccess.Sqlite;
-using SmartThermo.Services.DeviceConnector;
 using SmartThermo.Services.Notifications;
 using System;
 using System.Collections.Generic;
@@ -26,7 +24,11 @@ namespace SmartThermo.Modules.Analytics.ViewModels
     {
         #region Field
 
-        private readonly List<SignalPlotXYConst<double, double>> _signalPlotXyConst = new List<SignalPlotXYConst<double, double>>();
+        private readonly INotifications _notifications;
+        private readonly IDialogService _dialogService;
+        
+        private readonly List<SignalPlotXYConst<double, double>> _signalPlotXyConst 
+            = new List<SignalPlotXYConst<double, double>>();
         private readonly List<int> _groupSensorId = new List<int>();
         private readonly Timer _timer;
         private readonly List<Color> _colors = new List<Color>()
@@ -45,8 +47,10 @@ namespace SmartThermo.Modules.Analytics.ViewModels
 
         private int _selectCountRecordSelected;
         private int _sensorGroupSelected;
-        private ObservableCollection<ItemDescriptor<bool>> _groupCheckItems = new ObservableCollection<ItemDescriptor<bool>>();
-        private ObservableCollection<ItemDescriptor<System.Windows.Media.Brush>> _legendItems = new ObservableCollection<ItemDescriptor<System.Windows.Media.Brush>>();
+        private ObservableCollection<ItemDescriptor<bool>> _groupCheckItems 
+            = new ObservableCollection<ItemDescriptor<bool>>();
+        private ObservableCollection<ItemDescriptor<System.Windows.Media.Brush>> _legendItems 
+            = new ObservableCollection<ItemDescriptor<System.Windows.Media.Brush>>();
         private ObservableCollection<int> _legendValueItems = new ObservableCollection<int>();
         private string _dateCreateSession;
         private string _dateLegend;
@@ -126,10 +130,11 @@ namespace SmartThermo.Modules.Analytics.ViewModels
 
         #region Constuctor
 
-        public AnalyticsWindowViewModel(IRegionManager regionManager, IDeviceConnector deviceConnector,
-            INotifications notifications, IDialogService dialogService)
-            : base(regionManager, deviceConnector, notifications, dialogService)
+        public AnalyticsWindowViewModel(INotifications notifications, IDialogService dialogService)
         {
+            _notifications = notifications;
+            _dialogService = dialogService;
+            
             _timer = new Timer((state) => _isUpdateChart = false, 0, Timeout.Infinite, Timeout.Infinite);
 
             SelectCountRecord = Enumerable.Range(0, 6)
@@ -229,7 +234,7 @@ namespace SmartThermo.Modules.Analytics.ViewModels
 
             if (countItem < 2)
             {
-                Notifications.ShowInformation("Нет данных для анализа.");
+                _notifications.ShowInformation("Нет данных для анализа.");
 
                 LegendItems.Clear();
                 LegendValueItems.Clear();
@@ -329,12 +334,12 @@ namespace SmartThermo.Modules.Analytics.ViewModels
                 { "SessionItemSelected", _currentSessionId }
             };
 
-            DialogService.ShowNotification("SessionDialog", async r =>
+            _dialogService.ShowNotification("SessionDialog", async r =>
             {
                 switch (r.Result)
                 {
                     case ButtonResult.Cancel:
-                        Notifications.ShowInformation("Операция прервана пользователем.");
+                        _notifications.ShowInformation("Операция прервана пользователем.");
                         break;
                     case ButtonResult.OK:
                         {
@@ -349,7 +354,7 @@ namespace SmartThermo.Modules.Analytics.ViewModels
                                 await GetIdGroupsSensorAsync();
                                 await GetSensorDataAsync();
 
-                                Notifications.ShowSuccess("Загружена текущая сессия.");
+                                _notifications.ShowSuccess("Загружена текущая сессия.");
                                 _isLoadCurrentSession = true;
                             }
                             else
@@ -381,7 +386,7 @@ namespace SmartThermo.Modules.Analytics.ViewModels
                                 _groupSensorId.AddRange(groupIdTask.Result);
 
                                 await GetSensorDataAsync();
-                                Notifications.ShowSuccess($"Загружена сессия от {DateCreateSession}.");
+                                _notifications.ShowSuccess($"Загружена сессия от {DateCreateSession}.");
                                 _isLoadCurrentSession = false;
                             }
                             break;

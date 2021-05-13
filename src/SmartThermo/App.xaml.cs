@@ -70,7 +70,7 @@ namespace SmartThermo
             var appLogger = new SerilogLoggerProvider(serilogLogger).CreateLogger("App");
             containerRegistry.RegisterInstance(appLogger);
 
-            var instance = new Notifications(new Notifier(cfg =>
+            var instance = new Services.Notifications.Notifications(new Notifier(cfg =>
             {
                 cfg.PositionProvider = new WindowPositionProvider(Current.MainWindow,
                     Corner.BottomRight, 16, 16);

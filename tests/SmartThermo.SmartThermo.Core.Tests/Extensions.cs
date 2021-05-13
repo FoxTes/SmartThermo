@@ -40,18 +40,20 @@ namespace SmartThermo.SmartThermo.Core.Tests
                 double.NaN,
                 4.1, 4.2, 4.3
             };
-            var valuesList = new List<List<double>>()
+            var valuesList = new List<List<double>>
             {
                 new List<double> { 1.2, 2.2, 3.2},
                 new List<double> { 2.2, 2.3},
                 new List<double> { 4.1, 4.2, 4.3},
             };
             
-            var result = values.SplitBy(double.NaN)
+            var result = values
+                .SplitBy(double.NaN)
                 .ToList();
             Assert.Equal(result, valuesList);
             
-            var result1 = values.SplitBy(double.PositiveInfinity)
+            var result1 = values
+                .SplitBy(double.PositiveInfinity)
                 .ToList();
             Assert.NotEqual(result1, valuesList);
         }

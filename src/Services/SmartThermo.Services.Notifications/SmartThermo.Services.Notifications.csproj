@@ -13,4 +13,8 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Notifications.Wpf.Core" Version="1.3.2" />
+  </ItemGroup>
+  
 </Project>

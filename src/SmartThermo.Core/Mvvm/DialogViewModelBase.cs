@@ -4,6 +4,9 @@ using System;
 
 namespace SmartThermo.Core.Mvvm
 {
+    /// <summary>
+    /// Базовая ViewModel для диалоговых окон.
+    /// </summary>
     public class DialogViewModelBase : BindableBase, IDialogAware
     {
         public event Action<IDialogResult> RequestClose;

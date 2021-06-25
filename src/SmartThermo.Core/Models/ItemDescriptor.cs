@@ -6,11 +6,13 @@
     /// <typeparam name="T">Тип переменной, хранящий значение.</typeparam>
     public sealed class ItemDescriptor<T>
     {
-        public int Id { get; }
-        public string Name { get; }
-        public T Value { get; set; }
-        public string Group { get; }
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ItemDescriptor{T}"/> class.
+        /// </summary>
+        /// <param name="name">Имя элемента.</param>
+        /// <param name="value">Значение элемента.</param>
+        /// <param name="id">Id элемента. По умолчанию равно 0.</param>
+        /// <param name="group">Группа, к которой относится элемент.</param>
         public ItemDescriptor(string name, T value, int id = 0, string group = null)
         {
             Id = id;
@@ -18,5 +20,25 @@
             Value = value;
             Group = group;
         }
+
+        /// <summary>
+        /// Id элемента.
+        /// </summary>
+        public int Id { get; }
+
+        /// <summary>
+        /// Имя элемента.
+        /// </summary>
+        public string Name { get; }
+
+        /// <summary>
+        /// Значение элемента.
+        /// </summary>
+        public T Value { get; set; }
+
+        /// <summary>
+        /// Группа, к которой относится элемент.
+        /// </summary>
+        public string Group { get; }
     }
 }

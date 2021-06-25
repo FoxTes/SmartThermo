@@ -7,6 +7,7 @@ namespace SmartThermo.Dialogs.Views
     /// </summary>
     public partial class AboutDialog
     {
+        /// <inheritdoc />
         public AboutDialog()
         {
             InitializeComponent();

@@ -8,12 +8,9 @@ namespace SmartThermo.Core.Mvvm
     /// </summary>
     public abstract class ViewModelBase : BindableBase, IDestructible
     {
-        /// <summary>
-        /// Освобождает ресурсы, используемые View/ViewModel.
-        /// </summary>
+        /// <inheritdoc />
         public virtual void Destroy()
         {
-
         }
     }
 }

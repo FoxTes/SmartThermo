@@ -1,10 +1,21 @@
-﻿namespace SmartThermo.Core.Extensions
+﻿using System.Windows.Media;
+using Color = System.Drawing.Color;
+
+namespace SmartThermo.Core.Extensions
 {
+    /// <summary>
+    /// Предоставляет методы, позволяющие конвертировать цвет.
+    /// </summary>
     public static class ToBrushExtension
     {
-        public static System.Windows.Media.Brush ToBrush(this System.Drawing.Color color)
+        /// <summary>
+        /// Конвертирует цвет из Color в SolidColorBrush.
+        /// </summary>
+        /// <param name="color">Входной цвет.</param>
+        /// <returns>SolidColorBrush.</returns>
+        public static Brush ToBrush(this Color color)
         {
-            return new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B));
+            return new SolidColorBrush(System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B));
         }
     }
 }

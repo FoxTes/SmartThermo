@@ -2,7 +2,6 @@
 using NModbus;
 using NModbus.Serial;
 using SmartThermo.Services.DeviceConnector.Enums;
-using SmartThermo.Services.DeviceConnector.Extensions;
 using SmartThermo.Services.DeviceConnector.Helpers;
 using SmartThermo.Services.DeviceConnector.Models;
 using SmartThermo.Services.Notifications;
@@ -12,6 +11,7 @@ using System.IO.Ports;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using SmartThermo.Core.Extensions;
 
 namespace SmartThermo.Services.DeviceConnector
 {

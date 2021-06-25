@@ -7,7 +7,7 @@
   <ItemGroup>
     <PackageReference Include="LiveCharts.Wpf.Core" Version="0.9.8" />
     <PackageReference Include="ModernWpfUI" Version="0.9.4" />
-    <PackageReference Include="Prism.Wpf" Version="8.0.0.1909" />
+    <PackageReference Include="Prism.Wpf" Version="8.1.97" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DataAccess\SmartThermo.DataAccess.Sqlite\SmartThermo.DataAccess.Sqlite.csproj" />

@@ -58,7 +58,7 @@ namespace SmartThermo.Modules.Analytics.Dialogs.ViewModels
         {
             _notifications = notifications;
 
-            GetSessionInfo().AwaitEx(() => { },
+            GetSessionInfo().Await(() => { },
                 exception => _notifications.ShowWarning("Не удалось прочитать данные о сессиях"));
 
             SelectCommand = new DelegateCommand(SelectExecute);

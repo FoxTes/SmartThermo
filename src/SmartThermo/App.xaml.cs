@@ -1,4 +1,8 @@
-﻿using Microsoft.AppCenter;
+﻿using System;
+using System.Globalization;
+using System.Text;
+using System.Windows;
+using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Prism.Ioc;
@@ -18,10 +22,6 @@ using SmartThermo.Modules.Dialog.SettingsSensor.Views;
 using SmartThermo.Services.DeviceConnector;
 using SmartThermo.Services.Notifications;
 using SmartThermo.Views;
-using System;
-using System.Globalization;
-using System.Text;
-using System.Windows;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
 using ToastNotifications.Position;
@@ -33,38 +33,39 @@ namespace SmartThermo
     /// </summary>
     public partial class App
     {
+        /// <inheritdoc />
         public App()
         {
             AppDomain.CurrentDomain.UnhandledException += (sender, e)
                 => MessageBox.Show(e.ExceptionObject.ToString());
         }
 
+        /// <inheritdoc />
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
             SetCountryCode();
             AppCenter.Start("3fb4a695-2ae6-4663-9878-d0fa3ada2d1e",
-               typeof(Analytics), typeof(Crashes));
+               typeof(Analytics),
+               typeof(Crashes));
         }
 
-        private static void SetCountryCode()
-        {
-            var countryCode = RegionInfo.CurrentRegion.TwoLetterISORegionName;
-            AppCenter.SetCountryCode(countryCode);
-        }
-
+        /// <inheritdoc />
         protected override Window CreateShell()
         {
             return Container.Resolve<MainWindow>();
         }
 
+        /// <inheritdoc />
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
             var serilogLogger = Log.Logger = new LoggerConfiguration()
-                .WriteTo.File("log\\logModbus.log", encoding: Encoding.UTF8,
+                .WriteTo.File("log\\logModbus.log",
+                    encoding: Encoding.UTF8,
                     restrictedToMinimumLevel: LogEventLevel.Information)
-                .WriteTo.File("log\\logError.log", encoding: Encoding.UTF8,
+                .WriteTo.File("log\\logError.log",
+                    encoding: Encoding.UTF8,
                     restrictedToMinimumLevel: LogEventLevel.Error)
                 .CreateLogger();
             var appLogger = new SerilogLoggerProvider(serilogLogger).CreateLogger("App");
@@ -72,8 +73,7 @@ namespace SmartThermo
 
             var instance = new Services.Notifications.Notifications(new Notifier(cfg =>
             {
-                cfg.PositionProvider = new WindowPositionProvider(Current.MainWindow,
-                    Corner.BottomRight, 16, 16);
+                cfg.PositionProvider = new WindowPositionProvider(Current.MainWindow, Corner.BottomRight, 16, 16);
 
                 cfg.LifetimeSupervisor = new TimeAndCountBasedLifetimeSupervisor(
                     TimeSpan.FromSeconds(3),
@@ -98,10 +98,17 @@ namespace SmartThermo
             containerRegistry.RegisterDialogWindow<NotificationWindowCloseButton>("NotificationWindowCloseButton");
         }
 
+        /// <inheritdoc />
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
             moduleCatalog.AddModule<DataViewerModule>();
             moduleCatalog.AddModule<AnalyticsModule>();
+        }
+
+        private static void SetCountryCode()
+        {
+            var countryCode = RegionInfo.CurrentRegion.TwoLetterISORegionName;
+            AppCenter.SetCountryCode(countryCode);
         }
     }
 }

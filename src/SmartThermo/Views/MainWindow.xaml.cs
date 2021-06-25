@@ -7,6 +7,7 @@ namespace SmartThermo.Views
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <inheritdoc />
         public MainWindow()
         {
             InitializeComponent();

@@ -1,6 +1,6 @@
-﻿using Prism.Services.Dialogs;
-using System;
+﻿using System;
 using System.Windows;
+using Prism.Services.Dialogs;
 
 namespace SmartThermo.Dialogs.Views
 {
@@ -9,12 +9,14 @@ namespace SmartThermo.Dialogs.Views
     /// </summary>
     public partial class NotificationWindow : Window, IDialogWindow
     {
-        public IDialogResult Result { get; set; }
-
+        /// <inheritdoc />
         public NotificationWindow()
         {
             InitializeComponent();
         }
+
+        /// <inheritdoc />
+        public IDialogResult Result { get; set; }
 
         private void Window_OnContentRendered(object sender, EventArgs e)
         {

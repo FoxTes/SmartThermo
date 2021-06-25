@@ -6,8 +6,14 @@ using Prism.Mvvm;
 
 namespace SmartThermo.Core.Extensions
 {
-    public sealed class ObservableCollectionExtension<T> : ObservableCollection<T> where T : BindableBase
+    /// <summary>
+    /// Расширение для ObservableCollection, позволяющие отслеживать изменения внутри коллекции.
+    /// </summary>
+    /// <typeparam name="T">Коллекция.</typeparam>
+    public sealed class ObservableCollectionExtension<T> : ObservableCollection<T>
+        where T : BindableBase
     {
+        /// <inheritdoc />
         public ObservableCollectionExtension()
         {
             CollectionChanged += ObservableCollectionEx_CollectionChanged;
@@ -19,16 +25,18 @@ namespace SmartThermo.Core.Extensions
             {
                 case NotifyCollectionChangedAction.Remove:
                 {
-                    foreach (T item in e.OldItems) 
+                    foreach (T item in e.OldItems)
                         item.PropertyChanged -= EntityViewModelPropertyChanged;
                     break;
                 }
+
                 case NotifyCollectionChangedAction.Add:
                 {
-                    foreach (T item in e.NewItems) 
+                    foreach (T item in e.NewItems)
                         item.PropertyChanged += EntityViewModelPropertyChanged;
                     break;
                 }
+
                 case NotifyCollectionChangedAction.Replace:
                     break;
                 case NotifyCollectionChangedAction.Move:

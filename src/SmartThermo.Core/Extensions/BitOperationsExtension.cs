@@ -3,6 +3,9 @@ using System.Globalization;
 
 namespace SmartThermo.Core.Extensions
 {
+    /// <summary>
+    /// Предоставляет служебные методы для внутренних операций битового жонглирования.
+    /// </summary>
     public static class BitOperationsExtension
     {
         /// <summary>
@@ -14,7 +17,8 @@ namespace SmartThermo.Core.Extensions
         /// The position of the bit to check, 0 refers to the least significant bit.
         /// </param>
         /// <returns>true if the specified bit is on, otherwise false.</returns>
-        public static bool IsBitSet<T>(this T t, int pos) where T : struct, IConvertible
+        public static bool IsBitSet<T>(this T t, int pos)
+            where T : struct, IConvertible
         {
             var value = t.ToInt64(CultureInfo.CurrentCulture);
             return (value & (1 << pos)) != 0;

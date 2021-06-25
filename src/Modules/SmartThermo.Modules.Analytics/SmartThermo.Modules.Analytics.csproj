@@ -6,8 +6,8 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="ModernWpfUI" Version="0.9.4" />
-    <PackageReference Include="Prism.Wpf" Version="8.0.0.1909" />
-    <PackageReference Include="ScottPlot.WPF" Version="4.1.12-beta" />
+    <PackageReference Include="Prism.Wpf" Version="8.1.97" />
+    <PackageReference Include="ScottPlot.WPF" Version="4.1.16" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DataAccess\SmartThermo.DataAccess.Sqlite\SmartThermo.DataAccess.Sqlite.csproj" />

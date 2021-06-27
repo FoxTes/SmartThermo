@@ -17,7 +17,13 @@ namespace SmartThermo.DataAccess.Sqlite
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Setting>().HasData(new Setting { Id = 1 });
+            modelBuilder.Entity<Setting>().HasData(new Setting
+            {
+                Id = 1,
+                TimeBeforeWarning = 15,
+                TimeBeforeOffline = 60,
+                IsWriteToDatabase = true
+            });
 
             modelBuilder.Entity<SelectMode>().HasData(
                 new SelectMode { Id = 1, SettingId = 1, Stage = false },

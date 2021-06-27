@@ -19,6 +19,8 @@ using SmartThermo.Modules.Dialog.SettingsPort.ViewModels;
 using SmartThermo.Modules.Dialog.SettingsPort.Views;
 using SmartThermo.Modules.Dialog.SettingsSensor.ViewModels;
 using SmartThermo.Modules.Dialog.SettingsSensor.Views;
+using SmartThermo.Modules.SettingsApplication;
+using SmartThermo.Services.Configuration;
 using SmartThermo.Services.DeviceConnector;
 using SmartThermo.Services.Notifications;
 using SmartThermo.Views;
@@ -85,10 +87,11 @@ namespace SmartThermo
             }));
 
             containerRegistry.RegisterInstance<INotifications>(instance);
+            containerRegistry.RegisterSingleton<IConfiguration, Configuration>();
 #if DEBUG
             containerRegistry.RegisterSingleton<IDeviceConnector, DeviceConnectorTest>();
 #else
-                containerRegistry.RegisterSingleton<IDeviceConnector, DeviceConnector>();
+            containerRegistry.RegisterSingleton<IDeviceConnector, DeviceConnector>();
 #endif
             containerRegistry.RegisterDialog<SettingsPortDialog, SettingsPortDialogViewModel>();
             containerRegistry.RegisterDialog<SettingsDeviceDialog, SettingsDeviceDialogViewModel>();
@@ -103,6 +106,7 @@ namespace SmartThermo
         {
             moduleCatalog.AddModule<DataViewerModule>();
             moduleCatalog.AddModule<AnalyticsModule>();
+            moduleCatalog.AddModule<SettingsApplicationModule>();
         }
 
         private static void SetCountryCode()

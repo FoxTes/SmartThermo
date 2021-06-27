@@ -46,8 +46,10 @@ namespace SmartThermo.ViewModels
             _deviceConnector.StatusConnectChanged += OnDeviceConnectorOnStatusConnectChanged;
 
             ChangeConnectDeviceCommand = new DelegateCommand(ChangeConnectDeviceExecute);
-            SettingDeviceCommand = new DelegateCommand(SettingDeviceExecute).ObservesCanExecute(() => IsEnableSettings);
-            NavigationViewInvokedCommand = new DelegateCommand<NavigationViewItemInvokedEventArgs>(NavigationViewInvokedExecute);
+            SettingDeviceCommand = new DelegateCommand(SettingDeviceExecute)
+                .ObservesCanExecute(() => IsEnableSettings);
+            NavigationViewInvokedCommand
+                = new DelegateCommand<NavigationViewItemInvokedEventArgs>(NavigationViewInvokedExecute);
             SettingSensorCommand = new DelegateCommand(SettingSensorExecute);
             AboutCommand = new DelegateCommand(AboutExecute);
 
@@ -228,9 +230,9 @@ namespace SmartThermo.ViewModels
         private void NavigationViewInvokedExecute(NavigationViewItemInvokedEventArgs obj)
         {
             LabelView = obj.InvokedItem.ToString();
-
             var nameRegion = obj.InvokedItemContainer.Tag.ToString();
-            _regionManager.RequestNavigate(RegionNames.MainContent, nameRegion);
+            _regionManager.RequestNavigate(RegionNames.MainContent,
+                obj.IsSettingsInvoked ? "SettingsApplicationWindow" : nameRegion);
         }
     }
 }

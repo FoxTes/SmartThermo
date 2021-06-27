@@ -40,7 +40,7 @@
             Background="{DynamicResource SystemControlPageBackgroundChromeLowBrush}"
             IsBackButtonVisible="Collapsed"
             IsPaneOpen="False"
-            IsSettingsVisible="False"
+            IsSettingsVisible="True"
             PaneTitle="SmartThermo">
 
             <i:Interaction.Triggers>

@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:enum="clr-namespace:SmartThermo.Core.Enums;assembly=SmartThermo.Core"
     xmlns:local="clr-namespace:SmartThermo.Modules.DataViewer.Views.Charts"
     xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -162,14 +163,37 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock
+                <ui:SimpleStackPanel
                     Grid.Row="1"
-                    Grid.ColumnSpan="3"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
-                    Style="{DynamicResource SubtitleTextBlockStyle}"
-                    Text="Группа №1" />
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д11" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[0].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[0].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[0].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="2"
                     Grid.Column="0"
@@ -181,10 +205,43 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[0], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[0].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
+
+                <ui:SimpleStackPanel
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д12" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[1].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[1].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[1].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="2"
                     Grid.Column="1"
@@ -196,10 +253,43 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[1], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[1].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
+
+                <ui:SimpleStackPanel
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д13" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[2].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[2].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[2].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="2"
                     Grid.Column="2"
@@ -211,19 +301,42 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[2], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[2].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
-                <TextBlock
+
+                <ui:SimpleStackPanel
                     Grid.Row="3"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="3"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
-                    Style="{DynamicResource SubtitleTextBlockStyle}"
-                    Text="Группа №2" />
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д14" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[3].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[3].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[3].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="4"
                     Grid.Column="0"
@@ -235,10 +348,43 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[3], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[3].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
+
+                <ui:SimpleStackPanel
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д15" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[4].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[4].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[4].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="4"
                     Grid.Column="1"
@@ -250,10 +396,43 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[4], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[4].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
+
+                <ui:SimpleStackPanel
+                    Grid.Row="3"
+                    Grid.Column="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д16" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[5].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[5].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[5].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="4"
                     Grid.Column="2"
@@ -265,7 +444,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[5], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[5].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -433,14 +612,37 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock
+                <ui:SimpleStackPanel
                     Grid.Row="1"
-                    Grid.ColumnSpan="3"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
-                    Style="{DynamicResource SubtitleTextBlockStyle}"
-                    Text="Группа №1" />
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д21" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[6].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[6].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[6].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="2"
                     Grid.Column="0"
@@ -452,10 +654,43 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[6], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[6].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
+
+                <ui:SimpleStackPanel
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д22" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[7].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[7].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[7].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="2"
                     Grid.Column="1"
@@ -467,10 +702,43 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[7], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[7].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
+
+                <ui:SimpleStackPanel
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д23" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[8].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[8].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[8].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="2"
                     Grid.Column="2"
@@ -482,19 +750,42 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[8], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[8].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
-                <TextBlock
+
+                <ui:SimpleStackPanel
                     Grid.Row="3"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="3"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
-                    Style="{DynamicResource SubtitleTextBlockStyle}"
-                    Text="Группа №2" />
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д24" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[9].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[9].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[9].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="4"
                     Grid.Column="0"
@@ -506,10 +797,43 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[9], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[9].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
+
+                <ui:SimpleStackPanel
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д25" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[10].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[10].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[10].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="4"
                     Grid.Column="1"
@@ -521,10 +845,43 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[10], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[10].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
+
+                <ui:SimpleStackPanel
+                    Grid.Row="3"
+                    Grid.Column="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д26" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[11].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[11].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[11].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="4"
                     Grid.Column="2"
@@ -536,7 +893,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[11], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[11].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -704,14 +1061,37 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock
+                <ui:SimpleStackPanel
                     Grid.Row="1"
-                    Grid.ColumnSpan="3"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
-                    Style="{DynamicResource SubtitleTextBlockStyle}"
-                    Text="Группа №1" />
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д31" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[12].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[12].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[12].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="2"
                     Grid.Column="0"
@@ -723,10 +1103,43 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[12], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[12].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
+
+                <ui:SimpleStackPanel
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д32" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[13].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[13].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[13].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="2"
                     Grid.Column="1"
@@ -738,10 +1151,43 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[13], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[13].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
+
+                <ui:SimpleStackPanel
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д33" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[14].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[14].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[14].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="2"
                     Grid.Column="2"
@@ -753,19 +1199,42 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[14], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[14].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
-                <TextBlock
+
+                <ui:SimpleStackPanel
                     Grid.Row="3"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="3"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
-                    Style="{DynamicResource SubtitleTextBlockStyle}"
-                    Text="Группа №2" />
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д34" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[15].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[15].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[15].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="4"
                     Grid.Column="0"
@@ -777,10 +1246,43 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[15], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[15].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
+
+                <ui:SimpleStackPanel
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д35" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[16].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[16].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[16].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="4"
                     Grid.Column="1"
@@ -792,10 +1294,43 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[16], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[16].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
+
+                <ui:SimpleStackPanel
+                    Grid.Row="3"
+                    Grid.Column="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д36" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[17].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[17].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[17].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="4"
                     Grid.Column="2"
@@ -807,7 +1342,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[17], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[17].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -975,14 +1510,37 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock
+                <ui:SimpleStackPanel
                     Grid.Row="1"
-                    Grid.ColumnSpan="3"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
-                    Style="{DynamicResource SubtitleTextBlockStyle}"
-                    Text="Группа №1" />
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д41" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[18].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[18].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[18].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="2"
                     Grid.Column="0"
@@ -994,10 +1552,43 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[18], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[18].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
+
+                <ui:SimpleStackPanel
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д42" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[19].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[19].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[19].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="2"
                     Grid.Column="1"
@@ -1009,10 +1600,43 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[19], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[19].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
+
+                <ui:SimpleStackPanel
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д43" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[20].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[20].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[20].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="2"
                     Grid.Column="2"
@@ -1024,19 +1648,42 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[20], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[20].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
-                <TextBlock
+
+                <ui:SimpleStackPanel
                     Grid.Row="3"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="3"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
-                    Style="{DynamicResource SubtitleTextBlockStyle}"
-                    Text="Группа №2" />
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д44" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[21].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[21].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[21].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="4"
                     Grid.Column="0"
@@ -1048,10 +1695,43 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[21], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[21].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
+
+                <ui:SimpleStackPanel
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д45" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[22].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[22].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[22].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="4"
                     Grid.Column="1"
@@ -1063,10 +1743,43 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[22], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[22].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
+
+                <ui:SimpleStackPanel
+                    Grid.Row="3"
+                    Grid.Column="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д46" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[23].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[23].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[23].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="4"
                     Grid.Column="2"
@@ -1078,7 +1791,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[23], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[23].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -1246,14 +1959,37 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock
+                <ui:SimpleStackPanel
                     Grid.Row="1"
-                    Grid.ColumnSpan="3"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
-                    Style="{DynamicResource SubtitleTextBlockStyle}"
-                    Text="Группа №1" />
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д51" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[24].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[24].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[24].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="2"
                     Grid.Column="0"
@@ -1265,10 +2001,43 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[24], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[24].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
+
+                <ui:SimpleStackPanel
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д52" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[25].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[25].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[25].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="2"
                     Grid.Column="1"
@@ -1280,10 +2049,43 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[25], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[25].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
+
+                <ui:SimpleStackPanel
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д53" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[26].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[26].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[26].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="2"
                     Grid.Column="2"
@@ -1295,19 +2097,42 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[26], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[26].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
-                <TextBlock
+
+                <ui:SimpleStackPanel
                     Grid.Row="3"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="3"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
-                    Style="{DynamicResource SubtitleTextBlockStyle}"
-                    Text="Группа №2" />
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д54" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[27].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[27].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[27].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="4"
                     Grid.Column="0"
@@ -1319,10 +2144,43 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[27], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[27].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
+
+                <ui:SimpleStackPanel
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д55" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[28].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[28].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[28].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="4"
                     Grid.Column="1"
@@ -1334,10 +2192,43 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[28], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[28].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
+
+                <ui:SimpleStackPanel
+                    Grid.Row="3"
+                    Grid.Column="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д56" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[29].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[29].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[29].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="4"
                     Grid.Column="2"
@@ -1349,7 +2240,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[29], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[29].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
@@ -1517,14 +2408,37 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock
+                <ui:SimpleStackPanel
                     Grid.Row="1"
-                    Grid.ColumnSpan="3"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
-                    Style="{DynamicResource SubtitleTextBlockStyle}"
-                    Text="Группа №1" />
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д61" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[30].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[30].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[30].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="2"
                     Grid.Column="0"
@@ -1536,10 +2450,43 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[30], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[30].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
+
+                <ui:SimpleStackPanel
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д62" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[31].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[31].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[31].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="2"
                     Grid.Column="1"
@@ -1551,10 +2498,43 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[31], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[31].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
+
+                <ui:SimpleStackPanel
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д63" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[32].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[32].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[32].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="2"
                     Grid.Column="2"
@@ -1566,19 +2546,42 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[32], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[32].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
-                <TextBlock
+
+                <ui:SimpleStackPanel
                     Grid.Row="3"
-                    Grid.Column="0"
-                    Grid.ColumnSpan="3"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
-                    Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
-                    Style="{DynamicResource SubtitleTextBlockStyle}"
-                    Text="Группа №2" />
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д64" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[33].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[33].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[33].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="4"
                     Grid.Column="0"
@@ -1590,10 +2593,43 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[33], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[33].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
+
+                <ui:SimpleStackPanel
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д65" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[34].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[34].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[34].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="4"
                     Grid.Column="1"
@@ -1605,10 +2641,43 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[34], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[34].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>
+
+                <ui:SimpleStackPanel
+                    Grid.Row="3"
+                    Grid.Column="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal"
+                    Spacing="4">
+                    <TextBlock
+                        Foreground="{DynamicResource SystemControlBackgroundBaseMediumLowBrush}"
+                        Style="{DynamicResource SubtitleTextBlockStyle}"
+                        Text="Д66" />
+                    <Ellipse
+                        Width="16"
+                        Height="16"
+                        Margin="0,2,0,0">
+                        <Ellipse.Style>
+                            <Style TargetType="{x:Type Ellipse}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SensorsData[35].StatusSensor}" Value="{x:Static enum:StatusSensor.Online}">
+                                        <Setter Property="Fill" Value="#2dbe60" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[35].StatusSensor}" Value="{x:Static enum:StatusSensor.Wait}">
+                                        <Setter Property="Fill" Value="#fdd340" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding SensorsData[35].StatusSensor}" Value="{x:Static enum:StatusSensor.Offline}">
+                                        <Setter Property="Fill" Value="#eb4b4e" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Ellipse.Style>
+                    </Ellipse>
+                </ui:SimpleStackPanel>
                 <Border
                     Grid.Row="4"
                     Grid.Column="2"
@@ -1620,7 +2689,7 @@
                             Margin="8"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Text="{Binding Temperature[35], StringFormat={}{0}°C, TargetNullValue='-/-'}"
+                            Text="{Binding SensorsData[35].Temperature, StringFormat={}{0}°C, TargetNullValue='-/-'}"
                             TextWrapping="Wrap" />
                     </Viewbox>
                 </Border>

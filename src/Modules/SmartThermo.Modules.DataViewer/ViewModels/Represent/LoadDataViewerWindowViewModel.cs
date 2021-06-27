@@ -21,6 +21,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Threading;
+using SmartThermo.Core.Enums;
+using SmartThermo.Services.Configuration;
 
 namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
 {
@@ -37,6 +39,7 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
 
         private static readonly object Lock = new object();
 
+        private readonly IConfiguration _configuration;
         private readonly IDeviceConnector _deviceConnector;
         private readonly List<int> _groupSensorId = new List<int>();
         private ObservableCollection<LimitRelay> _limitRelayItems = new ObservableCollection<LimitRelay>();
@@ -47,7 +50,7 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
         private List<double> _axisYMax = new List<double>();
         private List<double> _axisYMin = new List<double>();
         private List<bool> _selectMode = new List<bool>();
-        private List<int?> _temperature = new List<int?>();
+        private List<SensorsData> _sensorsData = new List<SensorsData>();
 
         #endregion
 
@@ -105,10 +108,10 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
             set => SetProperty(ref _selectMode, value);
         }
 
-        public List<int?> Temperature
+        public List<SensorsData> SensorsData
         {
-            get => _temperature;
-            set => SetProperty(ref _temperature, value);
+            get => _sensorsData;
+            set => SetProperty(ref _sensorsData, value);
         }
 
         public DelegateCommand<int?> ChangeSelectModeCommand { get; }
@@ -121,8 +124,12 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
 
         #region Constructor
 
-        public LoadDataViewerWindowViewModel(IDeviceConnector deviceConnector, INotifications notifications)
+        public LoadDataViewerWindowViewModel(
+            IConfiguration configuration, 
+            IDeviceConnector deviceConnector, 
+            INotifications notifications)
         {
+            _configuration = configuration;
             _deviceConnector = deviceConnector;
             _deviceConnector.SettingDeviceChanged += DeviceConnector_SettingDeviceChanged;
             _deviceConnector.StatusConnectChanged += DeviceConnector_StatusConnectChanged;
@@ -195,7 +202,7 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
 
         private void DeviceConnector_RegistersRequested(object sender, List<SensorInfoEventArgs> sensorData)
         {
-            var sensorEhterItems = sensorData.Where(x => x.IsAir)
+            var sensorEtherItems = sensorData.Where(x => x.IsAir)
                 .Select(x => new SensorsEther
                 {
                     Id = x.Number,
@@ -203,16 +210,19 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
                 })
                 .ToList();
             SensorsEtherItems.Clear();
-            SensorsEtherItems.AddRange(sensorEhterItems);
+            SensorsEtherItems.AddRange(sensorEtherItems);
 
-            _temperature.Clear();
-            _temperature.AddRange(sensorData
-                .Select(x => x.IsAir ? (int?)x.Temperature : null)
+            _sensorsData.Clear();
+            _sensorsData.AddRange(sensorData
+                .Select(x => new SensorsData
+                { 
+                    Temperature = x.IsAir ? (int?)x.Temperature : null, 
+                    StatusSensor = x.IsAir ? GetStatusSensor(x.TimeLastBroadcast) : StatusSensor.Offline, 
+                })
                 .ToList());
-            RaisePropertyChanged(nameof(Temperature));
+            RaisePropertyChanged(nameof(SensorsData));
 
             var now = DateTime.Now.Round(TimeSpan.FromSeconds(1));
-            // Вызов диспетчера требуется для корректной работы отрисовки графика при переключении окон.
             Application.Current?.Dispatcher?.InvokeAsync(() =>
             {
                 for (var i = 0; i < 36; i++)
@@ -230,7 +240,19 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
             foreach (var item in ChartValues.Where(item => item.Count > 25))
                 item.RemoveAt(0);
 
-            SaveDataToDatabaseAsync(now, sensorData);
+            if (_configuration.IsWriteToDatabase)
+                SaveDataToDatabaseAsync(now, sensorData);
+        }
+        
+        private StatusSensor GetStatusSensor(int time)
+        {
+            return time switch
+            {
+                var n when (n < _configuration.TimeBeforeWarning) => StatusSensor.Online,
+                var n when (n >= _configuration.TimeBeforeWarning) => StatusSensor.Wait,
+                var n when (n >= _configuration.TimeBeforeOffline) => StatusSensor.Offline, 
+                _ => throw new ArgumentOutOfRangeException(nameof(time), time, null)
+            };
         }
 
         private async void SaveDataToDatabaseAsync(DateTime time, IReadOnlyList<SensorInfoEventArgs> sensorData)
@@ -268,8 +290,12 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
             ChartValues.AddRange(Enumerable.Range(0, 36)
                 .Select(x => new ChartValues<MeasureData>())
                 .ToList());
-            Temperature.AddRange(Enumerable.Range(0,36)
-                .Select(x => default(int?))
+            SensorsData.AddRange(Enumerable.Range(0,36)
+                .Select(x => new SensorsData()
+                { 
+                    Temperature = default , 
+                    StatusSensor = StatusSensor.Offline
+                })
                 .ToList());
             LimitRelayItems.AddRange(Enumerable.Range(0, 6)
                 .Select(x => new LimitRelay())
@@ -283,38 +309,8 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
             SetAxisXLimits(DateTime.Now);
             SetAxisYLimits();
             SetRelayLimits();
-
-            //LoadTestDataAsync();
         }
-
-        //private async Task LoadTestDataAsync()
-        //{
-        //    await Task.Delay(1000);
-        //    var random = new Random();
-
-        //    var myDates = new DateTime[1000_000];
-        //    for (var i = 0; i < 1000_000; i++)
-        //        myDates[i] = DateTime.Now.AddSeconds(i);
-
-        //    await using var context = new Context();
-        //    var result = Enumerable.Range(0, 1000_000)
-        //        .Select((x, index) => new SensorInformation
-        //        {
-        //            Id = index + 1,
-        //            Value1 = (int)(120 + 5 * Math.Cos(index * 0.0001d) + random.Next(0, 1)),
-        //            Value2 = (int)(100 + 5 * Math.Sin(index * 0.001d) + random.Next(0, 3)),
-        //            Value3 = (int)(80 + 5 * Math.Cos(index * 0.001d) + random.Next(0, 4)),
-        //            Value4 = (int)(60 + 5 * Math.Cos(index * 0.0003d) + random.Next(0, 2)),
-        //            Value5 = (int)(40 + 5 * Math.Asin(index * 0.00001d) + random.Next(0, 1)),
-        //            Value6 = (int)(20 + 5 * Math.Acos(index * 0.0001d) + random.Next(0, 2)),
-        //            DataTime = myDates[index].Round(TimeSpan.FromSeconds(1)),
-        //            SensorGroupId = _groupSensorId[0]
-        //        }).ToList();
-
-        //    await context.SensorInformations.AddRangeAsync(result);
-        //    await context.SaveChangesAsync();
-        //}
-
+        
         private void GetSelectMode()
         {
             using var context = new Context();
@@ -348,7 +344,8 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
                                 : 0;
 
                             LimitRelayItems[i].TemperatureThreshold1 = data.IsBitSet(i)
-                                ? _deviceConnector.SettingDevice.TemperatureThreshold[0] - LimitRelayItems[i].HysteresisThreshold1 / 2d
+                                ? _deviceConnector.SettingDevice.TemperatureThreshold[0] -
+                                  LimitRelayItems[i].HysteresisThreshold1 / 2d
                                 : 0;
                         }
                         break;
@@ -358,11 +355,13 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
                         for (var i = 0; i < LimitRelayItems.Count; i++)
                         {
                             LimitRelayItems[i].HysteresisThreshold2 = data.IsBitSet(i)
-                                ? ((_deviceConnector.SettingDevice.TemperatureHysteresis & 0b1111_1111_0000_0000) >> 8) * 2d
+                                ? ((_deviceConnector.SettingDevice.TemperatureHysteresis & 0b1111_1111_0000_0000) >>
+                                   8) * 2d
                                 : 0;
 
                             LimitRelayItems[i].TemperatureThreshold2 = data.IsBitSet(i)
-                                ? _deviceConnector.SettingDevice.TemperatureThreshold[1] - LimitRelayItems[i].HysteresisThreshold2 / 2d
+                                ? _deviceConnector.SettingDevice.TemperatureThreshold[1] -
+                                  LimitRelayItems[i].HysteresisThreshold2 / 2d
                                 : 0;
                         }
                         break;

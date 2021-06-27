@@ -2,7 +2,7 @@
 
 namespace SmartThermo.Modules.DataViewer.Models
 {
-    public class MeasureData
+    public struct MeasureData
     {
         public DateTime DateTime { get; set; }
 

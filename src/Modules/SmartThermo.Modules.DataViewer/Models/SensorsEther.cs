@@ -1,6 +1,6 @@
 ﻿namespace SmartThermo.Modules.DataViewer.Models
 {
-    public class SensorsEther
+    public struct SensorsEther
     {
         public int Id { get; set; }
 

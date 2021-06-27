@@ -12,5 +12,11 @@ namespace SmartThermo.DataAccess.Sqlite.Models
         public string PortNameSelected { get; set; }
 
         public string BaudRateSelected { get; set; }
+        
+        public int TimeBeforeWarning { get; set; }
+                
+        public int TimeBeforeOffline { get; set; }
+                
+        public bool IsWriteToDatabase { get; set; }
     }
 }

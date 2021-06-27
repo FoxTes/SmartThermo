@@ -1,0 +1,79 @@
+﻿<UserControl
+    x:Class="SmartThermo.Modules.SettingsApplication.Views.SettingsApplicationWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:ui="http://schemas.modernwpf.com/2019"
+    d:DesignHeight="300"
+    d:DesignWidth="300"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <Thickness x:Key="ControlPageContentMargin">16,8,0,0</Thickness>
+        <Style
+            x:Key="ComboBoxHeaderStyle"
+            BasedOn="{StaticResource BodyTextBlockStyle}"
+            TargetType="TextBlock">
+            <Setter Property="Margin" Value="0,0,0,4" />
+        </Style>
+        <Style BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="ComboBox">
+            <Setter Property="MinWidth" Value="180" />
+            <Setter Property="Margin" Value="0,0,0,12" />
+        </Style>
+        <Style x:Key="ControlPageContentPanelStyle" TargetType="ui:SimpleStackPanel">
+            <Setter Property="Margin" Value="{StaticResource ControlPageContentMargin}" />
+            <Setter Property="Spacing" Value="16" />
+        </Style>
+    </UserControl.Resources>
+
+    <ScrollViewer>
+        <ui:SimpleStackPanel
+            HorizontalAlignment="Left"
+            Spacing="0"
+            Style="{StaticResource ControlPageContentPanelStyle}">
+            <GroupBox Header="Датчики">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource ComboBoxHeaderStyle}" Text="Время, после которого датчик переходит в режим ожидания" />
+                    <ui:NumberBox
+                        Value="{Binding TimeBeforeWarning}"
+                        HorizontalAlignment="Left"
+                        Width="180"
+                        Margin="0,0,0,12"
+                        LargeChange="10"
+                        Maximum="30"
+                        Minimum="2"
+                        PlaceholderText="0 сек, [2-30]"
+                        SmallChange="1"
+                        SpinButtonPlacementMode="Inline"/>
+
+                    <TextBlock Style="{StaticResource ComboBoxHeaderStyle}" Text="Время, после которого связь с датчиком потеряна" />
+                    <ui:NumberBox
+                        Value="{Binding TimeBeforeOffline}"
+                        HorizontalAlignment="Left"
+                        Width="180"
+                        Margin="0,0,0,12"
+                        LargeChange="10"
+                        Maximum="120"
+                        Minimum="31"
+                        PlaceholderText="0 сек, [31-120]"
+                        SmallChange="1"
+                        SpinButtonPlacementMode="Inline"/>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="База данных">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource ComboBoxHeaderStyle}" Text="Вести запись полученных данных" />
+                    <ui:ToggleSwitch
+                        IsOn="{Binding IsWriteToDatabase}"
+                        MaxWidth="100"
+                        OffContent="Выкл"
+                        OnContent="Вкл" />
+                </StackPanel>
+            </GroupBox>
+        </ui:SimpleStackPanel>
+    </ScrollViewer>
+
+</UserControl>

@@ -135,7 +135,7 @@ namespace SmartThermo.Modules.Analytics.ViewModels
             _notifications = notifications;
             _dialogService = dialogService;
             
-            _timer = new Timer((state) => _isUpdateChart = false, 0, Timeout.Infinite, Timeout.Infinite);
+            _timer = new Timer(state => _isUpdateChart = false, 0, Timeout.Infinite, Timeout.Infinite);
 
             SelectCountRecord = Enumerable.Range(0, 6)
                 .Select(x => new ItemDescriptor<int>($"{Math.Pow(10, x + 2)} записей", x))

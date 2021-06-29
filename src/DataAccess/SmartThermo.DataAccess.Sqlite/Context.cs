@@ -22,7 +22,8 @@ namespace SmartThermo.DataAccess.Sqlite
                 Id = 1,
                 TimeBeforeWarning = 15,
                 TimeBeforeOffline = 60,
-                IsWriteToDatabase = true
+                IsWriteToDatabase = true,
+                IsAutoConnect = false
             });
 
             modelBuilder.Entity<SelectMode>().HasData(

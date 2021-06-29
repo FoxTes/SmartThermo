@@ -10,6 +10,7 @@ using Prism.Modularity;
 using Serilog;
 using Serilog.Events;
 using Serilog.Extensions.Logging;
+using SmartThermo.DataAccess.Sqlite;
 using SmartThermo.Dialogs.Views;
 using SmartThermo.Modules.Analytics;
 using SmartThermo.Modules.DataViewer;
@@ -46,12 +47,13 @@ namespace SmartThermo
         /// <inheritdoc />
         protected override void OnStartup(StartupEventArgs e)
         {
-            base.OnStartup(e);
-
+            CheckDatabaseCreate();
             SetCountryCode();
             AppCenter.Start("3fb4a695-2ae6-4663-9878-d0fa3ada2d1e",
-               typeof(Analytics),
-               typeof(Crashes));
+                typeof(Analytics),
+                typeof(Crashes));
+
+            base.OnStartup(e);
         }
 
         /// <inheritdoc />
@@ -115,6 +117,12 @@ namespace SmartThermo
         {
             var countryCode = RegionInfo.CurrentRegion.TwoLetterISORegionName;
             AppCenter.SetCountryCode(countryCode);
+        }
+
+        private static void CheckDatabaseCreate()
+        {
+            using var context = new Context();
+            context.Database.EnsureCreated();
         }
     }
 }

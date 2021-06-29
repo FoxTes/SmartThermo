@@ -104,13 +104,7 @@ namespace SmartThermo.ViewModels
             get => _isEnableSettings;
             set => SetProperty(ref _isEnableSettings, value);
         }
-
-        private static void CheckDatabaseCreate()
-        {
-            using var context = new Context();
-            context.Database.EnsureCreated();
-        }
-
+        
         private static void AboutExecute()
         {
             var dialog = new AboutDialog();
@@ -139,8 +133,6 @@ namespace SmartThermo.ViewModels
 
         private async void CreateSession()
         {
-            CheckDatabaseCreate();
-
             try
             {
                 await using var context = new Context();

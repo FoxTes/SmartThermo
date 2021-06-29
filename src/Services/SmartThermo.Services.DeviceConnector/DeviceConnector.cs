@@ -12,6 +12,9 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using SmartThermo.Core.Extensions;
+using SmartThermo.Services.SerialPortObserver;
+using SmartThermo.Services.SerialPortObserver.Enums;
+using SmartThermo.Services.SerialPortObserver.Models;
 
 namespace SmartThermo.Services.DeviceConnector
 {
@@ -38,6 +41,7 @@ namespace SmartThermo.Services.DeviceConnector
         private readonly ModbusFactory _modbusFactory;
         private readonly Timer _timer;
         private readonly INotifications _notifications;
+        private readonly ILogger _logger;
 
         private SerialPortAdapter _serialPortAdapter;
         private IModbusSerialMaster _modbusSerialMaster;
@@ -56,13 +60,18 @@ namespace SmartThermo.Services.DeviceConnector
 
         #region Constructor
 
-        public DeviceConnector(INotifications notifications, ILogger logger)
+        public DeviceConnector(
+            INotifications notifications,
+            ISerialPortObserver serialPortObserver,
+            ILogger logger)
         {
             _serialPort = new SerialPort();
             _modbusFactory = new ModbusFactory(logger: new ModbusSerilog(LoggingLevel.Trace, logger));
             _timer = new Timer(OnTimer, 0, Timeout.Infinite, Timeout.Infinite);
-
+            
             _notifications = notifications;
+            _logger = logger;
+            serialPortObserver.SerialPortChanged += OnSerialPortChanged;
             StatusConnect = StatusConnect.Disconnected;
         }
 
@@ -70,6 +79,30 @@ namespace SmartThermo.Services.DeviceConnector
 
         #region Method
 
+        private async void OnSerialPortChanged(object sender, SerialPortChangedArgs args)
+        {
+            if (StatusConnect == StatusConnect.Connected
+                || args.NotifySerialPortChangedAction != NotifySerialPortChangedAction.Add)
+                return;
+            
+            try
+            {
+                await Open();
+            }
+            catch (TimeoutException ex)
+            {
+                _notifications.ShowWarning("Попытка автоподключения. Устройство не отвечает.");
+                _logger.LogError("{@Ex}\n", ex);
+                Close(false);
+            }
+            catch (Exception ex)
+            {
+                _notifications.ShowWarning("Попытка автоподключения. Не удалось открыть соединение.");
+                _logger.LogError("{@Ex}\n", ex);
+                Close(false);
+            }
+        }
+        
         public async Task Open()
         {
             _serialPort.PortName = SettingPortPort.NamePort;

@@ -42,7 +42,7 @@ namespace SmartThermo.Services.Notifications
         /// <summary>
         /// Удаляет выбранное уведомление.
         /// </summary>
-        /// <param name="msg">Уведомление, необходимое для удаления.</param>
+        /// <param name="msg">Уведомление, подлежащие удалению.</param>
         void ClearMessages(string msg);
         
         /// <summary>

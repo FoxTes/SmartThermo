@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Services\SmartThermo.Services.Configuration\SmartThermo.Services.Configuration.csproj" />
+    <ProjectReference Include="..\..\Services\SmartThermo.Services.SerialPortObserver\SmartThermo.Services.SerialPortObserver.csproj" />
     <ProjectReference Include="..\..\SmartThermo.Core\SmartThermo.Core.csproj" />
   </ItemGroup>
 </Project>

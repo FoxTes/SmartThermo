@@ -1,4 +1,5 @@
-﻿using ToastNotifications;
+﻿using System.Windows;
+using ToastNotifications;
 using ToastNotifications.Core;
 using ToastNotifications.Lifetime.Clear;
 using ToastNotifications.Messages;
@@ -23,42 +24,66 @@ namespace SmartThermo.Services.Notifications
 
         public void ShowInformation(string message)
         {
-            _notifier.ShowInformation(message);
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                _notifier.ShowInformation(message);
+            });
         }
 
         public void ShowInformation(string message, MessageOptions opts)
         {
-            _notifier.ShowInformation(message, opts);
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                _notifier.ShowInformation(message, opts);
+            });
         }
 
         public void ShowSuccess(string message)
         {
-            _notifier.ShowSuccess(message);
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                _notifier.ShowSuccess(message);
+            });
         }
 
         public void ShowSuccess(string message, MessageOptions opts)
         {
-            _notifier.ShowSuccess(message, opts);
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                _notifier.ShowSuccess(message, opts);
+            });
         }
 
         public void ShowWarning(string message)
         {
-            _notifier.ShowWarning(message);
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                _notifier.ShowWarning(message);
+            });
         }
         
         public void ShowWarning(string message, MessageOptions opts)
         {
-            _notifier.ShowWarning(message, opts);
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                _notifier.ShowWarning(message, opts);
+            });
         }
 
         public void ShowError(string message)
         {
-            _notifier.ShowError(message);
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                _notifier.ShowError(message);
+            });
         }
 
         public void ShowError(string message, MessageOptions opts)
         {
-            _notifier.ShowError(message, opts);
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                _notifier.ShowError(message, opts);
+            });
         }
         
         public void ClearMessages(string msg)

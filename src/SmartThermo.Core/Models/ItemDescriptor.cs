@@ -22,17 +22,17 @@
         }
 
         /// <summary>
-        /// Id элемента.
+        /// Id.
         /// </summary>
         public int Id { get; }
 
         /// <summary>
-        /// Имя элемента.
+        /// Имя.
         /// </summary>
         public string Name { get; }
 
         /// <summary>
-        /// Значение элемента.
+        /// Значение.
         /// </summary>
         public T Value { get; set; }
 

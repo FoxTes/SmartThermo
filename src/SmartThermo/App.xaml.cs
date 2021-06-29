@@ -23,6 +23,7 @@ using SmartThermo.Modules.SettingsApplication;
 using SmartThermo.Services.Configuration;
 using SmartThermo.Services.DeviceConnector;
 using SmartThermo.Services.Notifications;
+using SmartThermo.Services.SerialPortObserver;
 using SmartThermo.Views;
 using ToastNotifications;
 using ToastNotifications.Lifetime;
@@ -88,6 +89,7 @@ namespace SmartThermo
 
             containerRegistry.RegisterInstance<INotifications>(instance);
             containerRegistry.RegisterSingleton<IConfiguration, Configuration>();
+            containerRegistry.RegisterSingleton<ISerialPortObserver, SerialPortObserver>();
 #if DEBUG
             containerRegistry.RegisterSingleton<IDeviceConnector, DeviceConnectorTest>();
 #else

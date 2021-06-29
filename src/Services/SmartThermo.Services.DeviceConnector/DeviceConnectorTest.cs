@@ -5,7 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
+using Microsoft.Extensions.Logging;
 using SmartThermo.Core.Extensions;
+using SmartThermo.Services.Notifications;
+using SmartThermo.Services.SerialPortObserver;
+using SmartThermo.Services.SerialPortObserver.Enums;
+using SmartThermo.Services.SerialPortObserver.Models;
 
 namespace SmartThermo.Services.DeviceConnector
 {
@@ -28,7 +34,9 @@ namespace SmartThermo.Services.DeviceConnector
         #endregion
 
         #region Field
-
+        
+        private readonly INotifications _notifications;
+        private readonly ILogger _logger;
         private readonly Random _random;
         private readonly Timer _timer;
         private readonly ushort[] _sendData;
@@ -47,18 +55,48 @@ namespace SmartThermo.Services.DeviceConnector
 
         #region Constructor
 
-        public DeviceConnectorTest()
+        public DeviceConnectorTest(
+            INotifications notifications, 
+            ISerialPortObserver serialPortObserver, 
+            ILogger logger)
         {
             _random = new Random();
             _timer = new Timer(OnTimer, 0, Timeout.Infinite, Timeout.Infinite);
             _sendData = new ushort[CountRegister];
 
+            _notifications = notifications;
+            _logger = logger;
+            serialPortObserver.SerialPortChanged += OnSerialPortChanged;
             StatusConnect = StatusConnect.Disconnected;
         }
 
         #endregion
 
         #region Method
+        
+        private async void OnSerialPortChanged(object sender, SerialPortChangedArgs args)
+        {
+            if (StatusConnect == StatusConnect.Connected
+                || args.NotifySerialPortChangedAction != NotifySerialPortChangedAction.Add)
+                return;
+
+            try
+            {
+                await Open();
+            }
+            catch (TimeoutException ex)
+            {
+                _notifications.ShowWarning("Попытка автоподключения. Устройство не отвечает.");
+                _logger.LogError("{@Ex}\n", ex);
+                Close(false);
+            }
+            catch (Exception ex)
+            {
+                _notifications.ShowWarning("Попытка автоподключения. Не удалось открыть соединение.");
+                _logger.LogError("{@Ex}\n", ex);
+                Close(false);
+            }
+        }
 
         private void OnTimer(object o)
         {
@@ -90,7 +128,7 @@ namespace SmartThermo.Services.DeviceConnector
         {
             await GetSettingDevice();
             StartTimer();
-
+            
             StatusConnect = StatusConnect.Connected;
             StatusConnectChanged?.Invoke(this, StatusConnect);
         }
@@ -140,7 +178,7 @@ namespace SmartThermo.Services.DeviceConnector
             await Task.Delay(500);
             SettingDeviceChanged?.Invoke(this, settingDevice);
         }
-
+        
         #endregion
     }
 }

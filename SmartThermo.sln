@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartThermo.Modules.Setting
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartThermo.Services.Configuration", "src\Services\SmartThermo.Services.Configuration\SmartThermo.Services.Configuration.csproj", "{5F91B1F0-DD19-491E-839B-3187BCCE41E6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartThermo.Services.SerialPortObserver", "src\Services\SmartThermo.Services.SerialPortObserver\SmartThermo.Services.SerialPortObserver.csproj", "{C99966A9-E8F8-4C67-9363-365BCB4A84DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -205,6 +207,18 @@ Global
 		{5F91B1F0-DD19-491E-839B-3187BCCE41E6}.Release|x64.Build.0 = Release|Any CPU
 		{5F91B1F0-DD19-491E-839B-3187BCCE41E6}.Release|x86.ActiveCfg = Release|Any CPU
 		{5F91B1F0-DD19-491E-839B-3187BCCE41E6}.Release|x86.Build.0 = Release|Any CPU
+		{C99966A9-E8F8-4C67-9363-365BCB4A84DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C99966A9-E8F8-4C67-9363-365BCB4A84DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C99966A9-E8F8-4C67-9363-365BCB4A84DD}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C99966A9-E8F8-4C67-9363-365BCB4A84DD}.Debug|x64.Build.0 = Debug|Any CPU
+		{C99966A9-E8F8-4C67-9363-365BCB4A84DD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C99966A9-E8F8-4C67-9363-365BCB4A84DD}.Debug|x86.Build.0 = Debug|Any CPU
+		{C99966A9-E8F8-4C67-9363-365BCB4A84DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C99966A9-E8F8-4C67-9363-365BCB4A84DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C99966A9-E8F8-4C67-9363-365BCB4A84DD}.Release|x64.ActiveCfg = Release|Any CPU
+		{C99966A9-E8F8-4C67-9363-365BCB4A84DD}.Release|x64.Build.0 = Release|Any CPU
+		{C99966A9-E8F8-4C67-9363-365BCB4A84DD}.Release|x86.ActiveCfg = Release|Any CPU
+		{C99966A9-E8F8-4C67-9363-365BCB4A84DD}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -226,6 +240,7 @@ Global
 		{A80C5CCC-2D81-42E9-ABAE-F179035B814B} = {D7FE162C-D6BC-4F89-8DF9-1AEF427FA63B}
 		{F5819333-AE0F-477C-BED0-D03FCED73AAC} = {87BD6B81-EF1B-478E-BBB4-A0A40B1B6119}
 		{5F91B1F0-DD19-491E-839B-3187BCCE41E6} = {D1175F74-F3B3-49F2-A1DB-74D1E10EDFBC}
+		{C99966A9-E8F8-4C67-9363-365BCB4A84DD} = {D1175F74-F3B3-49F2-A1DB-74D1E10EDFBC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B511AF63-B8BD-4505-A278-DA0B0CCAA472}

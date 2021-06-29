@@ -12,7 +12,7 @@ namespace SmartThermo.Services.Configuration
         /// </summary>
         public Configuration()
         {
-            InitValue();
+            FillValue();
         }
 
         /// <inheritdoc />
@@ -20,6 +20,9 @@ namespace SmartThermo.Services.Configuration
 
         /// <inheritdoc />
         public int TimeBeforeOffline { get; set; }
+
+        /// <inheritdoc />
+        public bool IsAutoConnect { get; set; }
 
         /// <inheritdoc />
         public bool IsWriteToDatabase { get; set; }
@@ -34,6 +37,7 @@ namespace SmartThermo.Services.Configuration
                 var data = context.Settings.First();
                 data.TimeBeforeWarning = TimeBeforeWarning;
                 data.TimeBeforeOffline = TimeBeforeOffline;
+                data.IsAutoConnect = IsAutoConnect;
                 data.IsWriteToDatabase = IsWriteToDatabase;
 
                 return context.SaveChanges();
@@ -41,13 +45,14 @@ namespace SmartThermo.Services.Configuration
             await Task.WhenAll(saveDataTask);
         }
 
-        private void InitValue()
+        private void FillValue()
         {
             using var context = new Context();
             var data = context.Settings.First();
 
             TimeBeforeWarning = data.TimeBeforeWarning;
             TimeBeforeOffline = data.TimeBeforeOffline;
+            IsAutoConnect = data.IsAutoConnect;
             IsWriteToDatabase = data.IsWriteToDatabase;
         }
     }

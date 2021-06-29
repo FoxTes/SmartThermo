@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\SmartThermo.Core\SmartThermo.Core.csproj" />
     <ProjectReference Include="..\SmartThermo.Services.Notifications\SmartThermo.Services.Notifications.csproj" />
+    <ProjectReference Include="..\SmartThermo.Services.SerialPortObserver\SmartThermo.Services.SerialPortObserver.csproj" />
   </ItemGroup>
 
   <ItemGroup>

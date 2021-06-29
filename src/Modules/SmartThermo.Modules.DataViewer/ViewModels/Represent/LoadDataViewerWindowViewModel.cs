@@ -248,9 +248,9 @@ namespace SmartThermo.Modules.DataViewer.ViewModels.Represent
         {
             return time switch
             {
-                var n when (n < _configuration.TimeBeforeWarning) => StatusSensor.Online,
-                var n when (n >= _configuration.TimeBeforeWarning) => StatusSensor.Wait,
-                var n when (n >= _configuration.TimeBeforeOffline) => StatusSensor.Offline, 
+                var n when n < _configuration.TimeBeforeWarning => StatusSensor.Online,
+                var n when n >= _configuration.TimeBeforeWarning => StatusSensor.Wait,
+                var n when n >= _configuration.TimeBeforeOffline => StatusSensor.Offline, 
                 _ => throw new ArgumentOutOfRangeException(nameof(time), time, null)
             };
         }

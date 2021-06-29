@@ -16,6 +16,8 @@ namespace SmartThermo.DataAccess.Sqlite.Models
         public int TimeBeforeWarning { get; set; }
                 
         public int TimeBeforeOffline { get; set; }
+        
+        public bool IsAutoConnect { get; set; }
                 
         public bool IsWriteToDatabase { get; set; }
     }

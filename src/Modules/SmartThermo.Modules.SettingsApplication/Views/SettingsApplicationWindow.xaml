@@ -38,37 +38,47 @@
                 <StackPanel>
                     <TextBlock Style="{StaticResource ComboBoxHeaderStyle}" Text="Время, после которого датчик переходит в режим ожидания" />
                     <ui:NumberBox
-                        Value="{Binding TimeBeforeWarning}"
-                        HorizontalAlignment="Left"
                         Width="180"
                         Margin="0,0,0,12"
+                        HorizontalAlignment="Left"
                         LargeChange="10"
                         Maximum="30"
                         Minimum="2"
                         PlaceholderText="0 сек, [2-30]"
                         SmallChange="1"
-                        SpinButtonPlacementMode="Inline"/>
+                        SpinButtonPlacementMode="Inline"
+                        Value="{Binding TimeBeforeWarning, UpdateSourceTrigger=PropertyChanged, Delay=1000}" />
 
                     <TextBlock Style="{StaticResource ComboBoxHeaderStyle}" Text="Время, после которого связь с датчиком потеряна" />
                     <ui:NumberBox
-                        Value="{Binding TimeBeforeOffline}"
-                        HorizontalAlignment="Left"
                         Width="180"
                         Margin="0,0,0,12"
+                        HorizontalAlignment="Left"
                         LargeChange="10"
                         Maximum="120"
                         Minimum="31"
                         PlaceholderText="0 сек, [31-120]"
                         SmallChange="1"
-                        SpinButtonPlacementMode="Inline"/>
+                        SpinButtonPlacementMode="Inline"
+                        Value="{Binding TimeBeforeOffline, UpdateSourceTrigger=PropertyChanged, Delay=1000}" />
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Header="Прибор">
+                <StackPanel>
+                    <TextBlock Style="{StaticResource ComboBoxHeaderStyle}" Text="Автоподключение к прибору" />
+                    <ui:ToggleSwitch
+                        MaxWidth="100"
+                        IsOn="{Binding IsAutoConnect}"
+                        OffContent="Выкл"
+                        OnContent="Вкл" />
                 </StackPanel>
             </GroupBox>
             <GroupBox Header="База данных">
                 <StackPanel>
                     <TextBlock Style="{StaticResource ComboBoxHeaderStyle}" Text="Вести запись полученных данных" />
                     <ui:ToggleSwitch
-                        IsOn="{Binding IsWriteToDatabase}"
                         MaxWidth="100"
+                        IsOn="{Binding IsWriteToDatabase}"
                         OffContent="Выкл"
                         OnContent="Вкл" />
                 </StackPanel>
